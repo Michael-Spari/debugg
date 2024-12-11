@@ -4,6 +4,8 @@ class World {
         new Bug(),
         new Bug(),
         new Bug(),
+        new Bug(),
+        new Bug(),
     ];
     clouds = [
         new Cloud(),
