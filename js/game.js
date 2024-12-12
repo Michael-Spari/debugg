@@ -4,26 +4,43 @@ let keyboard = new Keyboard();
 
 function init() {
   canvas = document.getElementById('canvas');
-  world = new World(canvas);
+  world = new World(canvas, keyboard);
 
   console.log('My character is', world.character);
 }
 
 window.addEventListener('keydown', (e) => {
-  if (e.code === 39) {
+  if (e.keyCode == 39) {
     keyboard.RIGHT = true;
   } 
-  if (e.code === 37) {
+  if (e.keyCode == 37) {
     keyboard.LEFT = true;
   }
-  if (e.code === 38) {
+  if (e.keyCode == 38) {
     keyboard.UP = true;
   }
-  if (e.code === 40) {
+  if (e.keyCode == 40) {
     keyboard.DOWN = true;
   }
-  if (e.code === 32) {
+  if (e.keyCode == 32) {
     keyboard.SPACE = true;
   }
-  console.log(e);
+});
+
+window.addEventListener('keyup', (e) => {
+  if (e.keyCode == 39) {
+    keyboard.RIGHT = false;
+  } 
+  if (e.keyCode == 37) {
+    keyboard.LEFT = false;
+  }
+  if (e.keyCode == 38) {
+    keyboard.UP = false;
+  }
+  if (e.keyCode == 40) {
+    keyboard.DOWN = false;
+  }
+  if (e.keyCode == 32) {
+    keyboard.SPACE = false;
+  }
 });
