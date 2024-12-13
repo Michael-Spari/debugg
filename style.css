@@ -3,8 +3,15 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: black;
 }
 
 canvas {
     background-color: black;
+}
+
+h1 {
+    color: white;
+    font-size: 2em;
+    font-family: 'Trebuchet MS';
 }
