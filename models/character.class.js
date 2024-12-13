@@ -2,8 +2,8 @@ class Character extends MovableObjects {
     height = 280;
     width = 150;
     x = 100;
-    y = 40;   //152
-    speed = 1.3;
+    y = 40;
+    speed = 1.3;  
 
     IMAGES_WALK = [
         'img/debugger/2_character_michael/walk/w-21.png',
@@ -57,6 +57,12 @@ class Character extends MovableObjects {
                 this.otherDirection = true;
                 this.walking_sound.play();
             }
+
+            if (this.world.keyboard.UP){
+                this.speedy = 20;
+            }
+
+
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
             
@@ -64,16 +70,16 @@ class Character extends MovableObjects {
 
         setInterval(() => {
 
-            // if (this.ifAboveGround()) {
-            //     this.playAnimation(this.IMAGES_JUMPING);
-            // }  else {
+            if (this.ifAboveGround()) {
+                this.playAnimation(this.IMAGES_JUMPING);
+            }  else {
 
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     // this.x += this.speed;
                 //walk animation
                 this.playAnimation(this.IMAGES_WALK);
                 }
-            
+            }
         }, 1000 / 20);
 
     }

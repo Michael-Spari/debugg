@@ -5,7 +5,7 @@ class Bug extends MovableObjects {
     IMAGES_WALK = [
         'img/debugger/3_enemies_bug/bug_w_21.png',
         'img/debugger/3_enemies_bug/bug_w_22.png',
-    ]
+    ];
     walking_sound = new Audio('./audio/bugs_run1.mp3');
 
     constructor() {
