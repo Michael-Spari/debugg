@@ -1,8 +1,8 @@
 class Character extends MovableObjects {
-    height = 280;
-    width = 150;
+    height = 200;
+    width = 110;
     x = 100;
-    y = 40;
+    y = 0;
     speed = 2.3; 
 
     IMAGES_WALK = [
@@ -26,10 +26,15 @@ class Character extends MovableObjects {
     ];
 
     IMAGES_JUMPING = [
-        'img/debugger/2_character_michael/walk/w-28.png',
-        'img/debugger/2_character_michael/walk/w-29.png',
-        'img/debugger/2_character_michael/walk/w-30.png'
-    ];
+        // 'img/debugger/2_character_michael/walk/w-21.png',    
+        'img/debugger/2_character_michael/jump/jump_10.png', 
+        // 'img/debugger/2_character_michael/jump/jump_10.png',
+        // 'img/debugger/2_character_michael/jump/jump_10.png',
+        // 'img/debugger/2_character_michael/jump/jump_10.png',
+        // 'img/debugger/2_character_michael/jump/jump_20.png', 
+  
+        // 'img/debugger/2_character_michael/walk/w-21.png',     
+       ];  
 
     IMAGES_DEATH = [
         'img/debugger/2_character_michael/death/death_1.png',
@@ -46,7 +51,7 @@ class Character extends MovableObjects {
         'img/debugger/2_character_michael/walk/w-21.png',
     ];
 
-    world;
+    world; 
     walking_sound = new Audio('./audio/walk6.mp4');
 
 

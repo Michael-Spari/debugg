@@ -19,7 +19,7 @@ class MovableObjects extends DrawableObjects {
         if(this instanceof ThrowableObjects){
             return true;
         }else{
-            return this.y < 152;
+            return this.y < 210;
         }
     }
    
