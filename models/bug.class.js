@@ -1,5 +1,6 @@
 class Bug extends MovableObjects {
     y = 380;
+    x = 100;
     height = 45;
     width = 45;
     IMAGES_WALK = [
@@ -17,7 +18,10 @@ class Bug extends MovableObjects {
     }
     
     animate() {
-        this.moveLeft();
+        setInterval(() => {
+            this.moveLeft();
+        }, 1000 / 60);
+        
         setInterval(() => {
             this.playAnimation(this.IMAGES_WALK);
             this.walking_sound.volume = 0.3; // Set the volume (0.0 to 1.0)

@@ -1,15 +1,10 @@
-class MovableObjects {
-    x = 100;
-    y = 100;
-    img;
-    height = 180;
-    width = 100;
-    imageCache = {};
-    currentImage = 0;
+class MovableObjects extends DrawableObjects {
     speed = 0.2;
     otherDirection = false;
     speedy = 0;
     acceleration = 2.5;
+    energy = 100;
+    lastHit = 0;
 
     applyGravity(){
         setInterval(() => {
@@ -21,22 +16,38 @@ class MovableObjects {
     }
 
     ifAboveGround(){
-        return this.y < 152;
+        if(this instanceof ThrowableObjects){
+            return true;
+        }else{
+            return this.y < 152;
+        }
+    }
+   
+    // character is colliding with mo
+    isColliding(mo) {
+        return this.x + this.width > mo.x &&
+            this.y + this.height > mo.y &&
+            this.x < mo.x &&     //+ mo.width &&   
+            this.y < mo.y + mo.height;
     }
 
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
+    hit() {
+        this.energy -= 2;
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
     }
 
-    /**@param {Array} arr*/
+    isHurt() {
+        let timePassed = new Date().getTime() - this.lastHit;
+        timePassed = timePassed / 1000;
+        return timePassed < 0.2;
+    }
 
-    loadImages(arr) {
-        arr.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img;
-        });
+    isDeath() {
+        return this.energy == 0;
     }
 
     playAnimation(images){
@@ -47,15 +58,15 @@ class MovableObjects {
     }
 
     moveRight() {
-        console.log('move right');
+        this.x += this.speed;
+        // this.walking_sound.playbackRate = 1.2;    
     }   
-    moveLeft() {
-        console.log('move left');
-    }
  
     moveLeft() {
-        setInterval(() => {
-            this.x -= this.speed;
-        }, 1000 / 60);
+        this.x -= this.speed;
+    }
+
+    jump() {
+        this.speedy = 25;
     }
 }
