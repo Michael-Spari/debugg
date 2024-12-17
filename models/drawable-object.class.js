@@ -17,7 +17,7 @@ class DrawableObjects {
     }
 
     drawFrame(ctx) {
-        if(this instanceof Character || this instanceof Bug){
+        if(this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects){
             ctx.beginPath();
             ctx.lineWidth = '2';
             ctx.strokeStyle = 'blue';

@@ -1,8 +1,8 @@
 class Character extends MovableObjects {
-    height = 200;
-    width = 110;
+    height = 190;
+    width = 115;
     x = 100;
-    y = 0;
+    y = 100;
     speed = 2.3; 
 
     IMAGES_WALK = [
@@ -27,13 +27,9 @@ class Character extends MovableObjects {
 
     IMAGES_JUMPING = [
         // 'img/debugger/2_character_michael/walk/w-21.png',    
-        'img/debugger/2_character_michael/jump/jump_10.png', 
-        // 'img/debugger/2_character_michael/jump/jump_10.png',
-        // 'img/debugger/2_character_michael/jump/jump_10.png',
-        // 'img/debugger/2_character_michael/jump/jump_10.png',
-        // 'img/debugger/2_character_michael/jump/jump_20.png', 
-  
-        // 'img/debugger/2_character_michael/walk/w-21.png',     
+        'img/debugger/2_character_michael/jump/jump_10.png',    
+        // 'img/debugger/2_character_michael/walk/w-21.png',  
+      
        ];  
 
     IMAGES_DEATH = [
@@ -41,14 +37,12 @@ class Character extends MovableObjects {
     ];
 
     IMAGES_HURT = [
-        'img/debugger/2_character_michael/walk/w-22.png',
-        'img/debugger/2_character_michael/walk/w-23.png',
-        'img/debugger/2_character_michael/walk/w-24.png',
-        'img/debugger/2_character_michael/walk/w-25.png',
-        'img/debugger/2_character_michael/walk/w-26.png',
-        'img/debugger/2_character_michael/walk/w-27.png',
-        'img/debugger/2_character_michael/death/death_1.png',
-        'img/debugger/2_character_michael/walk/w-21.png',
+        'img/debugger/2_character_michael/hurt/hurt_10.png',
+        // 'img/debugger/2_character_michael/walk/w-21.png',
+    ];
+
+    IMAGES_GROUND = [
+        'img/debugger/2_character_michael/walk/w-21.png',   
     ];
 
     world; 
@@ -86,6 +80,7 @@ class Character extends MovableObjects {
             if (this.world.keyboard.SPACE && !this.ifAboveGround()) {
                 this.jump();
             }
+
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
             
@@ -102,13 +97,11 @@ class Character extends MovableObjects {
             }  else if (this.ifAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
 
-            }  else {
-
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.IMAGES_WALK);
-                }
+            } else {
+                this.playAnimation(this.IMAGES_GROUND);
             }
         }, 1000 / 20);
-
     }
 }

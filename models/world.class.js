@@ -1,5 +1,7 @@
 class World {
     character = new Character();
+    enemy = new Bug();
+    bottle = new ThrowableObjects();
     level = level1;
     canvas;
     ctx;
@@ -25,6 +27,10 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
+            this.checkBottleSmashBug();
+
+            // Starte die Animation aller Gegner
+        this.level.enemies.forEach(enemy => enemy.animate());
         }, 200);
     }
     
@@ -35,8 +41,7 @@ class World {
         }
     }
 
-    checkCollisions() {
-        
+    checkCollisions() {    
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
@@ -44,6 +49,19 @@ class World {
             }
         });
     }
+
+    checkBottleSmashBug() {
+        this.throwableObjects.forEach((bottle) => {
+            this.level.enemies.forEach((enemy) => {
+                if (bottle.isColliding(enemy)) {
+                    enemy.energy -= 100; // Richtig: Energie von "enemy" in der Schleife abziehen
+                    enemy.hit();
+                    console.log('collision with bottle', enemy.energy);
+                }
+            });
+        });
+    }
+    
 
     draw(){
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -55,9 +73,10 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
         // space for fixed objects
         this.addToMap(this.statusBar);
-        this.ctx.translate(this.camera_x, 0);
-        this.addToMap(this.character);
 
+        this.ctx.translate(this.camera_x, 0);
+
+        this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);

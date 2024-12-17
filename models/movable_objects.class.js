@@ -14,22 +14,36 @@ class MovableObjects extends DrawableObjects {
             }
         }, 1000 / 25);
     }
-
-    ifAboveGround(){
-        if(this instanceof ThrowableObjects){
-            return true;
-        }else{
-            return this.y < 210;
+ 
+    ifAboveGround() {
+        if (this instanceof ThrowableObjects) {
+            return this.y < 380; // Beispiel: Bodenhöhe für Flaschen (Canvas-Höhe anpassen)
+        } else {
+            return this.y < 230; // Bodenhöhe für andere Objekte
         }
+    }
+
+    ifGrounded() {
+        this.y == 230;
+        return true;
     }
    
     // character is colliding with mo
     isColliding(mo) {
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x &&     //+ mo.width &&   
-            this.y < mo.y + mo.height;
+        return this.x + this.width > mo.x &&   // Rechte Seite von "this" überlappt linke Seite von "mo"
+               this.x < mo.x + mo.width &&    // Linke Seite von "this" überlappt rechte Seite von "mo"
+               this.y + this.height > mo.y && // Untere Seite von "this" überlappt obere Seite von "mo"
+               this.y < mo.y + mo.height;     // Obere Seite von "this" überlappt untere Seite von "mo"
     }
+
+    // bottle is colliding with mo
+    isCollidingWithBottle(mo) {
+        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&   // Rechte Seite von "this" überlappt linke Seite von "mo"
+                this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && // Untere Seite von "this" überlappt obere Seite von "mo"
+                this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&    // Linke Seite von "this" überlappt rechte Seite von "mo"
+                this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;     // Obere Seite von "this" überlappt untere Seite von "mo"
+    }
+    
 
     hit() {
         this.energy -= 2;
@@ -38,6 +52,7 @@ class MovableObjects extends DrawableObjects {
         } else {
             this.lastHit = new Date().getTime();
         }
+        console.log('Bug energy:', this.energy); // Debug-Ausgabe
     }
 
     isHurt() {
@@ -47,7 +62,7 @@ class MovableObjects extends DrawableObjects {
     }
 
     isDeath() {
-        return this.energy == 0;
+        return this.energy <= 0;
     }
 
     playAnimation(images){
