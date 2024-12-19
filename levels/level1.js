@@ -13,6 +13,12 @@ const level1 = new Level(
         new Bug(),
         new Bug(),
         new Endboss(),
+        new Endboss(),
+        new Endboss(),
+        new Endboss(),
+        new Endboss(),
+        new Endboss(),
+        new BigEndboss(),
     ],
 
     [

@@ -1,11 +1,20 @@
 class MovableObjects extends DrawableObjects {
-    speed = 0.2;
+    speed = 0.1;
     otherDirection = false;
-    speedy = 0;
-    acceleration = 2.5;
+    speedy = 0; // Geschwindigkeit in y-Richtung
+    acceleration = 2.5; // Schwerkraft
     energy = 100;
-    lastHit = 0;
+    lastHit = 0; // Zeitpunkt des letzten Treffers
+    targetHit; // Zielposition des Hammers nach dem Treffen des Bugs
 
+    offset = {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+    }
+
+    // Funktion die die Schwerkraft auf Objekte anwendet
     applyGravity(){
         setInterval(() => {
             if (this.ifAboveGround() || this.speedy > 0) {   
@@ -17,34 +26,19 @@ class MovableObjects extends DrawableObjects {
  
     ifAboveGround() {
         if (this instanceof ThrowableObjects) {
-            return this.y < 380; // Beispiel: Bodenhöhe für Flaschen (Canvas-Höhe anpassen)
+            return this.y < 380; // Beispiel: Bodenhöhe für Hammer (Canvas-Höhe anpassen)
         } else {
             return this.y < 230; // Bodenhöhe für andere Objekte
         }
     }
 
-    ifGrounded() {
-        this.y == 230;
-        return true;
-    }
-   
-    // character is colliding with mo
     isColliding(mo) {
-        return this.x + this.width > mo.x &&   // Rechte Seite von "this" überlappt linke Seite von "mo"
-               this.x < mo.x + mo.width &&    // Linke Seite von "this" überlappt rechte Seite von "mo"
-               this.y + this.height > mo.y && // Untere Seite von "this" überlappt obere Seite von "mo"
-               this.y < mo.y + mo.height;     // Obere Seite von "this" überlappt untere Seite von "mo"
-    }
-
-    // bottle is colliding with mo
-    isCollidingWithBottle(mo) {
-        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&   // Rechte Seite von "this" überlappt linke Seite von "mo"
-                this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && // Untere Seite von "this" überlappt obere Seite von "mo"
-                this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&    // Linke Seite von "this" überlappt rechte Seite von "mo"
-                this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;     // Obere Seite von "this" überlappt untere Seite von "mo"
+        return this.x + this.offset.x + this.width - this.offset.width > mo.x + mo.offset.x &&
+            this.y + this.offset.y + this.height - this.offset.height > mo.y + mo.offset.y &&
+            this.x + this.offset.x < mo.x+ mo.offset.x  + mo.width - mo.offset.width &&
+            this.y + this.offset.y < mo.y + mo.offset.y + mo.height - mo.offset.height;
     }
     
-
     hit() {
         this.energy -= 2;
         if (this.energy < 0) {
@@ -52,7 +46,7 @@ class MovableObjects extends DrawableObjects {
         } else {
             this.lastHit = new Date().getTime();
         }
-        console.log('Bug energy:', this.energy); // Debug-Ausgabe
+        console.log('energy:', this.energy); // Debug-Ausgabe
     }
 
     isHurt() {

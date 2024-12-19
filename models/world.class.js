@@ -1,7 +1,6 @@
 class World {
     character = new Character();
     enemy = new Bug();
-    bottle = new ThrowableObjects();
     level = level1;
     canvas;
     ctx;
@@ -27,17 +26,15 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
-            this.checkBottleSmashBug();
-
-            // Starte die Animation aller Gegner
-        this.level.enemies.forEach(enemy => enemy.animate());
+            this.checkHammerSmashBug();
+            this.checkAllEnemiesDead();
         }, 200);
     }
     
     checkThrowObjects() {
         if (this.keyboard.D) {
-            let bottle = new ThrowableObjects(this.character.x + 100, this.character.y + 100);
-            this.throwableObjects.push(bottle);
+            let hammer = new ThrowableObjects(this.character.x + 100, this.character.y + 100);
+            this.throwableObjects.push(hammer);
         }
     }
 
@@ -48,20 +45,26 @@ class World {
                 this.statusBar.setPercentage(this.character.energy);
             }
         });
-    }
+    }  
 
-    checkBottleSmashBug() {
-        this.throwableObjects.forEach((bottle) => {
+    checkHammerSmashBug() {
+        this.throwableObjects.forEach((hammer) => {
             this.level.enemies.forEach((enemy) => {
-                if (bottle.isColliding(enemy)) {
-                    enemy.energy -= 100; // Richtig: Energie von "enemy" in der Schleife abziehen
-                    enemy.hit();
-                    console.log('collision with bottle', enemy.energy);
+                if (hammer.isColliding(enemy)) {
+                    enemy.energy -= 100; // Energie von "enemy" in der Schleife abziehen
+                    enemy.hit(); // makiert den getroffenen Bug
+                    enemy.applyGravity(); // Bug fällt nach Treffer
+                    hammer.startFalling(); // Hammer fällt nach Treffer
+                    console.log('collision with Hammer', enemy.energy);
                 }
             });
         });
     }
-    
+
+    checkAllEnemiesDead() {
+        // Startet die setInterval-Methode, ob alle Bugs tot sind
+        this.level.enemies.forEach(enemy => enemy.animate());
+    }  
 
     draw(){
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -71,11 +74,13 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
 
         this.ctx.translate(-this.camera_x, 0);
-        // space for fixed objects
+
+        // feste Objekte wie Statusbar
         this.addToMap(this.statusBar);
 
         this.ctx.translate(this.camera_x, 0);
 
+        // bewegliche Objekte wie Character, Bugs, throwableObjects
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
@@ -102,7 +107,8 @@ class World {
         }
             
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);
+        // mo.drawOffsetFrame(this.ctx)
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);

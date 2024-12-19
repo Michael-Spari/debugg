@@ -1,11 +1,11 @@
 class DrawableObjects {
-    x = 100;
+    x = 100; // atributtes
     y = 100;
     height = 180;
     width = 100;
     img;
     imageCache = {};
-    currentImage = 0;
+    currentImage = 0;  
 
     loadImage(path) {
         this.img = new Image();
@@ -19,9 +19,22 @@ class DrawableObjects {
     drawFrame(ctx) {
         if(this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects){
             ctx.beginPath();
-            ctx.lineWidth = '2';
-            ctx.strokeStyle = 'blue';
+            ctx.lineWidth = '0';
+            ctx.strokeStyle = '0';
             ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
+    }
+
+    drawOffsetFrame(ctx) {
+        if(this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects){
+            ctx.beginPath();
+            ctx.lineWidth = '0';
+            ctx.strokeStyle = '0';
+            ctx.rect(this.x + this.offset.x, 
+                this.y + this.offset.y, 
+                this.width - this.offset.width, 
+                this.height - this.offset.height);
             ctx.stroke();
         }
     }

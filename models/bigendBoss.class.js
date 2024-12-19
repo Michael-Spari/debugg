@@ -1,8 +1,8 @@
-class Endboss extends MovableObjects {
-    y = 230;
-    height = 200;
-    width = 200;
-    energy = 200;
+class BigEndboss extends MovableObjects {
+    y = 35;
+    height = 400;
+    width = 400;
+    energy = 500;
 
     offset = {
         x: 30,
@@ -17,47 +17,22 @@ class Endboss extends MovableObjects {
         'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_3.png', //hoerner zeigen
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_4.png', //zähne zeigen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_1.png', //augen guen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_3.png', //hoerner zeigen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_1.png', //augen guen
         'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_4.png', //zähne zeigen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen 
         'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_3.png', //hoerner zeigen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_2.png', //augen rot
         'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_1.png', //augen guen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_3.png', //hoerner zeigen
         'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_4.png', //zähne zeigen
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        
     ];
     IMAGES_ATACK = [
         'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png'
@@ -72,14 +47,16 @@ class Endboss extends MovableObjects {
         this.loadImages(this.IMAGES_WALK);
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_ATACK);
-        this.x = 2200 + Math.random() * 7200;
-        this.speed = 0.1 + Math.random() * 0.2;
+        this.x = 5000;
+        this.speed = 0 + Math.random() * 0;
+        // this.speed = 0.1;
         this.animate();
     }
 
     moveLeft() {
         if (!this.isDeath()) { // Prüfe Eltern-Methode
             this.x -= this.speed;
+            // this.y = 0;
         }
     }
 
@@ -93,7 +70,7 @@ class Endboss extends MovableObjects {
                 this.moveLeft();
                 this.playAnimation(this.IMAGES_WALK);
             }
-        }, 1000 / 15);
+        }, 1000 / 5);
     }
 
     // animate() {
