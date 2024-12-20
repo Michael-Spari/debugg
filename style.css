@@ -1,9 +1,14 @@
 body{
+    font-family: 'mpluscoad', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: black;
+    /* background-image: url('./img/debugger/hg/hg_start.png');
+    background-size: repeat;
+    background-repeat: no-repeat;
+    background-position: center; */
 }
 
 canvas {
@@ -12,6 +17,10 @@ canvas {
 
 h1 {
     color: white;
-    font-size: 2em;
-    font-family: 'Trebuchet MS';
+    font-size: 46px;
+    font-family: 'mpluscoad', sans-serif;
+}
+@font-face {
+    font-family: 'mpluscoad';
+    src: url('./fonts/mpluscoad.ttf');
 }

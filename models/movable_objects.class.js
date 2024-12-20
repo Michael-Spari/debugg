@@ -26,7 +26,7 @@ class MovableObjects extends DrawableObjects {
  
     ifAboveGround() {
         if (this instanceof ThrowableObjects) {
-            return this.y < 380; // Beispiel: Bodenhöhe für Hammer (Canvas-Höhe anpassen)
+            return this.y < 580; // Beispiel: Bodenhöhe für Hammer (Canvas-Höhe anpassen)
         } else {
             return this.y < 230; // Bodenhöhe für andere Objekte
         }
@@ -60,10 +60,10 @@ class MovableObjects extends DrawableObjects {
     }
 
     playAnimation(images){
-        let i = this.currentImage % images.length;
-        let path = images[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        let i = this.currentImage % images.length; // Index des Bildes
+        let path = images[i]; // Pfad des Bildes
+        this.img = this.imageCache[path]; // Ausgewähltes Bild wird geladen
+        this.currentImage++; // welches Bild wird als nächstes angezeigt
     }
 
     moveRight() {

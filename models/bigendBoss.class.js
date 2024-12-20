@@ -35,8 +35,14 @@ class BigEndboss extends MovableObjects {
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
     ];
     IMAGES_ATACK = [
-        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png'
-
+        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
+        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
+        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
+        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
+        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
+        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
+        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
+        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
     ];
     IMAGES_DEATH = [
         'img/debugger/4_enemies_boss_bug/dead/bossbugTot_1.png',
@@ -47,7 +53,7 @@ class BigEndboss extends MovableObjects {
         this.loadImages(this.IMAGES_WALK);
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_ATACK);
-        this.x = 5000;
+        this.x = 3750;
         this.speed = 0 + Math.random() * 0;
         // this.speed = 0.1;
         this.animate();
@@ -70,7 +76,7 @@ class BigEndboss extends MovableObjects {
                 this.moveLeft();
                 this.playAnimation(this.IMAGES_WALK);
             }
-        }, 1000 / 5);
+        }, 1000 / 10);
     }
 
     // animate() {

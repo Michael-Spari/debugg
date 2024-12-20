@@ -1,6 +1,8 @@
 class World {
     character = new Character();
     enemy = new Bug();
+    cloud = new Cloud();
+    coin = new Coin();
     level = level1;
     canvas;
     ctx;
@@ -53,7 +55,6 @@ class World {
                 if (hammer.isColliding(enemy)) {
                     enemy.energy -= 100; // Energie von "enemy" in der Schleife abziehen
                     enemy.hit(); // makiert den getroffenen Bug
-                    enemy.applyGravity(); // Bug fällt nach Treffer
                     hammer.startFalling(); // Hammer fällt nach Treffer
                     console.log('collision with Hammer', enemy.energy);
                 }
@@ -83,6 +84,7 @@ class World {
         // bewegliche Objekte wie Character, Bugs, throwableObjects
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
 

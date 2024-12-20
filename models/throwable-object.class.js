@@ -5,20 +5,27 @@ class ThrowableObjects extends MovableObjects {
     constructor(x, y) {
         super().loadImage('img/debugger/6_hammer/strahl.png');
         this.x = x;
-        this.y = 300;
+        this.y = y;
         this.width = 80;
         this.height = 80;
-        this.throw();       
+        this.throw();
+        // this.throwLeft();       
     }
     
     throw() {
-        this.speedy = 5;
-        this.applyGravity();
-        setInterval(() => {
-            this.x += 25;
-            this.y -= 0;
-        }, 25);
+        this.speedy = 5;  // Geschwindigkeit in y-Richtung
+        this.applyGravity(); // schwerkraft aus MovableObjects wird angewendet
+        setInterval(() => { // Hammer wird nach rechts geworfen
+            this.x += 25; // Hammer wird nach rechts geworfen
+        }, 25); // Geschwindigkeit des Hammers
     }
+
+    // throwLeft() {
+    //     this.throw = 5; // Geschwindigkeit in y-Richtung
+    //     setInterval(() => {
+    //         this.x -= 25; // Hammer wird nach links geworfen
+    //     }, 25); // Geschwindigkeit des Hammers
+    // }
 
     // funktion die den Hammer beim treffen der Bugs fallen lässt    
     startFalling() {
