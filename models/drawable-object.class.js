@@ -48,4 +48,20 @@ class DrawableObjects {
             this.imageCache[path] = img;
         });
     }
+
+
+    loadImage(path) { // test funktion ob das bild geladen wird
+        this.img = new Image();
+        this.img.src = path;
+    
+        // Fehler-Handler: Wird aufgerufen, wenn das Bild nicht geladen werden kann
+        this.img.onerror = () => {
+            console.error(`Image failed to load: ${path}`);
+        };
+    
+        // Erfolgs-Handler: Wird aufgerufen, wenn das Bild erfolgreich geladen wird
+        this.img.onload = () => {
+            console.log(`Image loaded successfully: ${path}`);
+        };
+    }
 }

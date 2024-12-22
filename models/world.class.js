@@ -30,6 +30,7 @@ class World {
             this.checkThrowObjects();
             this.checkHammerSmashBug();
             this.checkAllEnemiesDead();
+            this.checkBugisDeathandInsertCoin();
         }, 200);
     }
     
@@ -38,6 +39,18 @@ class World {
             let hammer = new ThrowableObjects(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(hammer);
         }
+    }
+
+    checkBugisDeathandInsertCoin() { // Prüft, ob der Bug tot ist und fügt Münze hinzu
+        this.level.enemies.forEach((enemy) => { // Alle Bugs durchgehen und prüfen, ob sie tot sind
+            this.x = enemy.x; // x-Position des Bugs
+            this.y = enemy.y; // y-Position des Bugs
+            if (enemy.isDeath() && !enemy.coinCreated) { // Wenn der Bug tot ist und noch keine Münze erstellt wurde
+                this.level.coins.push(this.coin); // coin-Objekt in das Array "coins" einfügen
+                enemy.coinCreated = true; // gibt zurück, dass die Münze erstellt wurde
+                console.log('coin created', this.level.coins, this.x, this.y); // Debug-Ausgabe
+            }
+        });
     }
 
     checkCollisions() {    
@@ -64,7 +77,7 @@ class World {
 
     checkAllEnemiesDead() {
         // Startet die setInterval-Methode, ob alle Bugs tot sind
-        this.level.enemies.forEach(enemy => enemy.animate());
+        this.level.enemies.forEach(enemy => enemy.animate()); // Alle Bugs durchgehen und animate-Methode starten
     }  
 
     draw(){
