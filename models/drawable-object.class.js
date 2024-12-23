@@ -1,11 +1,11 @@
 class DrawableObjects {
-    x = 100; // atributtes
+    x = 100;
     y = 100;
     height = 180;
     width = 100;
     img;
     imageCache = {};
-    currentImage = 0;  
+    currentImage = 0;
 
     loadImage(path) {
         this.img = new Image();
@@ -17,7 +17,7 @@ class DrawableObjects {
     }
 
     drawFrame(ctx) {
-        if(this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects){
+        if (this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects) {
             ctx.beginPath();
             ctx.lineWidth = '0';
             ctx.strokeStyle = '0';
@@ -27,19 +27,19 @@ class DrawableObjects {
     }
 
     drawOffsetFrame(ctx) {
-        if(this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects){
+        if (this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects) {
             ctx.beginPath();
             ctx.lineWidth = '0';
             ctx.strokeStyle = '0';
-            ctx.rect(this.x + this.offset.x, 
-                this.y + this.offset.y, 
-                this.width - this.offset.width, 
-                this.height - this.offset.height);
+            ctx.rect(
+                this.x + this.offset.x,
+                this.y + this.offset.y,
+                this.width - this.offset.width,
+                this.height - this.offset.height
+            );
             ctx.stroke();
         }
     }
-
-    /**@param {Array} arr*/
 
     loadImages(arr) {
         arr.forEach((path) => {
@@ -47,21 +47,5 @@ class DrawableObjects {
             img.src = path;
             this.imageCache[path] = img;
         });
-    }
-
-
-    loadImage(path) { // test funktion ob das bild geladen wird
-        this.img = new Image();
-        this.img.src = path;
-    
-        // Fehler-Handler: Wird aufgerufen, wenn das Bild nicht geladen werden kann
-        this.img.onerror = () => {
-            console.error(`Image failed to load: ${path}`);
-        };
-    
-        // Erfolgs-Handler: Wird aufgerufen, wenn das Bild erfolgreich geladen wird
-        this.img.onload = () => {
-            console.log(`Image loaded successfully: ${path}`);
-        };
     }
 }

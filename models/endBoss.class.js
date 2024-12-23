@@ -24,7 +24,7 @@ class Endboss extends MovableObjects {
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_1.png', //augen guen
+        'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_1.png', //augen guend
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
         'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen

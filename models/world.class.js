@@ -9,6 +9,7 @@ class World {
     keyboard;
     camera_x = 0;
     statusBar = new StatusBar();
+    coinsCounter = new CoinsCounter();
     throwableObjects = [];
 
     constructor(canvas, keyboard) {
@@ -31,9 +32,19 @@ class World {
             this.checkHammerSmashBug();
             this.checkAllEnemiesDead();
             this.checkBugisDeathandInsertCoin();
+            this.characterCollectCoin(); // Coins einsammeln
         }, 200);
     }
-    
+
+    characterCollectCoin() {
+        this.level.coins.forEach((coin, index) => {
+            if (this.character.isColliding(coin)) {
+                this.level.coins.splice(index, 1); // Münze entfernen
+                this.coinsCounter.increment(); // Counter erhöhen
+            }
+        });
+    }
+
     checkThrowObjects() {
         if (this.keyboard.D) {
             let hammer = new ThrowableObjects(this.character.x + 100, this.character.y + 100);
@@ -41,14 +52,15 @@ class World {
         }
     }
 
-    checkBugisDeathandInsertCoin() { // Prüft, ob der Bug tot ist und fügt Münze hinzu
-        this.level.enemies.forEach((enemy) => { // Alle Bugs durchgehen und prüfen, ob sie tot sind
-            this.x = enemy.x; // x-Position des Bugs
-            this.y = enemy.y; // y-Position des Bugs
-            if (enemy.isDeath() && !enemy.coinCreated) { // Wenn der Bug tot ist und noch keine Münze erstellt wurde
-                this.level.coins.push(this.coin); // coin-Objekt in das Array "coins" einfügen
-                enemy.coinCreated = true; // gibt zurück, dass die Münze erstellt wurde
-                console.log('coin created', this.level.coins, this.x, this.y); // Debug-Ausgabe
+    checkBugisDeathandInsertCoin() {
+        this.level.enemies.forEach((enemy) => {
+            if (enemy.isDeath() && !enemy.coinCreated) {
+                let coin = new Coin();
+                coin.x = enemy.x;
+                coin.y = enemy.y;
+                this.level.coins.push(coin);
+                enemy.coinCreated = true;
+                console.log('Coin created', this.level.coins, coin.x, coin.y);
             }
         });
     }
@@ -60,27 +72,26 @@ class World {
                 this.statusBar.setPercentage(this.character.energy);
             }
         });
-    }  
+    }
 
     checkHammerSmashBug() {
         this.throwableObjects.forEach((hammer) => {
             this.level.enemies.forEach((enemy) => {
                 if (hammer.isColliding(enemy)) {
-                    enemy.energy -= 100; // Energie von "enemy" in der Schleife abziehen
-                    enemy.hit(); // makiert den getroffenen Bug
-                    hammer.startFalling(); // Hammer fällt nach Treffer
-                    console.log('collision with Hammer', enemy.energy);
+                    enemy.energy -= 100;
+                    enemy.hit();
+                    hammer.startFalling();
+                    console.log('Collision with Hammer', enemy.energy);
                 }
             });
         });
     }
 
     checkAllEnemiesDead() {
-        // Startet die setInterval-Methode, ob alle Bugs tot sind
-        this.level.enemies.forEach(enemy => enemy.animate()); // Alle Bugs durchgehen und animate-Methode starten
-    }  
+        this.level.enemies.forEach(enemy => enemy.animate());
+    }
 
-    draw(){
+    draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(this.camera_x, 0);
@@ -89,12 +100,11 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0);
 
-        // feste Objekte wie Statusbar
         this.addToMap(this.statusBar);
+        this.addToMap(this.coinsCounter);
 
         this.ctx.translate(this.camera_x, 0);
 
-        // bewegliche Objekte wie Character, Bugs, throwableObjects
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.coins);
@@ -103,11 +113,10 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0);
         
-        // Draw wird immer wieder aufgerufen
         let self = this;
         requestAnimationFrame(function() {
             self.draw();
-        }); 
+        });
     }
 
     addObjectsToMap(objects) {
@@ -120,11 +129,7 @@ class World {
         if (mo.otherDirection) {
             this.flipImage(mo);
         }
-            
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx);
-        // mo.drawOffsetFrame(this.ctx)
-
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
