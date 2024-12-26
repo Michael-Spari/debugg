@@ -21,15 +21,27 @@
     <script src="./models/throwable-object.class.js"></script>
     <script src="./models/endBoss.class.js"></script>
     <script src="./models/bigendBoss.class.js"></script>
+    <script src="./models/plattformen.class.js"></script>
     <script src="./levels/level1.js"></script>
     <script src="./js/game.js"></script>
 </head>
 <audio id="audio" src="./audio/background2.mp3" autoplay></audio>
 <body onload="init()">
-
     <h1>The Debugger</h1>
-
-    <canvas id="canvas" width="720" height="480"></canvas>
-    
+    <section class="mainFrame">
+        <canvas id="canvas" width="720" height="480"></canvas>
+        <div id="overlay">
+            <div id="panelBottom">
+                <div id="leftRightButtons">
+                    <button id="leftButton" class="button-left">←</button>
+                    <button id="rightButton" class="button-right">→</button>
+                </div>
+                <div id="jumpFireButtons">
+                    <button id="jumpButton" class="button-jump">Jump</button>
+                    <button id="fireButton" class="button-fire">Fire</button>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 </html>

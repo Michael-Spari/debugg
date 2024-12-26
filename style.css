@@ -11,8 +11,36 @@ body{
     background-position: center; */
 }
 
+.mainFrame{
+    display:block;
+    position: relative; 
+    width: 720px; 
+    height: 480px;
+}
+
 canvas {
     background-color: black;
+    display: block;
+    z-index: 1;
+    position: relative;
+}
+
+@media only screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
+    }
+    .mainFrame{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
+    .mainFrame{
+        height: 100vh;
+    }
 }
 
 h1 {
@@ -23,4 +51,147 @@ h1 {
 @font-face {
     font-family: 'mpluscoad';
     src: url('./fonts/mpluscoad.ttf');
+}
+
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* PanelBottom an unteren Rand ausrichten */
+    align-items: center;
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    z-index: 2;
+}
+
+#panelBottom {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    /* background: #00ffff;
+    border: 2px solid #556699; */
+    border-radius: 10px;
+}
+
+#leftRightButtons{
+    display: flex;
+    justify-content: flex-start;
+    width: 50%;
+    margin-left: 15px;
+}
+
+#jumpFireButtons{
+    display: flex;
+    justify-content: flex-end;
+    width: 50%;
+    margin-right: 15px;
+}
+
+.button-right{
+    background:    #00ffff;
+    border:        2px solid #556699;
+    border-radius: 20px;
+    box-shadow:    5px 0 #444444;
+    padding:       0px 20px;
+    color:         #ffffff;
+    display:       inline-block;
+    font:          normal bold 16px/1 "Pagella", serif;
+    text-align:    center;
+    text-shadow:   1px 1px #000000;
+}
+
+.button-right:hover{
+    background:    #ff9900;
+    border:        2px solid #556699;
+    border-radius: 20px;
+    box-shadow:    5px 0 #444444;
+    padding:       0px 20px;
+    color:         #ffffff;
+    display:       inline-block;
+    font:          normal bold 16px/1 "Pagella", serif;
+    text-align:    center;
+    text-shadow:   1px 1px #000000;
+}
+
+.button-left{
+    background:    #00ffff;
+    border:        2px solid #556699;
+    border-radius: 20px;
+    box-shadow:    -5px 0 #444444;
+    padding:       0px 20px;
+    color:         #ffffff;
+    display:       inline-block;
+    font:          normal bold 16px/1 "Pagella", serif;
+    text-align:    center;
+    text-shadow:   1px 1px #000000;
+}
+
+.button-left:hover{
+    background:    #ff9900;
+    border:        2px solid #556699;
+    border-radius: 20px;
+    box-shadow:    -5px 0 #444444;
+    padding:       0px 20px;
+    color:         #ffffff;
+    display:       inline-block;
+    font:          normal bold 16px/1 "Pagella", serif;
+    text-align:    center;
+    text-shadow:   1px 1px #000000;
+}
+
+.button-jump{
+    background:    #00ffff;
+    border:        2px solid #556699;
+    border-radius: 20px;
+    box-shadow:    -5px 0 #444444;
+    padding:       0px 20px;
+    color:         #ff9900;
+    display:       inline-block;
+    font:          normal bold 16px/1 "Komika", cursive;
+    text-align:    center;
+    text-shadow:   1px 1px #000000;
+}
+
+.button-jump:hover{
+    background:    #ff9900;
+    border:        2px solid #556699;
+    border-radius: 20px;
+    box-shadow:    -5px 0 #444444;
+    padding:       0px 20px;
+    color:         white;
+    display:       inline-block;
+    font:          normal bold 16px/1 "Komika", cursive;
+    text-align:    center;
+    text-shadow:   1px 1px #000000;
+}
+
+.button-fire{
+    background:    #00ffff;
+    border:        2px solid #556699;
+    border-radius: 20px;
+    box-shadow:    5px 0 #444444;
+    padding:       0px 20px;
+    color:         #ff9900;
+    display:       inline-block;
+    font:          normal bold 16px/1 "Komika", cursive;
+    text-align:    center;
+    text-shadow:   1px 1px #000000;
+}
+
+.button-fire:hover{
+    background:    #ff9900;
+    border:        2px solid #556699;
+    border-radius: 20px;
+    box-shadow:    5px 0 #444444;
+    padding:       0px 20px;
+    color:         white;
+    display:       inline-block;
+    font:          normal bold 16px/1 "Komika", cursive;
+    text-align:    center;
+    text-shadow:   1px 1px #000000;
 }

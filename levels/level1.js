@@ -18,7 +18,6 @@ const level1 = new Level(
         new Endboss(),
         new Endboss(),
         new Endboss(),
-        new BigEndboss(),
     ],
 
     [
@@ -28,6 +27,10 @@ const level1 = new Level(
     [
         new Coin(),
     ],
+
+    // [
+    //     new Plattformen(),
+    // ],
 
     [
         new BackgroundObject('img/debugger/5_background/1_first_layer/background_1.png',0, 0),

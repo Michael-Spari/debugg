@@ -17,20 +17,20 @@ class DrawableObjects {
     }
 
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects) {
+        if (this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects || this instanceof BigEndboss) {
             ctx.beginPath();
-            ctx.lineWidth = '0';
-            ctx.strokeStyle = '0';
+            ctx.lineWidth = '2';
+            ctx.strokeStyle = 'red';
             ctx.rect(this.x, this.y, this.width, this.height);
             ctx.stroke();
         }
     }
 
     drawOffsetFrame(ctx) {
-        if (this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects) {
+        if (this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects || this instanceof BigEndboss) {
             ctx.beginPath();
-            ctx.lineWidth = '0';
-            ctx.strokeStyle = '0';
+            ctx.lineWidth = '2';
+            ctx.strokeStyle = 'blue';
             ctx.rect(
                 this.x + this.offset.x,
                 this.y + this.offset.y,

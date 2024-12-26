@@ -2,7 +2,8 @@ class Bug extends MovableObjects {
     y = 305;
     x = 100;
     height = 125;
-    width = 125; 
+    width = 125;
+    speed = 0; 
     
     offset = {
         x: 30,
@@ -27,7 +28,7 @@ class Bug extends MovableObjects {
         this.loadImages(this.IMAGES_WALK);
         this.loadImages(this.IMAGES_DEATH);
         this.x = 200 + Math.random() * 7200; // Zufällige Position
-        this.speed = 0.1 + Math.random() * 0.3; // Zufällige Geschwindigkeit
+        this.speed = 0.05 + Math.random() * 0.07; // Zufällige Geschwindigkeit
         this.animate();
     }
 
@@ -42,7 +43,7 @@ class Bug extends MovableObjects {
             if (this.isDeath()) {
                 this.playAnimation(this.IMAGES_DEATH);
                 this.speed = 0; // Bewegung stoppen
-                if (this.y < 500) this.y += 0.2; // Gegner fällt zu Boden
+                if (this.y < 500) this.y += 0.1; // Gegner fällt zu Boden
             } else {
                 this.moveLeft();
                 this.playAnimation(this.IMAGES_WALK);

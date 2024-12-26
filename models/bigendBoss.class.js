@@ -3,12 +3,13 @@ class BigEndboss extends MovableObjects {
     height = 400;
     width = 400;
     energy = 500;
+    speed = 0.1; // Geschwindigkeit des Bosses
 
     offset = {
         x: 30,
         y: 60,
-        width: 60,
-        height: 60,
+        width: 260,
+        height: 260,
     }
 
     IMAGES_WALK = [
@@ -48,40 +49,86 @@ class BigEndboss extends MovableObjects {
         'img/debugger/4_enemies_boss_bug/dead/bossbugTot_1.png',
     ];
 
-    constructor () {
+    constructor(character) {
         super().loadImage(this.IMAGES_WALK[0]);
         this.loadImages(this.IMAGES_WALK);
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_ATACK);
         this.x = 3750;
-        this.speed = 0 + Math.random() * 0;
-        // this.speed = 0.1;
+        this.Character = character;
+        this.isAttacking = false;
+        this.originalWidth = this.width;
+        this.walkDirection = 'left'; // Richtung des Walk-Modus (links/rechts)
+        this.maxWalkDistance = 100; // Maximale Distanz, die der Boss vor/zurück geht
+        this.startingX = this.x; // Ursprüngliche X-Position speichern
         this.animate();
     }
 
     moveLeft() {
-        if (!this.isDeath()) { // Prüfe Eltern-Methode
+        if (!this.isDeath() && !this.isAttacking) {
             this.x -= this.speed;
-            // this.y = 0;
+        }
+    }
+
+    moveRight() {
+        if (!this.isDeath() && !this.isAttacking) {
+            this.x += this.speed;
         }
     }
 
     animate() {
+        // Bewegung und Animation
         setInterval(() => {
-            if (this.isDeath()) {
+            if (this.energy <= 0) {
                 this.playAnimation(this.IMAGES_DEATH);
                 this.speed = 0; // Bewegung stoppen
-                if (this.y < 500) this.y += 0.1; // Gegner fällt zu Boden
-            } else {
-                this.moveLeft();
+                if (this.y < 1000) this.y += 0.1; // Boss fällt zu Boden
+            } else if (!this.isAttacking) {
+                this.handleWalkMode();
                 this.playAnimation(this.IMAGES_WALK);
+            }
+        }, 1000 / 10);
+
+        // Angriff prüfen
+        setInterval(() => {
+            if (this.Character) {
+                const distance = Math.abs(this.Character.x - this.x);
+                if (distance <= 300 && this.energy > 0) {
+                    this.startAttackAnimation();
+                }
             }
         }, 1000 / 10);
     }
 
-    // animate() {
-    //     setInterval(() => {
-    //         this.playAnimation(this.IMAGES_WALK);
-    //     }, 1000 / 20);
-    // }
+    handleWalkMode() {
+        // Überprüfen, ob der Boss sich in die ursprüngliche Distanz bewegt hat
+        if (this.walkDirection === 'left' && this.x > this.startingX - this.maxWalkDistance) {
+            this.moveLeft();
+        } else if (this.walkDirection === 'left') {
+            this.walkDirection = 'right'; // Richtung wechseln
+        }
+
+        if (this.walkDirection === 'right' && this.x < this.startingX + this.maxWalkDistance) {
+            this.moveRight();
+        } else if (this.walkDirection === 'right') {
+            this.walkDirection = 'left'; // Richtung wechseln
+        }
+    }
+
+    startAttackAnimation() {
+        if (!this.isAttacking) {
+            this.isAttacking = true;
+            const widthIncrease = 200;
+            this.x -= widthIncrease / 0.8;
+            this.width += widthIncrease;
+
+            this.playAnimation(this.IMAGES_ATACK);
+
+            setTimeout(() => {
+                this.width = this.originalWidth;
+                this.x += widthIncrease / 0.8;
+                this.isAttacking = false;
+            }, 500);
+        }
+    }
 }

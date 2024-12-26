@@ -7,10 +7,10 @@ class Character extends MovableObjects {
 
     offset = {
         x: 26,
-        y: 20, 
+        y: -5, 
         width: 60,
-        height: 40,
-    }
+        height: 20,
+    } 
 
     IMAGES_WALK = [
         'img/debugger/2_character_michael/walk/w-21.png',
