@@ -28,18 +28,13 @@ class World {
     }
 
     run() {
-        const gameLoop = () => {
+        setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkHammerSmashBug();
-            this.checkAllEnemiesDead();
             this.checkBugisDeathandInsertCoin();
             this.characterCollectCoin(); // Coins einsammeln
-            setTimeout(() => {
-                requestAnimationFrame(gameLoop);
-            }, 100); // Verzögerung von 100ms hinzufügen, um das Spiel langsamer laufen zu lassen
-        };
-        gameLoop();
+        }, 200); // 60 FPS
     }
 
     characterCollectCoin() {
@@ -118,18 +113,6 @@ class World {
                 hammer.startFalling();
             }
         });
-    }
-
-    checkAllEnemiesDead() {
-        this.level.enemies.forEach(enemy => enemy.animate());
-        this.bigEndboss.animate();
-        // setTimeout(() => {
-        //     if (this.level.enemies.every(enemy => enemy.isDeath()) && this.bigEndboss.isDeath) {
-        //         console.log('Game over');
-        //         this.ctx.font = '48px serif';
-        //         this.ctx.fillText('Game over', 100, 100);
-        //     }
-        // }, 1000);
     }
 
     draw() {

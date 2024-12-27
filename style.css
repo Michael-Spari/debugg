@@ -1,21 +1,27 @@
-body{
+body {
     font-family: 'mpluscoad', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: black;
-    /* background-image: url('./img/debugger/hg/hg_start.png');
-    background-size: repeat;
+    background-image: url('./img/debugger/hg/hg_start.png');
+    background-size: cover;
     background-repeat: no-repeat;
-    background-position: center; */
+    background-position: center;
+    min-height: 100vh; /* Ensure the background covers the entire visible screen */
 }
 
-.mainFrame{
-    display:block;
+.mainFrame {
+    display: block;
     position: relative; 
-    width: 720px; 
-    height: 480px;
+    width: 100%; 
+    max-width: 720px;
+    height: 100%;
+    max-height: 480px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 2px rgba(10, 223, 2, 0.955);
 }
 
 canvas {
@@ -23,23 +29,23 @@ canvas {
     display: block;
     z-index: 1;
     position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 @media only screen and (max-width: 720px) {
-    canvas {
+    .mainFrame {
         width: 100%;
-    }
-    .mainFrame{
-        width: 100%;
+        height: auto;
+        aspect-ratio: 3 / 2;
     }
 }
 
 @media only screen and (max-height: 480px) {
-    canvas {
+    .mainFrame {
         height: 100vh;
-    }
-    .mainFrame{
-        height: 100vh;
+        width: auto;
+        aspect-ratio: 3 / 2;
     }
 }
 
@@ -47,7 +53,9 @@ h1 {
     color: white;
     font-size: 46px;
     font-family: 'mpluscoad', sans-serif;
+    text-shadow: 2px 2px 4px rgba(10, 223, 2, 0.955);
 }
+
 @font-face {
     font-family: 'mpluscoad';
     src: url('./fonts/mpluscoad.ttf');
@@ -63,135 +71,189 @@ h1 {
     flex-direction: column;
     justify-content: flex-end; /* PanelBottom an unteren Rand ausrichten */
     align-items: center;
-    /* background-color: rgba(0, 0, 0, 0.5); */
     z-index: 2;
 }
 
 #panelBottom {
     width: 100%;
+    max-width: 720px;
     height: 30px;
     display: flex;
     justify-content: space-between;
-    padding: 10px;
-    /* background: #00ffff;
-    border: 2px solid #556699; */
+    padding: 3px;
     border-radius: 10px;
+    background-color: rgba(10, 223, 2, 0.5);
 }
 
-#leftRightButtons{
+#startScreen {
+    display: flex;
+    background-image: url('./img/debugger/hg/debugger_main.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+}
+
+#startScreenLeft {
+    width: 32%;
+}
+
+#startScreenRight {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    /* text-align: center; */
+    color: white;
+    width: 68%;
+}
+
+.button-start {
+    cursor: pointer;
+    background: #00ffff;
+    border: 2px solid #556699;
+    border-radius: 20px;
+    box-shadow: -5px 0 #444444;
+    padding: 10px 20px;
+    color: #ff9900;
+    font: normal bold 16px/1 "Komika", cursive;
+    text-align: center;
+    text-shadow: 1px 1px #000000;
+}
+
+.button-start:hover {
+    cursor: pointer;
+    background: #ff9900;
+    border: 2px solid #556699;
+    border-radius: 20px;
+    box-shadow: -5px 0 #444444;
+    padding: 10px 20px;
+    color: white;
+    font: normal bold 16px/1 "Komika", cursive;
+    text-align: center;
+    text-shadow: 1px 1px #000000;
+}
+
+#leftRightButtons {
     display: flex;
     justify-content: flex-start;
-    width: 50%;
-    margin-left: 15px;
+    width: 20%;
+    height: 24px;
+    padding-left: 15px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background-color: rgba(10, 223, 2, 0.955);
+    border-radius: 5px;
 }
 
-#jumpFireButtons{
+#jumpFireButtons {
     display: flex;
     justify-content: flex-end;
-    width: 50%;
-    margin-right: 15px;
+    width: 25%;
+    height: 24px;
+    padding-right: 15px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background-color: rgba(10, 223, 2, 0.955);
+    border-radius: 5px;
 }
 
-.button-right{
-    background:    #00ffff;
-    border:        2px solid #556699;
+.button-right {
+    background: #00ffff;
+    border: 2px solid #556699;
     border-radius: 20px;
-    box-shadow:    5px 0 #444444;
-    padding:       0px 20px;
-    color:         #ffffff;
-    display:       inline-block;
-    font:          normal bold 16px/1 "Pagella", serif;
-    text-align:    center;
-    text-shadow:   1px 1px #000000;
+    box-shadow: 3px 0 #444444;
+    padding: 0px 20px;
+    color: #ffffff;
+    display: inline-block;
+    font: normal bold 16px/1 "Pagella", serif;
+    text-align: center;
+    text-shadow: 1px 1px #000000;
 }
 
-.button-right:hover{
-    background:    #ff9900;
-    border:        2px solid #556699;
+.button-right:hover {
+    background: #ff9900;
+    border: 2px solid #556699;
     border-radius: 20px;
-    box-shadow:    5px 0 #444444;
-    padding:       0px 20px;
-    color:         #ffffff;
-    display:       inline-block;
-    font:          normal bold 16px/1 "Pagella", serif;
-    text-align:    center;
-    text-shadow:   1px 1px #000000;
+    box-shadow: -1px 0 #444444;
+    padding: 0px 20px;
+    color: #ffffff;
+    font: normal bold 16px/1 "Pagella", serif;
+    text-align: center;
+    text-shadow: 1px 1px #000000;
 }
 
-.button-left{
-    background:    #00ffff;
-    border:        2px solid #556699;
+.button-left {
+    background: #00ffff;
+    border: 2px solid #556699;
     border-radius: 20px;
-    box-shadow:    -5px 0 #444444;
-    padding:       0px 20px;
-    color:         #ffffff;
-    display:       inline-block;
-    font:          normal bold 16px/1 "Pagella", serif;
-    text-align:    center;
-    text-shadow:   1px 1px #000000;
+    box-shadow: -3px 0 #444444;
+    padding: 0px 20px;
+    color: #ffffff;
+    font: normal bold 16px/1 "Pagella", serif;
+    text-align: center;
+    text-shadow: 1px 1px #000000;
 }
 
-.button-left:hover{
-    background:    #ff9900;
-    border:        2px solid #556699;
+.button-left:hover {
+    background: #ff9900;
+    border: 2px solid #556699;
     border-radius: 20px;
-    box-shadow:    -5px 0 #444444;
-    padding:       0px 20px;
-    color:         #ffffff;
-    display:       inline-block;
-    font:          normal bold 16px/1 "Pagella", serif;
-    text-align:    center;
-    text-shadow:   1px 1px #000000;
+    box-shadow: 1px 0 #444444;
+    padding: 0px 20px;
+    color: #ffffff;
+    font: normal bold 16px/1 "Pagella", serif;
+    text-align: center;
+    text-shadow: 1px 1px #000000;
 }
 
-.button-jump{
-    background:    #00ffff;
-    border:        2px solid #556699;
+.button-jump {
+    background: #00ffff;
+    border: 2px solid #556699;
     border-radius: 20px;
-    box-shadow:    -5px 0 #444444;
-    padding:       0px 20px;
-    color:         #ff9900;
-    display:       inline-block;
-    font:          normal bold 16px/1 "Komika", cursive;
-    text-align:    center;
-    text-shadow:   1px 1px #000000;
+    box-shadow: -3px 0 #444444;
+    padding: 0px 20px;
+    color: #ff9900;
+    font: normal bold 16px/1 "Komika", cursive;
+    text-align: center;
+    text-shadow: 1px 1px #000000;
 }
 
-.button-jump:hover{
-    background:    #ff9900;
-    border:        2px solid #556699;
+.button-jump:hover {
+    background: #ff9900;
+    border: 2px solid #556699;
     border-radius: 20px;
-    box-shadow:    -5px 0 #444444;
-    padding:       0px 20px;
-    color:         white;
-    display:       inline-block;
-    font:          normal bold 16px/1 "Komika", cursive;
-    text-align:    center;
-    text-shadow:   1px 1px #000000;
+    box-shadow: 1px 0 #444444;
+    padding: 0px 20px;
+    color: white;
+    font: normal bold 16px/1 "Komika", cursive;
+    text-align: center;
+    text-shadow: 1px 1px #000000;
 }
 
-.button-fire{
-    background:    #00ffff;
-    border:        2px solid #556699;
+.button-fire {
+    background: #00ffff;
+    border: 2px solid #556699;
     border-radius: 20px;
-    box-shadow:    5px 0 #444444;
-    padding:       0px 20px;
-    color:         #ff9900;
-    display:       inline-block;
-    font:          normal bold 16px/1 "Komika", cursive;
-    text-align:    center;
-    text-shadow:   1px 1px #000000;
+    box-shadow: 3px 0 #444444;
+    padding: 0px 20px;
+    color: #ff9900;
+    font: normal bold 16px/1 "Komika", cursive;
+    text-align: center;
+    text-shadow: 1px 1px #000000;
 }
 
-.button-fire:hover{
-    background:    #ff9900;
-    border:        2px solid #556699;
+.button-fire:hover {
+    background: #ff9900;
+    border: 2px solid #556699;
     border-radius: 20px;
-    box-shadow:    5px 0 #444444;
-    padding:       0px 20px;
-    color:         white;
-    display:       inline-block;
-    font:          normal bold 16px/1 "Komika", cursive;
-    text-align:    center;
-    text-shadow:   1px 1px #000000;
+    box-shadow: -1px 0 #444444;
+    padding: 0px 20px;
+    color: white;
+    font: normal bold 16px/1 "Komika", cursive;
+    text-align: center;
+    text-shadow: 1px 1px #000000;
 }

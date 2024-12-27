@@ -3,7 +3,7 @@ class BigEndboss extends MovableObjects {
     height = 400;
     width = 400;
     energy = 500;
-    speed = 0.1; // Geschwindigkeit des Bosses
+    speed = 3; // Geschwindigkeit des Bosses
 
     offset = {
         x: 30,
@@ -82,12 +82,12 @@ class BigEndboss extends MovableObjects {
             if (this.energy <= 0) {
                 this.playAnimation(this.IMAGES_DEATH);
                 this.speed = 0; // Bewegung stoppen
-                if (this.y < 1000) this.y += 0.1; // Boss fällt zu Boden
+                if (this.y < 500) this.y += 8; // Boss fällt zu Boden
             } else if (!this.isAttacking) {
                 this.handleWalkMode();
                 this.playAnimation(this.IMAGES_WALK);
             }
-        }, 1000 / 10);
+        }, 1000 / 25);
 
         // Angriff prüfen
         setInterval(() => {
@@ -97,7 +97,7 @@ class BigEndboss extends MovableObjects {
                     this.startAttackAnimation();
                 }
             }
-        }, 1000 / 10);
+        }, 1000 / 25);
     }
 
     handleWalkMode() {

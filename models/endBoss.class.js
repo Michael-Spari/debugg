@@ -3,7 +3,7 @@ class Endboss extends MovableObjects {
     height = 200;
     width = 200;
     energy = 200;
-    speed = 0; // Geschwindigkeit des Bosses
+    speed = 3; // Geschwindigkeit des Bosses
 
     offset = {
         x: 30,
@@ -74,7 +74,7 @@ class Endboss extends MovableObjects {
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_ATACK);
         this.x = 2200 + Math.random() * 7200;
-        this.speed = 0.01 + Math.random() * 0.07;
+        this.speed = 2.2 + Math.random() * 8;
         this.animate();
     }
 
@@ -89,7 +89,7 @@ class Endboss extends MovableObjects {
             if (this.isDeath()) {
                 this.playAnimation(this.IMAGES_DEATH);
                 this.speed = 0; // Bewegung stoppen
-                if (this.y < 500) this.y += 0.1; // Gegner fällt zu Boden
+                if (this.y < 500) this.y += 6; // Gegner fällt zu Boden
             } else {
                 this.moveLeft();
                 this.playAnimation(this.IMAGES_WALK);
