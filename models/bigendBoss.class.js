@@ -2,7 +2,7 @@ class BigEndboss extends MovableObjects {
     y = 35;
     height = 400;
     width = 400;
-    energy = 500;
+    energy = 1000;
     speed = 3; // Geschwindigkeit des Bosses
 
     offset = {
@@ -94,6 +94,7 @@ class BigEndboss extends MovableObjects {
             if (this.Character) {
                 const distance = Math.abs(this.Character.x - this.x);
                 if (distance <= 300 && this.energy > 0) {
+                    // this.showStatusBarEnemy();
                     this.startAttackAnimation();
                 }
             }

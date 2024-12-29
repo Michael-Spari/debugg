@@ -13,6 +13,7 @@
     <script src="./models/cloud.class.js"></script>
     <script src="./models/coin.class.js"></script>
     <script src="./models/status-bar.class.js"></script>
+    <script src="./models/status-bar_enemy.class.js"></script>
     <script src="./models/coins-counter.class.js"></script>
     <script src="./models/world.class.js"></script>
     <script src="./models/background_object.class.js"></script>
@@ -22,10 +23,11 @@
     <script src="./models/endBoss.class.js"></script>
     <script src="./models/bigendBoss.class.js"></script>
     <script src="./models/plattformen.class.js"></script>
+    <script src="./models/gameOver.class.js"></script>
+    <script src="./models/finish.class.js"></script>
     <script src="./levels/level1.js"></script>
     <script src="./js/game.js"></script>
 </head>
-<audio id="audio" src="./audio/background2.mp3" autoplay></audio>
 <body onload="init()">
     <!-- <h1>The Debugger</h1> -->
     <section class="mainFrame" id="fullscreen">
@@ -36,9 +38,9 @@
                 <div id="startScreenRight">  
                     <h1>The Debugger</h1>
                     <p>Press Start-Button to start the game</p>
-                    <button onclick="init(); document.getElementById('startScreen').style.display='none'; 
-                        document.getElementById('panelBottom').style.display='flex';" class="button-start">Start Game</button>
-                    <button onclick="fullScreen()" id="startButton" class="button-start">FullScreen</button>
+                    <button onclick="init(), playAudio(); document.getElementById('startScreen').style.display='none'; 
+                        document.getElementById('panelBottom').style.display='flex';" id="startButton" class="button-start">Start Game</button>
+                    <button onclick="fullScreen()" id="fullscreenButton" class="button-start">FullScreen</button>
                 </div> 
             </div>
             <div id="panelBottom">
@@ -46,8 +48,8 @@
                     <button id="leftButton" class="button-left">&larr;</button>
                     <button id="rightButton" class="button-right">&rarr;</button>
                 </div>
-                <button onclick="fullScreen()" class="button-jump">FullScreen</button>
-                <button onclick="exitFullscreen()" class="button-jump">FullScreen End</button>
+                <button onclick="fullScreen()" id="fullscreenButton" class="button-jump">FullScreen</button>
+                <button onclick="exitFullscreen()" id="fullscreenEndButton" class="button-jump">FullScreen End</button>
                 <div id="jumpFireButtons">
                     <button id="jumpButton" class="button-jump">Jump</button>
                     <button id="fireButton" class="button-fire">Fire</button>

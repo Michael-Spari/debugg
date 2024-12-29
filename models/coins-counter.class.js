@@ -10,7 +10,8 @@ class CoinsCounter extends DrawableObjects {
     }
 
     increment() {
-        this.coinCount++; // Zähler erhöhen
+        this.coinCount++;
+        console.log('CoinsCounter incremented to:', this.coinCount);
     }
 
     draw(ctx) {

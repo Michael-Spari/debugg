@@ -9,15 +9,21 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    gameOver = new GameOver();
+    finish;
     statusBar = new StatusBar();
+    statusBarEnemy = new StatusBarEnemy();
     plattform = new Plattform();
     coinsCounter = new CoinsCounter();
     throwableObjects = [];
+    lastThrowTime = 0;
+    throwCooldown = 500;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.finish = new Finish();
         this.draw();
         this.setWorld();
         this.run();
@@ -29,12 +35,44 @@ class World {
 
     run() {
         setInterval(() => {
+            this.characterCollectCoin(); // Coins einsammeln zuerst ausführen
             this.checkCollisions();
             this.checkThrowObjects();
+            // this.checkThrowObjectsMoveLeft();
             this.checkHammerSmashBug();
             this.checkBugisDeathandInsertCoin();
-            this.characterCollectCoin(); // Coins einsammeln
-        }, 200); // 60 FPS
+            this.showStatusBarEnemy();
+            this.showGameOver();
+            this.showFinish();
+        }, 1000 / 10); // 60 FPS
+    }
+
+    showGameOver() {
+        if (this.character.energy <= 0) { 
+        this.gameOver.x = 150; // Zurück in den sichtbaren Bereich
+        this.gameOver.y = 100;
+        }
+    }
+
+    showFinish() {
+        if (this.bigEndboss.energy <= 0) {
+            this.finish.x = 150; // Zurück in den sichtbaren Bereich
+            this.finish.y = 100;
+        }
+    }
+
+    showStatusBarEnemy() {
+        if (this.character.x >= 3100) {
+            this.statusBarEnemy.x = 555; // Zurück in den sichtbaren Bereich
+        }
+
+        if (this.character.x <= 3100) {
+            this.statusBarEnemy.x = -555; // Zurück in den unsichtbaren Bereich
+        }
+
+        if (this.bigEndboss.energy <= 0) {
+            this.statusBarEnemy.x = -555; // Zurück in den unsichtbaren Bereich   
+        }
     }
 
     characterCollectCoin() {
@@ -47,11 +85,23 @@ class World {
     }
 
     checkThrowObjects() {
-        if (this.keyboard.D) {
-            let hammer = new ThrowableObjects(this.character.x + 100, this.character.y + 100);
-            this.throwableObjects.push(hammer);
+        const currentTime = Date.now();
+        if (this.keyboard.D && currentTime - this.lastThrowTime >= this.throwCooldown) {
+            if (this.throwableObjects.length < 15) { // Begrenzung auf 15 Hämmer
+                let hammer = new ThrowableObjects(this.character.x + 100, this.character.y + 100);
+                this.throwableObjects.push(hammer);
+                this.lastThrowTime = currentTime;
+            }
         }
     }
+
+    // checkThrowObjectsMoveLeft() {
+    //     if (this.character.otherDirection) {
+    //         let hammer = new ThrowableObjects(this.character.x - 100, this.character.y + 100);
+    //         this.throwableObjects.push(hammer);
+    //         this.lastThrowTime = currentTime;
+    //     }
+    // }
 
     checkBugisDeathandInsertCoin() {
         this.level.enemies.forEach((enemy) => {
@@ -82,11 +132,11 @@ class World {
         });
     
         // Prüfe Kollision mit dem BigEndboss
-        if (this.character.isColliding(this.bigEndboss)) {
-            this.character.hit();
-            this.statusBar.setPercentage(this.character.energy);
+            if (this.character.isColliding(this.bigEndboss)) {
+                this.character.hit();
+                this.statusBar.setPercentage(this.character.energy);
+            }
         }
-    }
 
     checkHammerSmashBug() {
         this.throwableObjects.forEach((hammer) => {
@@ -102,6 +152,8 @@ class World {
             // Prüfe Kollision mit dem BigEndboss
             if (hammer.isColliding(this.bigEndboss)) {
                 this.bigEndboss.energy -= 100;
+                this.bigEndboss.hit();
+                this.statusBarEnemy.setPercentage(this.bigEndboss.energy);
                 console.log('BigEndboss hit! Remaining energy:', this.bigEndboss.energy);
     
                 // Prüfe, ob der Endboss stirbt
@@ -109,7 +161,6 @@ class World {
                     this.bigEndboss.speed = 0; // Bewegung stoppen
                     this.bigEndboss.isDeath = true; // Markiere ihn als tot
                 }
-    
                 hammer.startFalling();
             }
         });
@@ -125,8 +176,8 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
 
         this.addToMap(this.statusBar);
-        this.addToMap(this.coinsCounter);
-        
+        this.addToMap(this.statusBarEnemy);
+        this.addToMap(this.coinsCounter); 
 
         this.ctx.translate(this.camera_x, 0);
 
@@ -139,6 +190,8 @@ class World {
         this.addObjectsToMap(this.throwableObjects);
 
         this.ctx.translate(-this.camera_x, 0);
+        this.addToMap(this.gameOver);
+        this.addToMap(this.finish);
         
         let self = this;
         requestAnimationFrame(function() {
@@ -160,8 +213,8 @@ class World {
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-        // mo.drawFrame(this.ctx); // Rahmen um Objekt zeichnen
-        // mo.drawOffsetFrame(this.ctx) // Offset-Rahmen um Objekt zeichnen
+        mo.drawFrame(this.ctx); // Rahmen um Objekt zeichnen
+        mo.drawOffsetFrame(this.ctx) // Offset-Rahmen um Objekt zeichnen
     }
 
     flipImage(mo) {

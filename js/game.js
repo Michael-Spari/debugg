@@ -10,6 +10,11 @@ function init() {
   console.log('My character is', world.character);
 }
 
+function playAudio() {
+  let audio = new Audio('./audio/background2.mp3');
+  audio.play();
+}
+
 function fullScreen() {
   let fullscreen = document.getElementById('fullscreen');
   enterFullscreen(fullscreen);
@@ -68,6 +73,30 @@ function bindBtnEvents() {
 
   document.getElementById('fireButton').addEventListener('touchend', () => {
     keyboard.D = false;
+  });
+
+  document.getElementById('startButton').addEventListener('touchstart', () => {
+    init();
+  });
+
+  document.getElementById('startButton').addEventListener('touchend', () => {
+    init();
+  });
+
+  document.getElementById('fullscreenButton').addEventListener('touchstart', () => {
+    fullScreen();
+  });
+
+  document.getElementById('fullscreenButton').addEventListener('touchend', () => {
+    fullScreen();
+  });
+
+  document.getElementById('fullscreenEndButton').addEventListener('touchstart', () => {
+    exitFullscreen();
+  });
+
+  document.getElementById('fullscreenEndButton').addEventListener('touchend', () => {
+    exitFullscreen();
   });
 }
 
