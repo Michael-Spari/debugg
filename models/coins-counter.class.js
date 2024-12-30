@@ -1,23 +1,23 @@
 class CoinsCounter extends DrawableObjects {
-    static instance;
+    static instance; // Statische Instanz
 
     constructor() {
-        if (CoinsCounter.instance) {
-            return CoinsCounter.instance;
+        if (CoinsCounter.instance) { // Wenn es bereits eine Instanz gibt
+            return CoinsCounter.instance; // Diese zurückgeben
         }
         super();
         this.loadImage('img/debugger/9_coins/daCoins.png'); // Coin-Bild laden
         this.x = 15;
-        this.y = 50;
-        this.width = 50;
-        this.height = 50;
+        this.y = 40;
+        this.width = 40;
+        this.height = 40;
         this.coinCount = 0; // Anzahl der Münzen
         CoinsCounter.instance = this;
     }
 
     static getInstance() {
-        if (!CoinsCounter.instance) {
-            CoinsCounter.instance = new CoinsCounter();
+        if (!CoinsCounter.instance) { // Wenn es noch keine Instanz gibt
+            CoinsCounter.instance = new CoinsCounter(); // Neue Instanz erstellen
         }
         return CoinsCounter.instance;
     }

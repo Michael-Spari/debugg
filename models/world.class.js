@@ -14,8 +14,9 @@ class World {
     statusBar = new StatusBar();
     statusBarEnemy = new StatusBarEnemy();
     plattform = new Plattform();
-    coinsCounter = CoinsCounter.getInstance(); // Use a singleton pattern for CoinsCounter
-    throwableObjects = this.level.sprays;
+    coinsCounter = CoinsCounter.getInstance(); // nutzt die Singleton-Instanz
+    sprayCounter = SprayCounter.getInstance(); // nutzt die Singleton-Instanz
+    throwableObjects = this.level.sprays;; // Initialize as an empty array
     lastThrowTime = 0;
     throwCooldown = 800;
 
@@ -24,7 +25,8 @@ class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.finish = new Finish();
-        this.coinsCounter = CoinsCounter.getInstance(); // Ensure the same instance is used
+        this.coinsCounter = CoinsCounter.getInstance(); // steuert die Anzahl der Münzen
+        this.sprayCounter = SprayCounter.getInstance(); // steuert die Anzahl der Strahlen
         this.draw();
         this.setWorld();
         this.run();
@@ -87,15 +89,18 @@ class World {
     }
 
     checkThrowObjects() {
-        const currentTime = Date.now();
-        if (this.keyboard.D && currentTime - this.lastThrowTime >= this.throwCooldown) {
-            if (this.throwableObjects.length < 35) { // Begrenzung auf 5 Hämmer
-                let spray = new ThrowableObjects(this.character.x + 100, this.character.y + 100);
-                this.throwableObjects.push(spray); // Push new hammer into the array
-                this.lastThrowTime = currentTime;
-            }
+    const currentTime = Date.now();
+    if (this.keyboard.D && currentTime - this.lastThrowTime >= this.throwCooldown) {
+        if (this.sprayCounter.getCount() > 0) { // Prüfen, ob noch Sprays verfügbar sind
+            let spray = new Spray(this.character.x + 100, this.character.y + 100);
+            this.throwableObjects.push(spray); // Neues Spray dem Array hinzufügen
+            this.lastThrowTime = currentTime;
+
+            // Zähler um eins reduzieren
+            this.sprayCounter.decrement(); 
         }
     }
+}
 
     // checkThrowObjectsMoveLeft() {
     //     if (this.character.otherDirection) {
@@ -174,6 +179,7 @@ class World {
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarEnemy);
         this.addToMap(this.coinsCounter); 
+        this.addToMap(this.sprayCounter);
 
         this.ctx.translate(this.camera_x, 0);
 

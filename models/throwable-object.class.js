@@ -20,12 +20,12 @@ class ThrowableObjects extends MovableObjects {
         }, 25); // Geschwindigkeit des Hammers
     }
 
-    // throwLeft() {
-    //     this.throw = 5; // Geschwindigkeit in y-Richtung
-    //     setInterval(() => {
-    //         this.x -= 25; // Hammer wird nach links geworfen
-    //     }, 25); // Geschwindigkeit des Hammers
-    // }
+    throwLeft() {
+        this.throw = 5; // Geschwindigkeit in y-Richtung
+        setInterval(() => {
+            this.x -= 25; // Hammer wird nach links geworfen
+        }, 25); // Geschwindigkeit des Hammers
+    }
 
     // funktion die den Hammer beim treffen der Bugs fallen lässt    
     startFalling() {
