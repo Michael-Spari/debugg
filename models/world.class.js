@@ -14,16 +14,17 @@ class World {
     statusBar = new StatusBar();
     statusBarEnemy = new StatusBarEnemy();
     plattform = new Plattform();
-    coinsCounter = new CoinsCounter();
-    throwableObjects = [];
+    coinsCounter = CoinsCounter.getInstance(); // Use a singleton pattern for CoinsCounter
+    throwableObjects = this.level.sprays;
     lastThrowTime = 0;
-    throwCooldown = 500;
+    throwCooldown = 800;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.finish = new Finish();
+        this.coinsCounter = CoinsCounter.getInstance(); // Ensure the same instance is used
         this.draw();
         this.setWorld();
         this.run();
@@ -34,13 +35,13 @@ class World {
     }
 
     run() {
-        setInterval(() => {
-            this.characterCollectCoin(); // Coins einsammeln zuerst ausführen
+        setInterval(() => {           
             this.checkCollisions();
             this.checkThrowObjects();
             // this.checkThrowObjectsMoveLeft();
             this.checkHammerSmashBug();
             this.checkBugisDeathandInsertCoin();
+            this.characterCollectCoin(); // Coins einsammeln zuerst ausführen
             this.showStatusBarEnemy();
             this.showGameOver();
             this.showFinish();
@@ -80,6 +81,7 @@ class World {
             if (this.character.isColliding(coin)) {
                 this.level.coins.splice(index, 1); // Münze entfernen
                 this.coinsCounter.increment(); // Counter erhöhen
+                console.log('Coin collected, total:', this.coinsCounter.coinCount); // Log the coin count
             }
         });
     }
@@ -87,9 +89,9 @@ class World {
     checkThrowObjects() {
         const currentTime = Date.now();
         if (this.keyboard.D && currentTime - this.lastThrowTime >= this.throwCooldown) {
-            if (this.throwableObjects.length < 15) { // Begrenzung auf 15 Hämmer
-                let hammer = new ThrowableObjects(this.character.x + 100, this.character.y + 100);
-                this.throwableObjects.push(hammer);
+            if (this.throwableObjects.length < 35) { // Begrenzung auf 5 Hämmer
+                let spray = new ThrowableObjects(this.character.x + 100, this.character.y + 100);
+                this.throwableObjects.push(spray); // Push new hammer into the array
                 this.lastThrowTime = currentTime;
             }
         }
@@ -117,12 +119,6 @@ class World {
     }
 
     checkCollisions() {
-        // Prüfe Kollision mit Plattformen
-        // if (this.plattform.isColliding(this.character)) {
-        //     this.character.y = this.plattform.y - this.character.height; // Auf die Plattform setzen
-        //     this.character.speedY = 0; // Fallgeschwindigkeit stoppen
-        // }
-    
         // Prüfe Kollision mit Gegnern
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
@@ -139,18 +135,18 @@ class World {
         }
 
     checkHammerSmashBug() {
-        this.throwableObjects.forEach((hammer) => {
+        this.throwableObjects.forEach((spray) => {
             this.level.enemies.forEach((enemy) => {
-                if (hammer.isColliding(enemy)) {
+                if (spray.isColliding(enemy)) {
                     enemy.energy -= 100;
                     enemy.hit();
-                    hammer.startFalling();
+                    spray.startFalling();
                     console.log('Collision with Hammer', enemy.energy);
                 }
             });
     
             // Prüfe Kollision mit dem BigEndboss
-            if (hammer.isColliding(this.bigEndboss)) {
+            if (spray.isColliding(this.bigEndboss)) {
                 this.bigEndboss.energy -= 100;
                 this.bigEndboss.hit();
                 this.statusBarEnemy.setPercentage(this.bigEndboss.energy);
@@ -161,7 +157,7 @@ class World {
                     this.bigEndboss.speed = 0; // Bewegung stoppen
                     this.bigEndboss.isDeath = true; // Markiere ihn als tot
                 }
-                hammer.startFalling();
+                spray.startFalling();
             }
         });
     }
@@ -185,6 +181,7 @@ class World {
         this.addToMap(this.bigEndboss);
         this.addToMap(this.plattform);
         this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.sprays);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);

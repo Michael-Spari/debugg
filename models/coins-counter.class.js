@@ -1,5 +1,10 @@
 class CoinsCounter extends DrawableObjects {
+    static instance;
+
     constructor() {
+        if (CoinsCounter.instance) {
+            return CoinsCounter.instance;
+        }
         super();
         this.loadImage('img/debugger/9_coins/daCoins.png'); // Coin-Bild laden
         this.x = 15;
@@ -7,11 +12,19 @@ class CoinsCounter extends DrawableObjects {
         this.width = 50;
         this.height = 50;
         this.coinCount = 0; // Anzahl der Münzen
+        CoinsCounter.instance = this;
+    }
+
+    static getInstance() {
+        if (!CoinsCounter.instance) {
+            CoinsCounter.instance = new CoinsCounter();
+        }
+        return CoinsCounter.instance;
     }
 
     increment() {
         this.coinCount++;
-        console.log('CoinsCounter incremented to:', this.coinCount);
+        console.log('CoinsCounter incremented to:', this.coinCount); // Log the increment
     }
 
     draw(ctx) {
@@ -25,9 +38,6 @@ class CoinsCounter extends DrawableObjects {
         ctx.arcTo(this.x + 50, this.y + 10, this.x + 50 + 40, this.y + 10, 5); // Oben links
         ctx.closePath();
         ctx.fill();
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = 'red';
-        ctx.stroke();
         ctx.font = '14px mpluscoad';
         ctx.fillStyle = 'white';
         ctx.textAlign = 'right'; // Text rechts ausrichten

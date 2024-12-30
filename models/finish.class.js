@@ -2,57 +2,65 @@ class Finish extends DrawableObjects {
     constructor() {
         super();
         this.loadImage('img/debugger/11_finish/finish.png');
-        this.x = 1000;
-        this.y = 100;
-        this.width = 250;
-        this.height = 150;
-
-        // Initialisiere die Lauftext-Elemente
-        this.textContainer = document.createElement('div');
-        this.textContainer.style.zIndex = '1000';
-        this.textContainer.id = 'typewriter-container';
-        this.textContainer.style.position = 'absolute'; // Position absolute to the canvas
-        this.textContainer.style.left = `${this.x}px`;
-        this.textContainer.style.top = `${this.y + this.height}px`; // Position below the image
-        this.textContainer.style.width = '200px';
-        this.textContainer.style.height = '150px';
-        this.textContainer.style.backgroundColor = 'black';
-        this.textContainer.style.color = 'white';
-        this.textContainer.style.fontFamily = 'monospace';
-        this.textContainer.style.fontSize = '20px';
-        this.textContainer.style.padding = '10px';
-        this.textContainer.style.overflow = 'hidden';
-        this.textContainer.style.whiteSpace = 'pre-wrap'; // Allow text wrapping
-
-        // Append the text container to the canvas
-        const canvas = document.querySelector('canvas');
-        canvas.parentNode.insertBefore(this.textContainer, canvas.nextSibling);
+        this.x = 1000; // X-Ausrichtung des Bildes
+        this.y = 150; // Y-Ausrichtung des Bildes
+        this.width = 520; // Maximale Breite des Bildes
+        this.height = 200; // Maximale Höhe des Bildes
+        this.lineHeight = 20; // Zeilenhöhe für den Text
 
         this.text = "Herzlichen Glückwunsch! Du hast das Spiel abgeschlossen. Vielen Dank fürs Spielen!";
-        this.displayText = "";
-        this.typingIndex = 0;
-        this.textSpan = document.createElement('span');
-        this.textContainer.appendChild(this.textSpan);
+        this.displayText = ""; // Der aktuell angezeigte Text
+        this.typingIndex = 0; // Der Index des Buchstabens, der gerade getippt wird
+        this.typingInterval = null; // Interval für den Schreibmaschineneffekt
 
-        this.typewriterEffect();
+        this.startTypewriterEffect(); // Starte den Schreibmaschineneffekt
     }
 
-    typewriterEffect() {
-        const typingInterval = setInterval(() => {
+    startTypewriterEffect() {
+        this.typingInterval = setInterval(() => {
             if (this.typingIndex < this.text.length) {
-                this.displayText += this.text[this.typingIndex];
-                this.textSpan.textContent = this.displayText;
+                this.displayText += this.text[this.typingIndex]; // Buchstabe hinzufügen
                 this.typingIndex++;
             } else {
-                clearInterval(typingInterval);
+                clearInterval(this.typingInterval); // Schreibmaschineneffekt beenden
             }
         }, 100); // Geschwindigkeit des Tippens
     }
 
+    wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+        const words = text.split(" ");
+        let line = "";
+        let lines = [];
+
+        for (let n = 0; n < words.length; n++) {
+            const testLine = line + words[n] + " ";
+            const testWidth = ctx.measureText(testLine).width;
+
+            if (testWidth > maxWidth && n > 0) {
+                lines.push(line);
+                line = words[n] + " ";
+            } else {
+                line = testLine;
+            }
+        }
+        lines.push(line);
+
+        lines.forEach((line, index) => {
+            ctx.fillText(line, x, y + index * lineHeight);
+        });
+    }
+
     draw(ctx) {
         super.draw(ctx);
-        // Update the position of the text container to follow the image
-        this.textContainer.style.left = `${this.x}px`;
-        this.textContainer.style.top = `${this.y + this.height}px`;
+
+        // Text-Stil festlegen
+        ctx.font = '16px monospace'; // Schriftart und Größe
+        ctx.fillStyle = 'white'; // Textfarbe
+        ctx.textAlign = 'left'; // Text linksbündig
+        ctx.textBaseline = 'top'; // Text-Baseline
+
+        // Text mit Zeilenumbruch zeichnen
+        this.wrapText(ctx, this.displayText, this.x, this.y, this.width, this.lineHeight);
     }
 }
+

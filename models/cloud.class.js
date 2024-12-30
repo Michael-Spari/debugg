@@ -3,19 +3,33 @@ class Cloud extends MovableObjects {
     height = 150;
     width = 500;
 
+    IMAGES_FLY = [
+        'img/debugger/5_background/2_second_layer/fly_1.png',
+        'img/debugger/5_background/2_second_layer/fly_2.png',
+        'img/debugger/5_background/2_second_layer/fly_1.png',
+        'img/debugger/5_background/2_second_layer/fly_2.png',
+        'img/debugger/5_background/2_second_layer/fly_1.png',
+        'img/debugger/5_background/2_second_layer/fly_2.png',
+        'img/debugger/5_background/2_second_layer/fly_1.png',
+        'img/debugger/5_background/2_second_layer/fly_2.png',
+    ];
+        
+
     constructor() {
-        super().loadImage('img/5_background/layers/4_clouds/1.png');
-        this.x = Math.random() * 2000;
+        super().loadImage('img/debugger/5_background/2_second_layer/fly_1.png');
+        this.loadImages(this.IMAGES_FLY);
+        this.x = Math.random() * 5000;
         this.animate();
     }
 
     moveLeft() {
-        this.x -= 0.2;
+        this.x -= 1.2;
     }   
 
     animate() {
         setInterval(() => {
             this.moveLeft();
-        }, 1000 / 60);
+            this.playAnimation(this.IMAGES_FLY);
+        }, 1000 / 240);
     }
 }

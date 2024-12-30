@@ -22,16 +22,20 @@ const level1 = new Level(
 
     [
         new Cloud(),
+        new Cloud(),
+        new Cloud(),
+        new Cloud(),
+        new Cloud(),
     ],
 
     [
         new Coin(),
     ],
 
-    // [
-    //     new Plattformen(),
-    // ],
-
+    [
+        new Spray(),
+    ],
+   
     [
         new BackgroundObject('img/debugger/5_background/1_first_layer/background_1.png',0, 0),
         new BackgroundObject('img/debugger/5_background/1_first_layer/background_1.png',719, 0),
@@ -44,5 +48,9 @@ const level1 = new Level(
         new BackgroundObject('img/debugger/5_background/1_first_layer/background_keller_33.png',719*7, 0),
         new BackgroundObject('img/debugger/5_background/1_first_layer/background_keller_44.png',719*8, 0),
         new BackgroundObject('img/debugger/5_background/1_first_layer/background_keller_55.png',719*9, 0),
-    ]
+    ],
+
+    [
+        new Plattform(),
+    ],
  );

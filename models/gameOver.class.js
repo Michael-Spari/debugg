@@ -7,12 +7,4 @@ class GameOver extends DrawableObjects {
         this.width = 500;
         this.height = 300;
     }
-
-// draw(ctx) {
-//     super.draw(ctx);    
-//     ctx.fillStyle = 'black';
-//     ctx.font = '50px mpluscoad';  
-//     ctx.fillText('Game Over', this.x, this.y);
-//     ctx.fillText('Press F5 to restart', this.x, this.y + 50);
-//     }
 }
