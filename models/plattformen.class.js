@@ -1,4 +1,4 @@
-class Plattform extends DrawableObjects {
+class Plattform extends MovableObjects {
     constructor() {
         super();
         this.img = new Image();

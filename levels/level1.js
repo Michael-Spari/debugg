@@ -53,4 +53,8 @@ const level1 = new Level(
     [
         new Plattform(),
     ],
+
+    [
+        new Comando(),
+    ],
  );

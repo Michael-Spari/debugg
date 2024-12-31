@@ -14,9 +14,10 @@ class World {
     statusBar = new StatusBar();
     statusBarEnemy = new StatusBarEnemy();
     plattform = new Plattform();
+    comando = new Comando();
     coinsCounter = CoinsCounter.getInstance(); // nutzt die Singleton-Instanz
     sprayCounter = SprayCounter.getInstance(); // nutzt die Singleton-Instanz
-    throwableObjects = this.level.sprays;; // Initialize as an empty array
+    throwableObjects = this.level.sprays; // Initialize as an empty array
     lastThrowTime = 0;
     throwCooldown = 800;
 
@@ -40,7 +41,7 @@ class World {
         setInterval(() => {           
             this.checkCollisions();
             this.checkThrowObjects();
-            this.checkHammerSmashBug();
+            this.checkSpraySmashBug();
             this.checkBugisDeathandInsertCoin();
             this.characterCollectCoin(); // Coins einsammeln zuerst ausführen
             this.showStatusBarEnemy();
@@ -57,7 +58,7 @@ class World {
     }
 
     showFinish() {
-        if (this.bigEndboss.energy <= 0) {
+        if (this.comando.isColliding(this.character)) {
             this.finish.x = 150; // Zurück in den sichtbaren Bereich
             this.finish.y = 100;
         }
@@ -144,8 +145,7 @@ class World {
         }
     }
 
-
-    checkHammerSmashBug() {
+    checkSpraySmashBug() {
         this.throwableObjects.forEach((spray) => {
             this.level.enemies.forEach((enemy) => {
                 if (spray.isColliding(enemy)) {
@@ -188,7 +188,8 @@ class World {
         this.addToMap(this.sprayCounter);
 
         this.ctx.translate(this.camera_x, 0);
-
+        
+        this.addToMap(this.comando);
         this.addToMap(this.character);
         this.addToMap(this.bigEndboss);
         this.addToMap(this.plattform);
@@ -222,7 +223,7 @@ class World {
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-        mo.drawFrame(this.ctx); // Rahmen um Objekt zeichnen
+        // mo.drawFrame(this.ctx); // Rahmen um Objekt zeichnen
         mo.drawOffsetFrame(this.ctx) // Offset-Rahmen um Objekt zeichnen
     }
 

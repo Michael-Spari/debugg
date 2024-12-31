@@ -66,15 +66,6 @@ class Character extends MovableObjects {
         this.animate();
     }
 
-    isColliding(object) {
-        return (
-            this.x + this.width > object.x &&
-            this.x < object.x + object.width &&
-            this.y + this.height > object.y &&
-            this.y < object.y + object.height
-        );
-    }
-
     animate() {
 
         setInterval(() => {
