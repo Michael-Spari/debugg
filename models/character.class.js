@@ -4,6 +4,7 @@ class Character extends MovableObjects {
     x = 100;
     y = 100;
     speed = 2.3; 
+    throwLeft = false;
 
     offset = {
         x: 26,
@@ -74,14 +75,15 @@ class Character extends MovableObjects {
             // this.walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
+                this.throwLeft = false;
                 this.otherDirection = false;
                 this.walking_sound.play();
             }
 
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
+                this.throwLeft = true;
                 this.otherDirection = true;
-                // this.throwLeft();
                 this.walking_sound.play();
             }
 

@@ -40,7 +40,6 @@ class World {
         setInterval(() => {           
             this.checkCollisions();
             this.checkThrowObjects();
-            // this.checkThrowObjectsMoveLeft();
             this.checkHammerSmashBug();
             this.checkBugisDeathandInsertCoin();
             this.characterCollectCoin(); // Coins einsammeln zuerst ausführen
@@ -89,26 +88,28 @@ class World {
     }
 
     checkThrowObjects() {
-    const currentTime = Date.now();
-    if (this.keyboard.D && currentTime - this.lastThrowTime >= this.throwCooldown) {
-        if (this.sprayCounter.getCount() > 0) { // Prüfen, ob noch Sprays verfügbar sind
-            let spray = new Spray(this.character.x + 100, this.character.y + 100);
-            this.throwableObjects.push(spray); // Neues Spray dem Array hinzufügen
-            this.lastThrowTime = currentTime;
-
-            // Zähler um eins reduzieren
-            this.sprayCounter.decrement(); 
+        const currentTime = Date.now();
+    
+        if (this.keyboard.D && currentTime - this.lastThrowTime >= this.throwCooldown) {
+            if (this.sprayCounter.getCount() > 0) { // Prüfen, ob noch Sprays verfügbar sind
+                let spray;
+    
+                // Prüfen, ob der Charakter nach links oder rechts schaut
+                if (this.character.throwLeft) {
+                    spray = new Spray(this.character.x - 100, this.character.y + 100, 'left'); // Nach links werfen
+                } else {
+                    spray = new Spray(this.character.x + 100, this.character.y + 100, 'right'); // Nach rechts werfen
+                }
+    
+                this.throwableObjects.push(spray); // Neues Spray dem Array hinzufügen
+                this.lastThrowTime = currentTime;
+    
+                // Zähler um eins reduzieren
+                this.sprayCounter.decrement();
+            }
         }
-    }
+    
 }
-
-    // checkThrowObjectsMoveLeft() {
-    //     if (this.character.otherDirection) {
-    //         let hammer = new ThrowableObjects(this.character.x - 100, this.character.y + 100);
-    //         this.throwableObjects.push(hammer);
-    //         this.lastThrowTime = currentTime;
-    //     }
-    // }
 
     checkBugisDeathandInsertCoin() {
         this.level.enemies.forEach((enemy) => {
