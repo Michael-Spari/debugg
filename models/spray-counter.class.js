@@ -22,6 +22,10 @@ class SprayCounter extends DrawableObjects {
         return SprayCounter.instance;
     }
 
+    incrementBy(amount) {
+        this.sprayCount = Math.min(this.sprayCount + amount); // Maximalwert beachten
+    }
+
     decrement() {
         if (this.sprayCount > 0) {
             this.sprayCount--;

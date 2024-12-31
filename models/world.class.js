@@ -89,27 +89,18 @@ class World {
 
     checkThrowObjects() {
         const currentTime = Date.now();
-    
         if (this.keyboard.D && currentTime - this.lastThrowTime >= this.throwCooldown) {
-            if (this.sprayCounter.getCount() > 0) { // Prüfen, ob noch Sprays verfügbar sind
-                let spray;
-    
-                // Prüfen, ob der Charakter nach links oder rechts schaut
-                if (this.character.throwLeft) {
-                    spray = new Spray(this.character.x - 100, this.character.y + 100, 'left'); // Nach links werfen
-                } else {
-                    spray = new Spray(this.character.x + 100, this.character.y + 100, 'right'); // Nach rechts werfen
-                }
-    
+            if (this.sprayCounter.getCount() > 0) {
+                const direction = this.character.otherDirection ? 'left' : 'right'; // Bestimme die Richtung
+                let spray = new Spray(this.character.x + 25, this.character.y + 80, direction);
                 this.throwableObjects.push(spray); // Neues Spray dem Array hinzufügen
                 this.lastThrowTime = currentTime;
     
                 // Zähler um eins reduzieren
-                this.sprayCounter.decrement();
+                this.sprayCounter.decrement(); 
             }
         }
-    
-}
+    }
 
     checkBugisDeathandInsertCoin() {
         this.level.enemies.forEach((enemy) => {
@@ -138,7 +129,21 @@ class World {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy);
             }
+
+        // Prüfe Kollision mit Plattform
+            if (this.character.isColliding(this.plattform)) {
+            this.handlePlatformCollision();
         }
+    }
+
+    handlePlatformCollision() {
+        if (!this.plattform.collided) {
+            this.sprayCounter.incrementBy(50); // Anzahl der Sprays um 50 erhöhen
+            this.plattform.collided = true; // Plattform als "benutzt" markieren
+            console.log('Plattform betreten! Sprays erhöht:', this.sprayCounter.getCount());
+        }
+    }
+
 
     checkHammerSmashBug() {
         this.throwableObjects.forEach((spray) => {
