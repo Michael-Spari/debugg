@@ -3,6 +3,7 @@ class World {
     enemy = new Bug();
     cloud = new Cloud();
     coin = new Coin();
+    spray = new Spray();
     bigEndboss = new BigEndboss(this.character);
     level = level1;
     canvas;
@@ -38,7 +39,7 @@ class World {
     }
 
     run() {
-        setInterval(() => {           
+        this.runInterval = setInterval(() => {           
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkSpraySmashBug();
@@ -48,6 +49,12 @@ class World {
             this.showGameOver();
             this.showFinish();
         }, 1000 / 10); // 60 FPS
+    }
+
+    // Methode zum Beenden aller Intervalle
+    clearIntervals() {
+        clearInterval(this.runInterval);
+        // ...clear other intervals if any...
     }
 
     showGameOver() {

@@ -15,9 +15,28 @@ function playAudio() {
   audio.play();
 }
 
+let audio = new Audio('./audio/background2.mp3');
+
+function toggleAudio() {
+  if (audio.volume === 0) {
+    audio.volume = 1;
+  } else {
+    audio.volume = 0;
+  }
+}
+
 function fullScreen() {
   let fullscreen = document.getElementById('fullscreen');
   enterFullscreen(fullscreen);
+}
+
+function toggleHowToPlay() {
+  let howToPlay = document.getElementById('howToPlay');
+  if (howToPlay.style.display === 'none') {
+      howToPlay.style.display = 'flex';
+  } else {
+      howToPlay.style.display = 'none';
+  }
 }
 
 function enterFullscreen(element) {

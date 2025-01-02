@@ -56,6 +56,17 @@ h1 {
     text-shadow: 2px 2px 4px rgba(10, 223, 2, 0.955);
 }
 
+h2 {
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+p {
+    margin-block-start: 0;
+    margin-block-end: 0;
+    font-size: 14px;
+}
+
 @font-face {
     font-family: 'mpluscoad';
     src: url('./fonts/mpluscoad.ttf');
@@ -104,11 +115,20 @@ h1 {
 #startScreenRight {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
     /* text-align: center; */
     color: white;
     width: 68%;
+}
+
+.howtoplay {
+    margin-left: 15px;
+    color: white;
+    width: 80%;
+    height: 100%;
+    z-index: 3;
+    border: #00ffff 2px solid;
 }
 
 .button-start {
@@ -169,7 +189,7 @@ h1 {
     padding: 0px 20px;
     color: #ffffff;
     display: inline-block;
-    font: normal bold 16px/1 "Pagella", serif;
+    font: normal bold 16px/1 "Komika", cursive;
     text-align: center;
     text-shadow: 1px 1px #000000;
 }
@@ -181,7 +201,7 @@ h1 {
     box-shadow: -1px 0 #444444;
     padding: 0px 20px;
     color: #ffffff;
-    font: normal bold 16px/1 "Pagella", serif;
+    font: normal bold 16px/1 "Komika", cursive;
     text-align: center;
     text-shadow: 1px 1px #000000;
 }
@@ -193,7 +213,7 @@ h1 {
     box-shadow: -3px 0 #444444;
     padding: 0px 20px;
     color: #ffffff;
-    font: normal bold 16px/1 "Pagella", serif;
+    font: normal bold 16px/1 "Komika", cursive;
     text-align: center;
     text-shadow: 1px 1px #000000;
 }
@@ -205,7 +225,7 @@ h1 {
     box-shadow: 1px 0 #444444;
     padding: 0px 20px;
     color: #ffffff;
-    font: normal bold 16px/1 "Pagella", serif;
+    font: normal bold 16px/1 "Komika", cursive;
     text-align: center;
     text-shadow: 1px 1px #000000;
 }

@@ -9,4 +9,4 @@ class Comando extends MovableObjects {
         this.height = 180;
         this.collided = false; // Status, ob bereits betreten
     }
-}
+} 

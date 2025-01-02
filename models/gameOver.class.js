@@ -3,7 +3,7 @@ class GameOver extends DrawableObjects {
         super();
         this.loadImage('img/debugger/10_game_over/game_over.png');
         this.x = -1000;
-        this.y = 100;
+        this.y = 80;
         this.width = 500;
         this.height = 300;
     }

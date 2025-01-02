@@ -13,7 +13,7 @@ class Spray extends ThrowableObjects {
         this.applyGravity(); // Schwerkraft anwenden (falls benötigt)
 
         // Bewegung basierend auf der Geschwindigkeit
-        setInterval(() => {
+        this.throwInterval = setInterval(() => {
             this.x += this.speedX;
         }, 25);
     }
@@ -26,14 +26,21 @@ class Spray extends ThrowableObjects {
 
     // Anpassung der Schwerkraft, wenn das Objekt fällt
     applyGravityHammer(targetHit) {
-        setInterval(() => {
+        this.gravityInterval = setInterval(() => {
             if (this.y < targetHit) {
                 this.y += this.speedy; // Position nach unten bewegend
                 this.speedy += this.acceleration; // Beschleunigung anwenden
             } else {
                 this.y = targetHit; // Zielposition erreichen
                 this.isFalling = false; // Fallmodus deaktivieren
+                clearInterval(this.gravityInterval); // Interval beenden
             }
         }, 1000 / 60);
+    }
+
+    // Methode zum Beenden aller Intervalle
+    clearIntervals() {
+        clearInterval(this.throwInterval);
+        clearInterval(this.gravityInterval);
     }
 }
