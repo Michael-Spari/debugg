@@ -6,6 +6,7 @@
     <title>Michael the Debugger</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./css/responsive.css">
     <script src="./models/drawable-object.class.js"></script>
     <script src="./models/movable_objects.class.js"></script>
     <script src="./models/character.class.js"></script>
@@ -32,6 +33,7 @@
     <script src="./js/game.js"></script>
 </head>
 <body onload="init()">
+    <div class="rotate-message">Du musst dein Handy drehen</div>
     <!-- <h1>The Debugger</h1> -->
     <section class="mainFrame" id="fullscreen">
         <canvas id="canvas" width="720" height="480"></canvas>
@@ -40,12 +42,18 @@
                 <div id="startScreenLeft"></div>
                 <div id="startScreenRight">  
                     <h1>The Debugger</h1>
-                    <p>Press Start-Button to start the game</p>
-                    <button onclick="init(), playAudio(); document.getElementById('startScreen').style.display='none'; 
+                    <!-- <p>Press Start-Button to start the game</p> -->
+                    <button onclick="init(); document.getElementById('startScreen').style.display='none'; 
                         document.getElementById('panelBottom').style.display='flex';" id="startButton" class="button-start">Start Game</button>
                     <button onclick="toggleHowToPlay()" class="button-start">How to Play</button>
-                    <!-- <button onclick="stopAudio()" id="audioButton" class="button-start">Audio</button> -->
+                    <button onclick="toggleMission()" class="button-start">Mission</button>
                     <button onclick="fullScreen()" id="fullscreenButton" class="button-start">FullScreen</button>
+                    <div id="mission" class="mission" style="display: none;">
+                        <div><h2>Mission</h2> <p>Michael the Debugger is a game where you have to help Michael to defeat the bugs. 
+                            Collect coins and spray cans to defeat the enemies.
+                            The game is over when you have no more lives left. Good luck!</p>
+                        </div>
+                    </div>
                     <div id="howToPlay" class="howtoplay" style="display: none;">
                         <div><h2>How to Play</h2> <p>Use the left and right buttons to move the character. 
                             Jump with the jump button and shoot with the fire button. 
@@ -62,7 +70,7 @@
                 </div>
                 <button onclick="fullScreen()" id="fullscreenButton" class="button-jump">FS</button>
                 <button onclick="exitFullscreen()" id="fullscreenEndButton" class="button-jump">FSE</button>
-                <button onclick="toggleAudio()" id="audioButton" class="button-start">Audio</button>
+                <button onclick="togglePlayPauseAudio()" id="audioButton" class="button-jump">Audio</button>
                 <div id="jumpFireButtons">
                     <button id="jumpButton" class="button-jump">J</button>
                     <button id="fireButton" class="button-fire">F</button>

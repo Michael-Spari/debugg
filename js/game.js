@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let audio = new Audio('./audio/background2.mp3');
 
 function init() {
   canvas = document.getElementById('canvas');
@@ -10,18 +11,11 @@ function init() {
   console.log('My character is', world.character);
 }
 
-function playAudio() {
-  let audio = new Audio('./audio/background2.mp3');
-  audio.play();
-}
-
-let audio = new Audio('./audio/background2.mp3');
-
-function toggleAudio() {
-  if (audio.volume === 0) {
-    audio.volume = 1;
+function togglePlayPauseAudio() {
+  if (audio.paused) {
+    audio.play();
   } else {
-    audio.volume = 0;
+    audio.pause();
   }
 }
 
@@ -32,10 +26,23 @@ function fullScreen() {
 
 function toggleHowToPlay() {
   let howToPlay = document.getElementById('howToPlay');
+  let mission = document.getElementById('mission');
   if (howToPlay.style.display === 'none') {
-      howToPlay.style.display = 'flex';
+    howToPlay.style.display = 'flex';
+    mission.style.display = 'none';
   } else {
-      howToPlay.style.display = 'none';
+    howToPlay.style.display = 'none';
+  }
+}
+
+function toggleMission() {
+  let mission = document.getElementById('mission');
+  let howToPlay = document.getElementById('howToPlay');
+  if (mission.style.display === 'none') {
+    mission.style.display = 'flex';
+    howToPlay.style.display = 'none';
+  } else {
+    mission.style.display = 'none';
   }
 }
 
