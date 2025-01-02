@@ -18,7 +18,7 @@ class World {
     comando = new Comando();
     coinsCounter = CoinsCounter.getInstance(); // nutzt die Singleton-Instanz
     sprayCounter = SprayCounter.getInstance(); // nutzt die Singleton-Instanz
-    throwableObjects = this.level.sprays; // Initialize as an empty array
+    throwableObjects = []; // Initialize as an empty array
     lastThrowTime = 0;
     throwCooldown = 800;
 
@@ -29,6 +29,8 @@ class World {
         this.finish = new Finish();
         this.coinsCounter = CoinsCounter.getInstance(); // steuert die Anzahl der Münzen
         this.sprayCounter = SprayCounter.getInstance(); // steuert die Anzahl der Strahlen
+        this.buttonVisibility = this.gameOver.buttonVisibility.bind(this.gameOver); // Bind the method to the gameOver object
+        this.startTypewriterEffect = this.finish.startTypewriterEffect.bind(this.finish); // Bind the method to the finish object
         this.draw();
         this.setWorld();
         this.run();
@@ -59,15 +61,18 @@ class World {
 
     showGameOver() {
         if (this.character.energy <= 0) { 
-        this.gameOver.x = 150; // Zurück in den sichtbaren Bereich
-        this.gameOver.y = 100;
+        this.buttonVisibility();
+        this.gameOver.x = 100; // Zurück in den sichtbaren Bereich
+        this.gameOver.y = 80;
         }
     }
 
     showFinish() {
         if (this.comando.isColliding(this.character)) {
-            this.finish.x = 150; // Zurück in den sichtbaren Bereich
-            this.finish.y = 100;
+            this.startTypewriterEffect();
+            this.buttonVisibility();
+            this.finish.x = 60; // Zurück in den sichtbaren Bereich
+            this.finish.y = 60;
         }
     }
 
@@ -231,7 +236,7 @@ class World {
             this.flipImageBack(mo);
         }
         // mo.drawFrame(this.ctx); // Rahmen um Objekt zeichnen
-        mo.drawOffsetFrame(this.ctx) // Offset-Rahmen um Objekt zeichnen
+        // mo.drawOffsetFrame(this.ctx) // Offset-Rahmen um Objekt zeichnen
     }
 
     flipImage(mo) {

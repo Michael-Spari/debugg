@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Michael the Debugger</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href=".img/debugger/9_coins/daCoins.png">
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <script src="./models/drawable-object.class.js"></script>
@@ -39,16 +39,7 @@
         <canvas id="canvas" width="720" height="480"></canvas>
         <div id="overlay">
             <div id="startScreen">
-                <div id="startScreenLeft"></div>
-                <div id="startScreenRight">  
-                    <h1>The Debugger</h1>
-                    <!-- <p>Press Start-Button to start the game</p> -->
-                    <button onclick="init(); document.getElementById('startScreen').style.display='none'; 
-                        document.getElementById('panelBottom').style.display='flex';" id="startButton" class="button-start">Start Game</button>
-                    <button onclick="toggleHowToPlay()" class="button-start">How to Play</button>
-                    <button onclick="toggleMission()" class="button-start">Mission</button>
-                    <button onclick="fullScreen()" id="fullscreenButton" class="button-start">FullScreen</button>
-                    <div id="mission" class="mission" style="display: none;">
+                <div id="startScreenLeft"><div id="mission" class="mission" style="display: none;">
                         <div><h2>Mission</h2> <p>Michael the Debugger is a game where you have to help Michael to defeat the bugs. 
                             Collect coins and spray cans to defeat the enemies.
                             The game is over when you have no more lives left. Good luck!</p>
@@ -60,7 +51,16 @@
                             Collect coins and spray cans to defeat the enemies. 
                             The game is over when you have no more lives left. Good luck!</p>
                         </div>
-                    </div>
+                    </div></div>
+                <div id="startScreenRight">  
+                    <h1>The Debugger</h1>
+                    <!-- <p>Press Start-Button to start the game</p> -->
+                    <button onclick="initGame(); document.getElementById('startScreen').style.display='none'; 
+                        document.getElementById('panelBottom').style.display='flex';" id="startButton" class="button-start">Start Game</button>
+                    <button onclick="toggleHowToPlay()" class="button-start">How to Play</button>
+                    <button onclick="toggleMission()" class="button-start">Mission</button>
+                    <button onclick="fullScreen()" id="fullscreenButton" class="button-start">FullScreen</button>
+                    
                 </div> 
             </div>
             <div id="panelBottom">

@@ -14,6 +14,21 @@ function initUI() {
   showMobileControls();
 }
 
+window.onload = () => {
+  initUI();
+  initGame();
+  showMobileControls();
+};
+
+window.addEventListener('resize', () => {
+  showMobileControls();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOMContentLoaded fired.');
+  showMobileControls();
+});
+
 function showMobileControls() {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
                    || window.innerWidth <= 700; // Prüfen auf kleinere Bildschirmgrößen
@@ -34,22 +49,6 @@ function showMobileControls() {
     // document.getElementById('jumpFireButtons').style.display = 'none';
   }
 }
-
-// Lade-Event
-window.onload = () => {
-  initUI();
-  initGame();
-  showMobileControls();
-};
-
-window.addEventListener('resize', () => {
-  showMobileControls();
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOMContentLoaded fired.');
-  showMobileControls();
-});
 
 function fullScreen() {
   let fullscreen = document.getElementById('fullscreen');
