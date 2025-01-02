@@ -3,12 +3,57 @@ let world;
 let keyboard = new Keyboard();
 let audio = new Audio('./audio/background2.mp3');
 
-function init() {
+function initGame() {
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard);
-  bindBtnEvents();
+  console.log('Game initialized with character:', world.character);
+}
 
-  console.log('My character is', world.character);
+function initUI() {
+  bindBtnEvents();
+  showMobileControls();
+}
+
+function showMobileControls() {
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+                   || window.innerWidth <= 700; // Prüfen auf kleinere Bildschirmgrößen
+  if (isMobile) {
+    document.getElementById('leftButton').style.display = 'block';
+    document.getElementById('rightButton').style.display = 'block';
+    document.getElementById('jumpButton').style.display = 'block';
+    document.getElementById('fireButton').style.display = 'block';
+    // document.getElementById('leftRightButtons').style.display = 'flex';
+    // document.getElementById('jumpFireButtons').style.display = 'flex';
+  } 
+  else {
+    document.getElementById('leftButton').style.display = 'none';
+    document.getElementById('rightButton').style.display = 'none';
+    document.getElementById('jumpButton').style.display = 'none';
+    document.getElementById('fireButton').style.display = 'none';
+    // document.getElementById('leftRightButtons').style.display = 'none';
+    // document.getElementById('jumpFireButtons').style.display = 'none';
+  }
+}
+
+// Lade-Event
+window.onload = () => {
+  initUI();
+  initGame();
+  showMobileControls();
+};
+
+window.addEventListener('resize', () => {
+  showMobileControls();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOMContentLoaded fired.');
+  showMobileControls();
+});
+
+function fullScreen() {
+  let fullscreen = document.getElementById('fullscreen');
+  enterFullscreen(fullscreen);
 }
 
 function togglePlayPauseAudio() {
@@ -17,11 +62,6 @@ function togglePlayPauseAudio() {
   } else {
     audio.pause();
   }
-}
-
-function fullScreen() {
-  let fullscreen = document.getElementById('fullscreen');
-  enterFullscreen(fullscreen);
 }
 
 function toggleHowToPlay() {

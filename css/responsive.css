@@ -1,4 +1,4 @@
-@media screen and (max-width: 1080px) {
+@media screen and (max-width: 720px) {
     .rotate-message {
         display: block;
         position: fixed;
@@ -14,8 +14,12 @@
     }
 }
 
-@media screen and (min-width: 1081px) {
+@media screen and (min-width: 620px) {
     .rotate-message {
         display: none;
     }
 }
+
+#leftButton, #rightButton, #jumpButton, #fireButton {
+    display: none;
+  }
