@@ -86,17 +86,6 @@ p {
     z-index: 2;
 }
 
-#panelBottom {
-    width: 100%;
-    max-width: 720px;
-    height: 30px;
-    display: flex;
-    justify-content: space-between;
-    padding: 3px;
-    border-radius: 10px;
-    background-color: rgba(10, 223, 2, 0.5);
-}
-
 #startScreen {
     display: flex;
     background-image: url('./img/debugger/hg/debugger_main.png');
@@ -180,123 +169,132 @@ p {
     text-shadow: 1px 1px #000000;
 }
 
+#panelBottom {
+    width: 100%;
+    max-width: 720px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
 #leftRightButtons {
     display: flex;
-    justify-content: flex-start;
-    width: 20%;
-    height: 24px;
+    justify-content: flex-end;
+    align-items: center;
+    width: 25%;
     padding-left: 15px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    background-color: rgba(10, 223, 2, 0.955);
-    border-radius: 5px;
+    padding-right: 15px;
+}
+
+#settingsButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 #jumpFireButtons {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    align-items: center;
     width: 25%;
-    height: 24px;
     padding-right: 15px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    background-color: rgba(10, 223, 2, 0.955);
-    border-radius: 5px;
+    padding-left: 15px;
 }
 
 .button-right {
-    background: #00ffff;
-    border: 2px solid #556699;
-    border-radius: 20px;
-    box-shadow: 3px 0 #444444;
-    padding: 0px 20px;
-    color: #ffffff;
-    display: inline-block;
-    font: normal bold 16px/1 "Komika", cursive;
-    text-align: center;
-    text-shadow: 1px 1px #000000;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 30px;
+    width: 60px;
+    height: 50px;
+}
+
+.button-right img {
+    width: 60px;
+    height: 50px;
 }
 
 .button-right:hover {
     background: #ff9900;
-    border: 2px solid #556699;
-    border-radius: 20px;
-    box-shadow: -1px 0 #444444;
-    padding: 0px 20px;
-    color: #ffffff;
-    font: normal bold 16px/1 "Komika", cursive;
-    text-align: center;
-    text-shadow: 1px 1px #000000;
 }
 
 .button-left {
-    background: #00ffff;
-    border: 2px solid #556699;
-    border-radius: 20px;
-    box-shadow: -3px 0 #444444;
-    padding: 0px 20px;
-    color: #ffffff;
-    font: normal bold 16px/1 "Komika", cursive;
-    text-align: center;
-    text-shadow: 1px 1px #000000;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 30px;
+    width: 60px;
+    height: 50px;
+}
+
+.button-left img {
+    width: 60px;
+    height: 50px;
 }
 
 .button-left:hover {
     background: #ff9900;
-    border: 2px solid #556699;
-    border-radius: 20px;
-    box-shadow: 1px 0 #444444;
-    padding: 0px 20px;
-    color: #ffffff;
-    font: normal bold 16px/1 "Komika", cursive;
-    text-align: center;
-    text-shadow: 1px 1px #000000;
 }
 
 .button-jump {
-    background: #00ffff;
-    border: 2px solid #556699;
-    border-radius: 20px;
-    box-shadow: -3px 0 #444444;
-    padding: 0px 20px;
-    color: #ff9900;
-    font: normal bold 16px/1 "Komika", cursive;
-    text-align: center;
-    text-shadow: 1px 1px #000000;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 30px;
+    width: 60px;
+    height: 50px;
 }
+
+.button-jump img {
+    width: 60px;
+    height: 50px;
+} 
 
 .button-jump:hover {
     background: #ff9900;
-    border: 2px solid #556699;
-    border-radius: 20px;
-    box-shadow: 1px 0 #444444;
-    padding: 0px 20px;
-    color: white;
-    font: normal bold 16px/1 "Komika", cursive;
-    text-align: center;
-    text-shadow: 1px 1px #000000;
 }
 
 .button-fire {
-    background: #00ffff;
-    border: 2px solid #556699;
-    border-radius: 20px;
-    box-shadow: 3px 0 #444444;
-    padding: 0px 20px;
-    color: #ff9900;
-    font: normal bold 16px/1 "Komika", cursive;
-    text-align: center;
-    text-shadow: 1px 1px #000000;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 30px;
+    width: 60px;
+    height: 50px;
+}
+
+.button-fire img {
+    width: 60px;
+    height: 50px;
 }
 
 .button-fire:hover {
     background: #ff9900;
-    border: 2px solid #556699;
-    border-radius: 20px;
-    box-shadow: -1px 0 #444444;
-    padding: 0px 20px;
-    color: white;
-    font: normal bold 16px/1 "Komika", cursive;
-    text-align: center;
-    text-shadow: 1px 1px #000000;
+}
+
+.button-settings {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 30px;
+    width: 50px;
+    height: 40px;
+}
+
+.button-settings img {
+    width: 50px;
+    height: 40px;
+} 
+
+.button-settings:hover {
+    background: #ff9900;
 }

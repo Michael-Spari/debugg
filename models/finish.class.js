@@ -91,8 +91,8 @@ class Finish extends DrawableObjects {
             iconImage,
             this.x + this.padding, // Position: Abstand links
             this.y + this.height - this.padding - 50, // Position: Abstand unten
-            50, // Breite
-            50 // Höhe
+            60, // Breite
+            60 // Höhe
         );
     }
 }
