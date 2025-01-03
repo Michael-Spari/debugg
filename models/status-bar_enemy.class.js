@@ -14,7 +14,7 @@ class StatusBarEnemy extends DrawableObjects {
         'img/debugger/statusbar/enemy_health/e100.png',
     ];
 
-    percentage = 1000;
+    percentage = 100;
 
     constructor() {
         super();
@@ -23,9 +23,8 @@ class StatusBarEnemy extends DrawableObjects {
         this.y = 0;
         this.width = 150;
         this.height = 40;
-        this.setPercentage(1000);
+        this.setPercentage(100);
     }
-    // setPercentage(50)
     setPercentage(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES[this.resolveImage()];
@@ -33,23 +32,23 @@ class StatusBarEnemy extends DrawableObjects {
     }
 
     resolveImage() {
-        if (this.percentage == 1000) {
+        if (this.percentage == 100) {
             return 9;
-        } else if (this.percentage >= 900) {
+        } else if (this.percentage >= 90) {
             return 8;
-        } else if (this.percentage >= 800) {
+        } else if (this.percentage >= 80) {
             return 7;
-        } else if (this.percentage >= 700) {
+        } else if (this.percentage >= 70) {
             return 6;
-        } else if (this.percentage >= 600) {
+        } else if (this.percentage >= 60) {
             return 5;
-        } else if (this.percentage >= 500) {
+        } else if (this.percentage >= 50) {
             return 4;
-        } else if (this.percentage >= 400) {
+        } else if (this.percentage >= 40) {
             return 3;
-        } else if (this.percentage >= 300) {
+        } else if (this.percentage >= 30) {
             return 2;
-        } else if (this.percentage >= 200) {
+        } else if (this.percentage >= 20) {
             return 1;
         } else {
             return 0;

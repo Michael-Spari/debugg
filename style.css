@@ -68,6 +68,11 @@ p {
     font-size: 12px;
 }
 
+p img {
+    width: 15px;
+    height: 15px;
+}
+
 @font-face {
     font-family: 'mpluscoad';
     src: url('./fonts/mpluscoad.ttf');
@@ -99,7 +104,17 @@ p {
 }
 
 #startScreenLeft {
-    width: 32%;
+    width: 40%;
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+#startScreenLeft::-webkit-scrollbar {
+    width: 5px; /* Set the width of the scrollbar */
+}
+
+#startScreenLeft::-webkit-scrollbar-thumb {
+    background-color: #0adf02; /* Set the color of the scrollbar thumb */
+    border-radius: 10px; /* Optional: round the corners of the scrollbar thumb */
 }
 
 #startScreenRight {
@@ -114,59 +129,58 @@ p {
 }
 
 .howtoplay {
-    margin-left: 20px;
+    margin-left: 10px;
     margin-bottom: 20px;
     margin-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 15px;
     color: white;
-    width: 90%;
-    height: 90%;
+    width: 85%;
+    height: 100%;
     z-index: 3;
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 10px;
+    overflow-y: auto;
+    overflow-x: hidden; /* Disable horizontal scrolling */
 }
 
 .mission {
-    margin-left: 20px;
+    margin-left: 10px;
     margin-bottom: 20px;
     margin-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 15px;
     color: white;
-    width: 90%;
-    height: 90%;
+    width: 85%;
+    height: 100%;
     z-index: 3;
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 10px;
+    overflow-y: auto;
+    overflow-x: hidden; /* Disable horizontal scrolling */
 }
 
 .button-start {
     cursor: pointer;
-    background: #00ffff;
-    border: 2px solid #556699;
-    border-radius: 20px;
-    box-shadow: -5px 0 #444444;
-    padding: 10px 20px;
-    color: #ff9900;
-    font: normal bold 16px/1 "Komika", cursive;
-    text-align: center;
-    text-shadow: 1px 1px #000000;
+    width: 200px;
+    height: 50px;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
 }
 
 .button-start:hover {
     cursor: pointer;
     background: #ff9900;
-    border: 2px solid #556699;
-    border-radius: 20px;
-    box-shadow: -5px 0 #444444;
-    padding: 10px 20px;
-    color: white;
-    font: normal bold 16px/1 "Komika", cursive;
-    text-align: center;
-    text-shadow: 1px 1px #000000;
+    border-radius: 15px;
+}
+
+.button-start img {
+    width: 200px;
+    height: 50px;
 }
 
 #panelBottom {

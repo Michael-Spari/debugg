@@ -6,7 +6,6 @@ let audio = new Audio('./audio/background2.mp3');
 function initGame() {
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard);
-  console.log('Game initialized with character:', world.character);
 }
 
 function initUI() {
@@ -85,25 +84,26 @@ function toggleMission() {
   }
 }
 
-function enterFullscreen(element) {
-  if (element.requestFullscreen) {
-    element.requestFullscreen();
-  } else if (element.mozRequestFullScreen) {
-    element.mozRequestFullScreen();
-  } else if (element.webkitRequestFullscreen) {
-    element.webkitRequestFullscreen();
-  } else if (element.msRequestFullscreen) {
-    element.msRequestFullscreen();
+function enterFullscreen(document) {
+  if (document.requestFullscreen) {
+    document.requestFullscreen();
+  } else if (document.mozRequestFullScreen) {
+    document.mozRequestFullScreen();
+  } else if (document.webkitRequestFullscreen) {
+    document.webkitRequestFullscreen();
+  } else if (document.msRequestFullscreen) {
+    document.msRequestFullscreen();
   }
 }
 
 function exitFullscreen() {
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
+  if (document.exitFullscreen) {    
   } else if (document.mozCancelFullScreen) {
     document.mozCancelFullScreen();
   } else if (document.webkitExitFullscreen) {
     document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
   }
 }
 

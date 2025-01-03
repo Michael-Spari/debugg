@@ -2,8 +2,9 @@ class Endboss extends MovableObjects {
     y = 230;
     height = 200;
     width = 200;
-    energy = 200;
+    energy = 50;
     speed = 3; // Geschwindigkeit des Bosses
+    death_sound = new Audio('./audio/bugs_sprayed.mp4');
 
     offset = {
         x: 30,
@@ -73,7 +74,7 @@ class Endboss extends MovableObjects {
         this.loadImages(this.IMAGES_WALK);
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_ATACK);
-        this.x = 2200 + Math.random() * 7200;
+        this.x = 3200 + Math.random() * 7200;
         this.speed = 2.2 + Math.random() * 8;
         this.animate();
     }
@@ -85,17 +86,28 @@ class Endboss extends MovableObjects {
     }
 
     animate() {
-        setInterval(() => {
+        const intervalId = setInterval(() => {
             if (this.isDeath()) {
+                if (!this.death_sound_played) {
+                    this.death_sound.play();
+                    this.death_sound_played = true;
+                }
                 this.playAnimation(this.IMAGES_DEATH);
                 this.speed = 0; // Bewegung stoppen
                 if (this.y < 500) this.y += 6; // Gegner fällt zu Boden
+                else clearInterval(intervalId); // Stop the interval when the bug is on the ground
             } else {
                 this.moveLeft();
                 this.playAnimation(this.IMAGES_WALK);
             }
+
+            // Stop the interval if the bug is out of the canvas
+            if (this.x + this.width <= 0) {
+                clearInterval(intervalId);
+            }
         }, 1000 / 15);
     }
+
 
     // animate() {
     //     setInterval(() => {

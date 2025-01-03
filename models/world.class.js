@@ -21,6 +21,8 @@ class World {
     throwableObjects = []; // Initialize as an empty array
     lastThrowTime = 0;
     throwCooldown = 800;
+    SPRAY_SOUND = new Audio('./audio/spray.mp4');
+    BIGBUGISHIT_SOUND = new Audio('./audio/bigbughit.mp3');
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -53,16 +55,14 @@ class World {
         }, 1000 / 10); // 60 FPS
     }
 
-    // Methode zum Beenden aller Intervalle
     clearIntervals() {
         clearInterval(this.runInterval);
-        // ...clear other intervals if any...
     }
 
     showGameOver() {
         if (this.character.energy <= 0) { 
         this.buttonVisibility();
-        this.gameOver.x = 100; // Zurück in den sichtbaren Bereich
+        this.gameOver.x = 80; // Zurück in den sichtbaren Bereich
         this.gameOver.y = 80;
         }
     }
@@ -71,6 +71,7 @@ class World {
         if (this.comando.isColliding(this.character)) {
             this.startTypewriterEffect();
             this.buttonVisibility();
+            this.character.speed = 0; // Bewegung stoppen
             this.finish.x = 60; // Zurück in den sichtbaren Bereich
             this.finish.y = 60;
         }
@@ -103,6 +104,7 @@ class World {
     checkThrowObjects() {
         const currentTime = Date.now();
         if (this.keyboard.D && currentTime - this.lastThrowTime >= this.throwCooldown) {
+            this.SPRAY_SOUND.play(); // Sound abspielen
             if (this.sprayCounter.getCount() > 0) {
                 const direction = this.character.otherDirection ? 'left' : 'right'; // Bestimme die Richtung
                 let spray = new Spray(this.character.x + 25, this.character.y + 80, direction);
@@ -134,13 +136,21 @@ class World {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy);
+                console.log('Character hit Bug! Remaining energy:', this.character.energy);
             }
         });
     
         // Prüfe Kollision mit dem BigEndboss
             if (this.character.isColliding(this.bigEndboss)) {
+                if (!this.bigEndboss.hitSoundPlayed) {
+                    this.BIGBUGISHIT_SOUND.play(); // Sound abspielen
+                    this.bigEndboss.hitSoundPlayed = true; // Markiere den Sound als abgespielt
+                    console.log('BigEndboss hit sound played!');
+                }
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy);
+            } else {
+                this.bigEndboss.hitSoundPlayed = false; // Reset the flag when not colliding
             }
 
         // Prüfe Kollision mit Plattform
@@ -151,8 +161,9 @@ class World {
 
     handlePlatformCollision() {
         if (!this.plattform.collided) {
-            this.sprayCounter.incrementBy(50); // Anzahl der Sprays um 50 erhöhen
             this.plattform.collided = true; // Plattform als "benutzt" markieren
+            this.plattform.img.src = 'img/debugger/plattforms/plattform-1.png'; // Bild ändern
+            this.sprayCounter.incrementBy(50); // Anzahl der Sprays um 50 erhöhen
             console.log('Plattform betreten! Sprays erhöht:', this.sprayCounter.getCount());
         }
     }
@@ -161,8 +172,9 @@ class World {
         this.throwableObjects.forEach((spray) => {
             this.level.enemies.forEach((enemy) => {
                 if (spray.isColliding(enemy)) {
-                    enemy.energy -= 100;
+                    
                     enemy.hit();
+                    enemy.energy -= 10;
                     spray.startFalling();
                     console.log('Collision with Hammer', enemy.energy);
                 }
@@ -170,8 +182,9 @@ class World {
     
             // Prüfe Kollision mit dem BigEndboss
             if (spray.isColliding(this.bigEndboss)) {
-                this.bigEndboss.energy -= 100;
+                
                 this.bigEndboss.hit();
+                this.bigEndboss.energy -= 10;
                 this.statusBarEnemy.setPercentage(this.bigEndboss.energy);
                 console.log('BigEndboss hit! Remaining energy:', this.bigEndboss.energy);
     

@@ -46,7 +46,7 @@ class MovableObjects extends DrawableObjects {
         } else {
             this.lastHit = new Date().getTime();
         }
-        console.log('energy:', this.energy); // Debug-Ausgabe
+        console.log('energy Bugs:', this.energy); // energie von character
     }
 
     isHurt() {

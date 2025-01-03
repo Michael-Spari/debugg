@@ -4,6 +4,8 @@ class Bug extends MovableObjects {
     height = 125;
     width = 125;
     speed = 3; 
+    energy = 1;
+    death_sound = new Audio('./audio/splash.mp3');
     
     offset = {
         x: 30,
@@ -41,6 +43,10 @@ class Bug extends MovableObjects {
     animate() {
         setInterval(() => {
             if (this.isDeath()) {
+                if (!this.death_sound_played) {
+                    this.death_sound.play();
+                    this.death_sound_played = true;
+                }
                 this.playAnimation(this.IMAGES_DEATH);
                 this.speed = 0; // Bewegung stoppen
                 if (this.y < 500) this.y += 4; // Gegner fällt zu Boden

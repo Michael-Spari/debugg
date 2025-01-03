@@ -2,7 +2,7 @@ class BigEndboss extends MovableObjects {
     y = 35;
     height = 400;
     width = 400;
-    energy = 1000;
+    energy = 100;
     speed = 3; // Geschwindigkeit des Bosses
 
     offset = {
