@@ -66,6 +66,17 @@ class Character extends MovableObjects {
         this.animate();
     }
 
+    hit() {
+        if (!this.isHurt()) {
+            this.energy -= 5; // Beispiel: Energie um 5 reduzieren
+            if (this.energy < 0) {
+                this.energy = 0; // Verhindere negative Energie
+            }
+            this.lastHit = new Date().getTime(); // Zeitpunkt des Treffers aktualisieren
+            console.log('Character energy:', this.energy);
+        }
+    }
+
     animate() {
 
         setInterval(() => {

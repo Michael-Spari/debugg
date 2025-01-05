@@ -1,4 +1,4 @@
-class BigEndboss extends MovableObjects {
+class DeathFly extends MovableObjects {
     y = 35;
     height = 400;
     width = 400;
@@ -7,46 +7,20 @@ class BigEndboss extends MovableObjects {
 
     offset = {
         x: 30,
-        y: 60,
+        y: 100,
         width: 260,
         height: 260,
     }
 
     IMAGES_WALK = [
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_3.png', //hoerner zeigen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_4.png', //zähne zeigen
-        'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_1.png', //augen guen
-        'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_3.png', //hoerner zeigen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_1.png', //augen guen
-        'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_4.png', //zähne zeigen
-        'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_3.png', //hoerner zeigen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_2.png', //augen rot
-        'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_1.png', //augen guen
-        'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_3.png', //hoerner zeigen
-        'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_4.png', //zähne zeigen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
-        'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png', //laufen
+        'img/debugger/8_death_fly/walking/death_fly_1.png', //laufen
+        'img/debugger/8_death_fly/walking/death_fly_2.png', //laufen
     ];
     IMAGES_ATACK = [
-        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
-        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
-        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
-        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
-        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
-        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
-        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
-        'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
+        'img/debugger/8_death_fly/walking/death_fly_1.png', //angriff
     ];
     IMAGES_DEATH = [
-        'img/debugger/4_enemies_boss_bug/dead/bossbugTot_1.png',
+        'img/debugger/8_death_fly/walking/death_fly_1.png', //tod
     ];
 
     constructor(character) {
@@ -54,7 +28,7 @@ class BigEndboss extends MovableObjects {
         this.loadImages(this.IMAGES_WALK);
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_ATACK);
-        this.x = 3750;
+        this.x = 750;
         this.Character = character;
         this.isAttacking = false;
         this.originalWidth = this.width;

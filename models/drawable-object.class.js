@@ -16,18 +16,18 @@ class DrawableObjects {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
-    // drawFrame(ctx) {
-    //     if (this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects || this instanceof BigEndboss || this instanceof Coin) {
-    //         ctx.beginPath();
-    //         ctx.lineWidth = '2';
-    //         ctx.strokeStyle = 'red';
-    //         ctx.rect(this.x, this.y, this.width, this.height);
-    //         ctx.stroke();
-    //     }
-    // }
+    drawFrame(ctx) {
+        if (this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects || this instanceof BigEndboss || this instanceof Coin || this instanceof DeathFly) {
+            ctx.beginPath();
+            ctx.lineWidth = '2';
+            ctx.strokeStyle = 'red';
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
+    }
 
     drawOffsetFrame(ctx) {
-        if (this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects || this instanceof BigEndboss || this instanceof Coin) {
+        if (this instanceof Character || this instanceof Bug || this instanceof Endboss || this instanceof ThrowableObjects || this instanceof BigEndboss || this instanceof Coin || this instanceof Cloud || this instanceof DeathFly || this instanceof Plattform || this instanceof Comando) {
             ctx.beginPath();
             ctx.lineWidth = '2';
             ctx.strokeStyle = 'blue';

@@ -34,6 +34,16 @@ class Bug extends MovableObjects {
         this.animate();
     }
 
+    hit() {
+        this.energy -= 100; // Bug verliert 10 Energie
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+        console.log('Bug energy:', this.energy);
+    }
+
     moveLeft() {
         if (!this.isDeath()) { // Prüfe Eltern-Methode
             this.x -= this.speed;

@@ -5,6 +5,7 @@ class World {
     coin = new Coin();
     spray = new Spray();
     bigEndboss = new BigEndboss(this.character);
+    deathFly = new DeathFly(this.character);
     level = level1;
     canvas;
     ctx;
@@ -43,10 +44,12 @@ class World {
     }
 
     run() {
-        this.runInterval = setInterval(() => {           
-            this.checkCollisions();
+        this.runInterval = setInterval(() => {
+            this.checkCollisionDeathFly();
+            this.checkCollisionsPlatform();
             this.checkThrowObjects();
             this.checkSpraySmashBug();
+            this.checkSpraySmashEndBoss();
             this.checkBugisDeathandInsertCoin();
             this.characterCollectCoin(); // Coins einsammeln zuerst ausführen
             this.showStatusBarEnemy();
@@ -60,10 +63,10 @@ class World {
     }
 
     showGameOver() {
-        if (this.character.energy <= 0) { 
-        this.buttonVisibility();
-        this.gameOver.x = 80; // Zurück in den sichtbaren Bereich
-        this.gameOver.y = 80;
+        if (this.character.energy <= 0) {
+            this.buttonVisibility();
+            this.gameOver.x = 80; // Zurück in den sichtbaren Bereich
+            this.gameOver.y = 80;
         }
     }
 
@@ -87,7 +90,7 @@ class World {
         }
 
         if (this.bigEndboss.energy <= 0) {
-            this.statusBarEnemy.x = -555; // Zurück in den unsichtbaren Bereich   
+            this.statusBarEnemy.x = -555; // Zurück in den unsichtbaren Bereich
         }
     }
 
@@ -110,9 +113,9 @@ class World {
                 let spray = new Spray(this.character.x + 25, this.character.y + 80, direction);
                 this.throwableObjects.push(spray); // Neues Spray dem Array hinzufügen
                 this.lastThrowTime = currentTime;
-    
+
                 // Zähler um eins reduzieren
-                this.sprayCounter.decrement(); 
+                this.sprayCounter.decrement();
             }
         }
     }
@@ -130,31 +133,16 @@ class World {
         });
     }
 
-    checkCollisions() {
-        // Prüfe Kollision mit Gegnern
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                this.character.hit();
-                this.statusBar.setPercentage(this.character.energy);
-                console.log('Character hit Bug! Remaining energy:', this.character.energy);
-            }
-        });
-    
-        // Prüfe Kollision mit dem BigEndboss
-            if (this.character.isColliding(this.bigEndboss)) {
-                if (!this.bigEndboss.hitSoundPlayed) {
-                    this.BIGBUGISHIT_SOUND.play(); // Sound abspielen
-                    this.bigEndboss.hitSoundPlayed = true; // Markiere den Sound als abgespielt
-                    console.log('BigEndboss hit sound played!');
-                }
-                this.character.hit();
-                this.statusBar.setPercentage(this.character.energy);
-            } else {
-                this.bigEndboss.hitSoundPlayed = false; // Reset the flag when not colliding
-            }
+    checkCollisionDeathFly() { // Prüfe Kollision mit DeathFly
+        if (this.character.isColliding(this.deathFly)) {
+            this.character.hit();
+            this.statusBar.setPercentage(this.character.energy);
+            console.log('Character hit DeathFly! Remaining energy:', this.character.energy);
+        }
+    }
 
-        // Prüfe Kollision mit Plattform
-            if (this.character.isColliding(this.plattform)) {
+    checkCollisionsPlatform() {
+        if (this.character.isColliding(this.plattform)) {
             this.handlePlatformCollision();
         }
     }
@@ -169,31 +157,45 @@ class World {
     }
 
     checkSpraySmashBug() {
+        // Prüfe Kollision mit Sprays für normale Feinde
         this.throwableObjects.forEach((spray) => {
             this.level.enemies.forEach((enemy) => {
                 if (spray.isColliding(enemy)) {
-                    
                     enemy.hit();
                     enemy.energy -= 10;
                     spray.startFalling();
                     console.log('Collision with Hammer', enemy.energy);
                 }
             });
-    
+        });
+    }
+
+    checkSpraySmashEndBoss() {
+        this.throwableObjects.forEach((spray) => {
             // Prüfe Kollision mit dem BigEndboss
             if (spray.isColliding(this.bigEndboss)) {
-                
-                this.bigEndboss.hit();
-                this.bigEndboss.energy -= 10;
-                this.statusBarEnemy.setPercentage(this.bigEndboss.energy);
-                console.log('BigEndboss hit! Remaining energy:', this.bigEndboss.energy);
+                if (!this.bigEndboss.isHurt()) { // Vermeide mehrfachen Treffer
+                    this.bigEndboss.hit();
+                    this.bigEndboss.energy -= 10;
+                    this.statusBarEnemy.setPercentage(this.bigEndboss.energy);
+                    console.log('BigEndboss hit! Remaining energy:', this.bigEndboss.energy);
     
-                // Prüfe, ob der Endboss stirbt
-                if (this.bigEndboss.energy <= 0) {
-                    this.bigEndboss.speed = 0; // Bewegung stoppen
-                    this.bigEndboss.isDeath = true; // Markiere ihn als tot
+                    // Spiele den Sound aus checkCollisionBigEndBoss ab
+                    if (!this.bigEndboss.hitSoundPlayed) {
+                        this.BIGBUGISHIT_SOUND.play();
+                        this.bigEndboss.hitSoundPlayed = true;
+                        console.log('BigEndboss hit sound played!');
+                    }
+    
+                    if (this.bigEndboss.energy <= 0) {
+                        this.bigEndboss.speed = 0;
+                        this.bigEndboss.isDeath = true;
+                    }
+                    spray.startFalling();
                 }
-                spray.startFalling();
+            } else {
+                // Reset the flag when not colliding
+                this.bigEndboss.hitSoundPlayed = false;
             }
         });
     }
@@ -209,14 +211,15 @@ class World {
 
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarEnemy);
-        this.addToMap(this.coinsCounter); 
+        this.addToMap(this.coinsCounter);
         this.addToMap(this.sprayCounter);
 
         this.ctx.translate(this.camera_x, 0);
-        
+
         this.addToMap(this.comando);
         this.addToMap(this.character);
         this.addToMap(this.bigEndboss);
+        this.addToMap(this.deathFly);
         this.addToMap(this.plattform);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.sprays);
@@ -227,7 +230,7 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.gameOver);
         this.addToMap(this.finish);
-        
+
         let self = this;
         requestAnimationFrame(function() {
             self.draw();
@@ -248,8 +251,8 @@ class World {
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-        // mo.drawFrame(this.ctx); // Rahmen um Objekt zeichnen
-        // mo.drawOffsetFrame(this.ctx) // Offset-Rahmen um Objekt zeichnen
+        mo.drawFrame(this.ctx); // Rahmen um Objekt zeichnen
+        mo.drawOffsetFrame(this.ctx) // Offset-Rahmen um Objekt zeichnen
     }
 
     flipImage(mo) {

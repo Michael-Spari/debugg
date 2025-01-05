@@ -2,7 +2,7 @@ class Endboss extends MovableObjects {
     y = 230;
     height = 200;
     width = 200;
-    energy = 50;
+    energy = 200;
     speed = 3; // Geschwindigkeit des Bosses
     death_sound = new Audio('./audio/bugs_sprayed.mp4');
 
@@ -83,6 +83,16 @@ class Endboss extends MovableObjects {
         if (!this.isDeath()) { // Prüfe Eltern-Methode
             this.x -= this.speed;
         }
+    }
+
+    hit() {
+        this.energy -= 50; // Bug verliert 10 Energie
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+        console.log('Bug energy:', this.energy);
     }
 
     animate() {
