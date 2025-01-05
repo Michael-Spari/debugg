@@ -12,9 +12,12 @@ class GameOver extends DrawableObjects {
 
     createRestartButton() {
         const button = document.createElement('button');
-        button.classList.add('button-jump');
+        // button.classList.add('button-jump');
         button.innerText = 'Restart';
         button.style.position = 'absolute';
+        button.style.backgroundColor = 'red';
+        button.style.borderRadius = '15px';
+        button.style.color = 'white';
         button.style.left = '50%';
         button.style.transform = 'translateX(-50%)';
         button.style.top = `${this.y + this.height + 20}px`;

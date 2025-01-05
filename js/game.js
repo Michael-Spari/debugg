@@ -6,15 +6,11 @@ let audio = new Audio('./audio/background2.mp3');
 function initGame() {
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard);
-}
-
-function initUI() {
   bindBtnEvents();
   showMobileControls();
 }
 
 window.onload = () => {
-  initUI();
   initGame();
   showMobileControls();
 };
@@ -141,11 +137,11 @@ function bindBtnEvents() {
   });
 
   document.getElementById('startButton').addEventListener('touchstart', () => {
-    init();
+    initGame();
   });
 
   document.getElementById('startButton').addEventListener('touchend', () => {
-    init();
+    initGame();
   });
 
   document.getElementById('fullscreenButton').addEventListener('touchstart', () => {

@@ -295,8 +295,8 @@ class World {
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-        mo.drawFrame(this.ctx); // Rahmen um Objekt zeichnen
-        mo.drawOffsetFrame(this.ctx) // Offset-Rahmen um Objekt zeichnen
+        // mo.drawFrame(this.ctx); // Rahmen um Objekt zeichnen
+        // mo.drawOffsetFrame(this.ctx) // Offset-Rahmen um Objekt zeichnen
     }
 
     flipImage(mo) {
