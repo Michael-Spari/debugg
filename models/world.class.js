@@ -15,6 +15,7 @@ class World {
     finish;
     statusBar = new StatusBar();
     statusBarEnemy = new StatusBarEnemy();
+    statusBarDeathFly = new StatusBarDeathFly();
     plattform = new Plattform();
     comando = new Comando();
     coinsCounter = CoinsCounter.getInstance(); // nutzt die Singleton-Instanz
@@ -45,14 +46,18 @@ class World {
 
     run() {
         this.runInterval = setInterval(() => {
+            this.checkCollisionBugs();
+            this.checkCollisionBigEndBoss();
             this.checkCollisionDeathFly();
-            this.checkCollisionsPlatform();
+            this.checkCollisionsPlattform();
             this.checkThrowObjects();
             this.checkSpraySmashBug();
             this.checkSpraySmashEndBoss();
+            this.checkSpraySmashDeathFly();
             this.checkBugisDeathandInsertCoin();
             this.characterCollectCoin(); // Coins einsammeln zuerst ausführen
             this.showStatusBarEnemy();
+            this.showStatusBarDeathFly();
             this.showGameOver();
             this.showFinish();
         }, 1000 / 10); // 60 FPS
@@ -81,7 +86,7 @@ class World {
     }
 
     showStatusBarEnemy() {
-        if (this.character.x >= 3100) {
+        if (this.character.x >= 3100) { // Wenn der Character den Endboss erreicht
             this.statusBarEnemy.x = 555; // Zurück in den sichtbaren Bereich
         }
 
@@ -91,6 +96,20 @@ class World {
 
         if (this.bigEndboss.energy <= 0) {
             this.statusBarEnemy.x = -555; // Zurück in den unsichtbaren Bereich
+        }
+    }
+
+    showStatusBarDeathFly() {
+        if (this.character.x >= 5100) { // Wenn der Character DeathFly erreicht
+            this.statusBarDeathFly.x = 555; // Zurück in den sichtbaren Bereich
+        }
+
+        if (this.character.x <= 5100) { // Wenn der Character DeathFly verlässt
+            this.statusBarDeathFly.x = -555; // Zurück in den unsichtbaren Bereich
+        }
+
+        if (this.deathFly.energy <= 0) { // Wenn DeathFly tot ist
+            this.statusBarDeathFly.x = -555; // Zurück in den unsichtbaren Bereich
         }
     }
 
@@ -113,8 +132,6 @@ class World {
                 let spray = new Spray(this.character.x + 25, this.character.y + 80, direction);
                 this.throwableObjects.push(spray); // Neues Spray dem Array hinzufügen
                 this.lastThrowTime = currentTime;
-
-                // Zähler um eins reduzieren
                 this.sprayCounter.decrement();
             }
         }
@@ -133,26 +150,41 @@ class World {
         });
     }
 
-    checkCollisionDeathFly() { // Prüfe Kollision mit DeathFly
-        if (this.character.isColliding(this.deathFly)) {
+    checkCollisionBugs() {
+        this.level.enemies.forEach((enemy) => {
+        if (this.character.isColliding(enemy)) {
             this.character.hit();
             this.statusBar.setPercentage(this.character.energy);
+            console.log('Character hit enemy! Remaining energy:', this.character.energy);
+        }
+        });
+    }
+
+    checkCollisionBigEndBoss() {
+        if (this.character.isColliding(this.bigEndboss) && !this.character.isHurt) {
+            this.character.hit();
+            this.character.isHurt = true; // Set isHurt to true to prevent multiple hits
+            this.statusBar.setPercentage(this.character.energy);
+            console.log('Character hit BigEndboss! Remaining energy:', this.character.energy);
+            
+            // Reset isHurt after a short delay to allow future collisions
+            setTimeout(() => {
+                this.character.isHurt = false;
+            }, 1000); // Adjust the delay as needed
+        }
+    }
+    
+    checkCollisionDeathFly() { // Prüfe Kollision mit DeathFly
+        if (this.character.isColliding(this.deathFly) && !this.character.isHurt) {
+            this.character.hit();
+            this.character.isHurt = true; // Set isHurt to true to prevent multiple hits
+            this.statusBar.setPercentage(this.character.energy);
             console.log('Character hit DeathFly! Remaining energy:', this.character.energy);
-        }
-    }
-
-    checkCollisionsPlatform() {
-        if (this.character.isColliding(this.plattform)) {
-            this.handlePlatformCollision();
-        }
-    }
-
-    handlePlatformCollision() {
-        if (!this.plattform.collided) {
-            this.plattform.collided = true; // Plattform als "benutzt" markieren
-            this.plattform.img.src = 'img/debugger/plattforms/plattform-1.png'; // Bild ändern
-            this.sprayCounter.incrementBy(50); // Anzahl der Sprays um 50 erhöhen
-            console.log('Plattform betreten! Sprays erhöht:', this.sprayCounter.getCount());
+            
+            // Reset isHurt after a short delay to allow future collisions
+            setTimeout(() => {
+                this.character.isHurt = false;
+            }, 1000); // Adjust the delay as needed
         }
     }
 
@@ -172,32 +204,43 @@ class World {
 
     checkSpraySmashEndBoss() {
         this.throwableObjects.forEach((spray) => {
-            // Prüfe Kollision mit dem BigEndboss
             if (spray.isColliding(this.bigEndboss)) {
-                if (!this.bigEndboss.isHurt()) { // Vermeide mehrfachen Treffer
-                    this.bigEndboss.hit();
-                    this.bigEndboss.energy -= 10;
-                    this.statusBarEnemy.setPercentage(this.bigEndboss.energy);
-                    console.log('BigEndboss hit! Remaining energy:', this.bigEndboss.energy);
-    
-                    // Spiele den Sound aus checkCollisionBigEndBoss ab
-                    if (!this.bigEndboss.hitSoundPlayed) {
-                        this.BIGBUGISHIT_SOUND.play();
-                        this.bigEndboss.hitSoundPlayed = true;
-                        console.log('BigEndboss hit sound played!');
-                    }
-    
-                    if (this.bigEndboss.energy <= 0) {
-                        this.bigEndboss.speed = 0;
-                        this.bigEndboss.isDeath = true;
-                    }
-                    spray.startFalling();
-                }
-            } else {
-                // Reset the flag when not colliding
-                this.bigEndboss.hitSoundPlayed = false;
+                this.bigEndboss.hit();
+                this.statusBarEnemy.setPercentage(this.bigEndboss.energy);
+                spray.startFalling();
+                console.log('BigEndboss hit! Remaining energy:', this.bigEndboss.energy);
+                
+                // Play the sound when BigEndboss is hit
+                this.BIGBUGISHIT_SOUND.play();
             }
         });
+    }
+
+    checkSpraySmashDeathFly() {
+        this.throwableObjects.forEach((spray) => {
+            // Prüfe Kollision mit DeathFly
+            if (spray.isColliding(this.deathFly)) {
+                this.deathFly.hit();
+                this.statusBarDeathFly.setPercentage(this.deathFly.energy);
+                spray.startFalling();
+                console.log('DeathFly hit! Remaining energy:', this.deathFly.energy);
+            }
+        });
+    }
+    
+    checkCollisionsPlattform() {
+        if (this.character.isColliding(this.plattform)) {
+            this.handlePlattformCollision();
+        }
+    }
+
+    handlePlattformCollision() {
+        if (!this.plattform.collided) {
+            this.plattform.collided = true; // Plattform als "benutzt" markieren
+            this.plattform.img.src = 'img/debugger/plattforms/plattform-1.png'; // Bild ändern
+            this.sprayCounter.incrementBy(50); // Anzahl der Sprays um 50 erhöhen
+            console.log('Plattform betreten! Sprays erhöht:', this.sprayCounter.getCount());
+        }
     }
 
     draw() {
@@ -211,6 +254,7 @@ class World {
 
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarEnemy);
+        this.addToMap(this.statusBarDeathFly);
         this.addToMap(this.coinsCounter);
         this.addToMap(this.sprayCounter);
 

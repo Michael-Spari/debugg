@@ -28,7 +28,7 @@ class DeathFly extends MovableObjects {
         this.loadImages(this.IMAGES_WALK);
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_ATACK);
-        this.x = 750;
+        this.x = 5750;
         this.Character = character;
         this.isAttacking = false;
         this.originalWidth = this.width;
