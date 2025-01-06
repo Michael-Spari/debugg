@@ -1,46 +1,66 @@
+/**
+ * Represents a throwable spray object that can move and fall with gravity.
+ * Extends the ThrowableObjects class.
+ */
 class Spray extends ThrowableObjects {
-
-
+    /**
+     * Creates an instance of the Spray class.
+     * @param {number} x - The initial x-coordinate of the spray.
+     * @param {number} y - The initial y-coordinate of the spray.
+     * @param {string} direction - The direction of the spray ('left' or 'right').
+     */
     constructor(x, y, direction) {
-        super(x, y); // Position an die Basisklasse übergeben
-        this.loadImage('img/debugger/6_hammer/strahl.png');
-        this.otherDirection = direction === 'left'; // Speichere, ob das Spray nach links geworfen wird
-        this.throw(direction); // Das Spray in die entsprechende Richtung werfen
+      super(x, y);
+      this.loadImage('img/debugger/6_hammer/strahl.png');
+      this.otherDirection = direction === 'left';
+      this.throw(direction);
     }
-
+  
+    /**
+     * Initiates the throw movement of the spray in the specified direction.
+     * @param {string} direction - The direction of the throw ('left' or 'right').
+     */
     throw(direction) {
-        this.speedX = direction === 'left' ? -25 : 25; // Geschwindigkeit basierend auf der Richtung setzen
-        this.applyGravity(); // Schwerkraft anwenden (falls benötigt)
-
-        // Bewegung basierend auf der Geschwindigkeit
-        this.throwInterval = setInterval(() => {
-            this.x += this.speedX;
-        }, 25);
+      this.speedX = direction === 'left' ? -25 : 25;
+      this.applyGravity();
+  
+      this.throwInterval = setInterval(() => {
+        this.x += this.speedX;
+      }, 25);
     }
-
-    // Funktion, die das Objekt beim Treffen eines Ziels fallen lässt
+  
+    /**
+     * Starts the falling behavior of the spray object.
+     * @param {number} targetHit - The y-coordinate where the spray should stop falling.
+     */
     startFalling(targetHit) {
-        this.isFalling = true; // Fallmodus aktivieren
-        this.applyGravityHammer(targetHit);
+      this.isFalling = true;
+      this.applyGravityHammer(targetHit);
     }
-
-    // Anpassung der Schwerkraft, wenn das Objekt fällt
+  
+    /**
+     * Applies gravity to the spray object while it is falling.
+     * @param {number} targetHit - The y-coordinate where the spray should stop falling.
+     */
     applyGravityHammer(targetHit) {
-        this.gravityInterval = setInterval(() => {
-            if (this.y < targetHit) {
-                this.y += this.speedy; // Position nach unten bewegend
-                this.speedy += this.acceleration; // Beschleunigung anwenden
-            } else {
-                this.y = targetHit; // Zielposition erreichen
-                this.isFalling = false; // Fallmodus deaktivieren
-                clearInterval(this.gravityInterval); // Interval beenden
-            }
-        }, 1000 / 60);
+      this.gravityInterval = setInterval(() => {
+        if (this.y < targetHit) {
+          this.y += this.speedy;
+          this.speedy += this.acceleration;
+        } else {
+          this.y = targetHit;
+          this.isFalling = false;
+          clearInterval(this.gravityInterval);
+        }
+      }, 1000 / 60);
     }
-
-    // Methode zum Beenden aller Intervalle
+  
+    /**
+     * Clears all active intervals associated with the spray object.
+     */
     clearIntervals() {
-        clearInterval(this.throwInterval);
-        clearInterval(this.gravityInterval);
+      clearInterval(this.throwInterval);
+      clearInterval(this.gravityInterval);
     }
-}
+  }
+  

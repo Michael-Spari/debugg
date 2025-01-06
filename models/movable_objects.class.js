@@ -1,21 +1,68 @@
+/**
+ * Class representing movable objects in the game.
+ * Inherits from the DrawableObjects class.
+ */
 class MovableObjects extends DrawableObjects {
+    /**
+     * The speed at which the object moves horizontally.
+     * @type {number}
+     */
     speed = 0.1;
-    otherDirection = false;
-    speedy = 0; // Geschwindigkeit in y-Richtung
-    acceleration = 2.5; // Schwerkraft
-    energy = 100;
-    lastHit = 0; // Zeitpunkt des letzten Treffers
-    targetHit; // Zielposition des Hammers nach dem Treffen des Bugs
 
+    /**
+     * A flag indicating if the object is moving in the opposite direction.
+     * @type {boolean}
+     */
+    otherDirection = false;
+
+    /**
+     * The speed of the object along the y-axis (vertical speed).
+     * @type {number}
+     */
+    speedy = 0;
+
+    /**
+     * The acceleration applied to the object's speed in the y-axis.
+     * @type {number}
+     */
+    acceleration = 2.5;
+
+    /**
+     * The energy level of the object.
+     * @type {number}
+     */
+    energy = 100;
+
+    /**
+     * The timestamp of the last time the object was hit.
+     * @type {number}
+     */
+    lastHit = 0;
+
+    /**
+     * The object that was hit, if any.
+     * @type {Object}
+     */
+    targetHit;
+
+    /**
+     * Offset properties for the object (x, y, width, height).
+     * Used for collision detection and positioning.
+     * @type {Object}
+     */
     offset = {
         x: 0,
         y: 0,
         width: 0,
         height: 0,
-    }
+    };
 
-    // Funktion die die Schwerkraft auf Objekte anwendet
-    applyGravity(){
+    /**
+     * Applies gravity to the object by adjusting its vertical position.
+     * The object falls if above the ground or if it is moving upwards.
+     * This method is called periodically.
+     */
+    applyGravity() {
         setInterval(() => {
             if (this.ifAboveGround() || this.speedy > 0) {   
                 this.y -= this.speedy;   
@@ -23,58 +70,89 @@ class MovableObjects extends DrawableObjects {
             }
         }, 1000 / 25);
     }
- 
+
+    /**
+     * Checks if the object is above the ground.
+     * The condition differs for throwable objects.
+     * @returns {boolean} - True if the object is above the ground, false otherwise.
+     */
     ifAboveGround() {
         if (this instanceof ThrowableObjects) {
-            return this.y < 580; // Beispiel: Bodenhöhe für Hammer (Canvas-Höhe anpassen)
+            return this.y < 580;
         } else {
-            return this.y < 230; // Bodenhöhe für andere Objekte
+            return this.y < 230;
         }
     }
 
+    /**
+     * Checks if this object is colliding with another movable object.
+     * @param {MovableObjects} mo - The other movable object to check for collision.
+     * @returns {boolean} - True if the objects are colliding, false otherwise.
+     */
     isColliding(mo) {
         return this.x + this.offset.x + this.width - this.offset.width > mo.x + mo.offset.x &&
             this.y + this.offset.y + this.height - this.offset.height > mo.y + mo.offset.y &&
-            this.x + this.offset.x < mo.x+ mo.offset.x  + mo.width - mo.offset.width &&
+            this.x + this.offset.x < mo.x + mo.offset.x + mo.width - mo.offset.width &&
             this.y + this.offset.y < mo.y + mo.offset.y + mo.height - mo.offset.height;
     }
-    
+
+    /**
+     * Reduces the energy of the object when it is hit.
+     * Energy decreases by 2 on each hit.
+     */
     hit() {
         this.energy -= 2;
         if (this.energy < 0) {
             this.energy = 0;
-        } else {
-            this.lastHit = new Date().getTime();
         }
-        console.log('energy Bugs:', this.energy); // energie von character
     }
 
+    /**
+     * Checks if the object is hurt, based on the time since the last hit.
+     * @returns {boolean} - True if the object is hurt (hit recently), false otherwise.
+     */
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
         timePassed = timePassed / 1000;
         return timePassed < 0.2;
     }
 
+    /**
+     * Checks if the object is dead, based on its energy level.
+     * @returns {boolean} - True if the object is dead (energy <= 0), false otherwise.
+     */
     isDeath() {
         return this.energy <= 0;
     }
 
-    playAnimation(images){
-        let i = this.currentImage % images.length; // Index des Bildes
-        let path = images[i]; // Pfad des Bildes
-        this.img = this.imageCache[path]; // Ausgewähltes Bild wird geladen
-        this.currentImage++; // welches Bild wird als nächstes angezeigt
+    /**
+     * Plays the animation for the object by cycling through a series of images.
+     * @param {Array<string>} images - An array of image paths to be used for animation.
+     */
+    playAnimation(images) {
+        let i = this.currentImage % images.length;
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
     }
 
+    /**
+     * Moves the object to the right by its speed.
+     */
     moveRight() {
         this.x += this.speed;
-        // this.walking_sound.playbackRate = 1.2;    
-    }   
- 
+    }
+
+    /**
+     * Moves the object to the left by its speed.
+     */
     moveLeft() {
         this.x -= this.speed;
     }
 
+    /**
+     * Makes the object jump by applying a vertical speed (speedy).
+     */
     jump() {
         this.speedy = 25;
     }

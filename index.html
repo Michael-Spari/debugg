@@ -36,12 +36,12 @@
 </head>
 <body>
     <div class="rotate-message">Du musst dein Handy drehen</div>
-    <!-- <h1>The Debugger</h1> -->
     <section class="mainFrame" id="fullscreen">
         <canvas id="canvas" width="720" height="480"></canvas>
         <div id="overlay">
             <div id="startScreen">
-                <div id="startScreenLeft"><div id="mission" class="mission" style="display: none;">
+                <div id="startScreenLeft">
+                    <div id="mission" class="mission" style="display: none;">
                         <div><h2>Mission</h2> <p>Michael the Debugger is a game where you have to help Michael to defeat the bugs. 
                             Collect the Developer Akademie coins and spray cans to defeat the enemies.<br><br> Imposible to now that the big bugs to hit at the head.<br><br>
                             At the end of the level is the command center that you have to reach to debugg the level.
@@ -58,14 +58,29 @@
                             The game is over when you have no more lives left. Good luck!</p>
                         </div>
                     </div>
+                    <div id="impressum" class="impressum" style="display: none;">
+                        <div><h2>Impressum</h2><p>Michael the Debugger is a game developed by the Michael Spari.<br><br>
+                            <b>Publisher:</b><br>
+                            Michael Spari
+                            Am Friedrichsberg 28
+                            56170 Bendorf-Sayn
+                            Germany <br><br> 
+                            <b>Contact:</b><br>
+                            Email: michaelspari72@gmail.com<br><br>
+                            <b>Note:</b><br>
+                            This game is a private, non-commercial project. All content has been created with the utmost care. 
+                            However, no guarantee is provided for the accuracy, completeness, or currentness of the content.<br><br>
+                            (Last updated: January 2025)</p>
+                        </div>
+                    </div>
                 </div>
                 <div id="startScreenRight">  
                     <h1>The Debugger</h1>
-                    <!-- <p>Press Start-Button to start the game</p> -->
                     <button onclick="initGame(); document.getElementById('startScreen').style.display='none'; 
                         document.getElementById('panelBottom').style.display='flex';" id="startButton" class="button-start"><img src="./img/debugger/buttons/button_start.png"></button>
                     <button onclick="toggleHowToPlay()" class="button-start"><img src="./img/debugger/buttons/button_htp.png"></button>
                     <button onclick="toggleMission()" class="button-start"><img src="./img/debugger/buttons/button_mission.png"></button>
+                    <button onclick="toggleImpressum()" class="button-start"><img src="./img/debugger/buttons/button_impressum.png"></button>
                     
                 </div> 
             </div>

@@ -1,28 +1,85 @@
+/**
+ * Represents a DeathFly enemy that extends the MovableObjects class.
+ * Handles movement, attack, and animation for the DeathFly.
+ * @class DeathFly
+ * @extends MovableObjects
+ */
 class DeathFly extends MovableObjects {
+    /**
+     * The y-coordinate position of the DeathFly.
+     * @type {number}
+     */
     y = 35;
-    height = 400;
-    width = 400;
-    energy = 100;
-    speed = 3; // Geschwindigkeit des Bosses
 
+    /**
+     * The height of the DeathFly.
+     * @type {number}
+     */
+    height = 400;
+
+    /**
+     * The width of the DeathFly.
+     * @type {number}
+     */
+    width = 400;
+
+    /**
+     * The energy of the DeathFly.
+     * @type {number}
+     */
+    energy = 100;
+
+    /**
+     * The speed of the DeathFly.
+     * @type {number}
+     */
+    speed = 3;
+
+    /**
+     * The offset values for collision detection and position adjustments.
+     * @type {Object}
+     * @property {number} x - Horizontal offset.
+     * @property {number} y - Vertical offset.
+     * @property {number} width - Width offset.
+     * @property {number} height - Height offset.
+     */
     offset = {
         x: 30,
         y: 100,
         width: 260,
         height: 260,
-    }
+    };
 
+    /**
+     * Array of image paths for the walking animation of the DeathFly.
+     * @type {string[]}
+     */
     IMAGES_WALK = [
-        'img/debugger/8_death_fly/walking/death_fly_1.png', //laufen
-        'img/debugger/8_death_fly/walking/death_fly_2.png', //laufen
-    ];
-    IMAGES_ATACK = [
-        'img/debugger/8_death_fly/walking/death_fly_1.png', //angriff
-    ];
-    IMAGES_DEATH = [
-        'img/debugger/8_death_fly/walking/death_fly_1.png', //tod
+        'img/debugger/8_death_fly/walking/death_fly_1.png',
+        'img/debugger/8_death_fly/walking/death_fly_2.png',
     ];
 
+    /**
+     * Array of image paths for the attack animation of the DeathFly.
+     * @type {string[]}
+     */
+    IMAGES_ATACK = [
+        'img/debugger/8_death_fly/walking/death_fly_1.png',
+    ];
+
+    /**
+     * Array of image paths for the death animation of the DeathFly.
+     * @type {string[]}
+     */
+    IMAGES_DEATH = [
+        'img/debugger/8_death_fly/walking/death_fly_1.png',
+    ];
+
+    /**
+     * Creates an instance of the DeathFly class.
+     * Initializes the image, position, movement properties, and animation states.
+     * @param {Object} character - The character object to interact with.
+     */
     constructor(character) {
         super().loadImage(this.IMAGES_WALK[0]);
         this.loadImages(this.IMAGES_WALK);
@@ -32,74 +89,88 @@ class DeathFly extends MovableObjects {
         this.Character = character;
         this.isAttacking = false;
         this.originalWidth = this.width;
-        this.walkDirection = 'left'; // Richtung des Walk-Modus (links/rechts)
-        this.maxWalkDistance = 100; // Maximale Distanz, die der Boss vor/zurück geht
-        this.startingX = this.x; // Ursprüngliche X-Position speichern
+        this.walkDirection = 'left';
+        this.maxWalkDistance = 100;
+        this.startingX = this.x;
         this.animate();
     }
 
+    /**
+     * Reduces the DeathFly's energy when it is hit.
+     * If energy reaches 0, it will stop.
+     */
     hit() {
-        this.energy -= 10; // Bug verliert 10 Energie
+        this.energy -= 10;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
             this.lastHit = new Date().getTime();
         }
-        console.log('Bug energy:', this.energy);
     }
 
+    /**
+     * Moves the DeathFly to the left if it is not dead or attacking.
+     */
     moveLeft() {
         if (!this.isDeath() && !this.isAttacking) {
             this.x -= this.speed;
         }
     }
 
+    /**
+     * Moves the DeathFly to the right if it is not dead or attacking.
+     */
     moveRight() {
         if (!this.isDeath() && !this.isAttacking) {
             this.x += this.speed;
         }
     }
 
+    /**
+     * Starts the animation loop for walking, attacking, and death behaviors.
+     */
     animate() {
-        // Bewegung und Animation
         setInterval(() => {
             if (this.energy <= 0) {
                 this.playAnimation(this.IMAGES_DEATH);
-                this.speed = 0; // Bewegung stoppen
-                if (this.y < 500) this.y += 8; // Boss fällt zu Boden
+                this.speed = 0;
+                if (this.y < 500) this.y += 8;
             } else if (!this.isAttacking) {
                 this.handleWalkMode();
                 this.playAnimation(this.IMAGES_WALK);
             }
         }, 1000 / 25);
 
-        // Angriff prüfen
         setInterval(() => {
             if (this.Character) {
                 const distance = Math.abs(this.Character.x - this.x);
                 if (distance <= 300 && this.energy > 0) {
-                    // this.showStatusBarEnemy();
                     this.startAttackAnimation();
                 }
             }
         }, 1000 / 25);
     }
 
+    /**
+     * Handles the movement logic for walking left and right within the defined distance.
+     */
     handleWalkMode() {
-        // Überprüfen, ob der Boss sich in die ursprüngliche Distanz bewegt hat
         if (this.walkDirection === 'left' && this.x > this.startingX - this.maxWalkDistance) {
             this.moveLeft();
         } else if (this.walkDirection === 'left') {
-            this.walkDirection = 'right'; // Richtung wechseln
+            this.walkDirection = 'right';
         }
 
         if (this.walkDirection === 'right' && this.x < this.startingX + this.maxWalkDistance) {
             this.moveRight();
         } else if (this.walkDirection === 'right') {
-            this.walkDirection = 'left'; // Richtung wechseln
+            this.walkDirection = 'left';
         }
     }
 
+    /**
+     * Starts the attack animation and temporarily enlarges the DeathFly's hitbox.
+     */
     startAttackAnimation() {
         if (!this.isAttacking) {
             this.isAttacking = true;
@@ -117,3 +188,4 @@ class DeathFly extends MovableObjects {
         }
     }
 }
+

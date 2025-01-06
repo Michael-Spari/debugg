@@ -1,4 +1,13 @@
+/**
+ * Represents a Comando object that extends the MovableObjects class.
+ * @class Comando
+ * @extends MovableObjects
+ */
 class Comando extends MovableObjects {
+    /**
+     * Creates an instance of the Comando class.
+     * Initializes the image, position, size, and collision state.
+     */
     constructor() {
         super();
         this.img = new Image();
@@ -7,6 +16,6 @@ class Comando extends MovableObjects {
         this.y = 235;
         this.width = 300;
         this.height = 180;
-        this.collided = false; // Status, ob bereits betreten
+        this.collided = false;
     }
-} 
+}

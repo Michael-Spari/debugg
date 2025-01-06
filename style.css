@@ -9,7 +9,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    min-height: 100vh; /* Ensure the background covers the entire visible screen */
+    min-height: 100vh;
 }
 
 .mainFrame {
@@ -86,7 +86,7 @@ p img {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* PanelBottom an unteren Rand ausrichten */
+    justify-content: flex-end;
     align-items: center;
     z-index: 2;
 }
@@ -105,25 +105,26 @@ p img {
 
 #startScreenLeft {
     width: 40%;
-    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-y: auto;
 }
 
 #startScreenLeft::-webkit-scrollbar {
-    width: 5px; /* Set the width of the scrollbar */
+    width: 5px;
 }
 
 #startScreenLeft::-webkit-scrollbar-thumb {
-    background-color: #0adf02; /* Set the color of the scrollbar thumb */
-    border-radius: 10px; /* Optional: round the corners of the scrollbar thumb */
+    background-color: #0adf02;
+    border-radius: 10px;
 }
 
 #startScreenRight {
     box-sizing: border-box;
+    background-image: url('./img/debugger/hg/startScreen.png');
+    background-size: cover;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    /* text-align: center; */
     color: white;
     width: 68%;
 }
@@ -142,7 +143,7 @@ p img {
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 10px;
     overflow-y: auto;
-    overflow-x: hidden; /* Disable horizontal scrolling */
+    overflow-x: hidden;
 }
 
 .mission {
@@ -159,7 +160,29 @@ p img {
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 10px;
     overflow-y: auto;
-    overflow-x: hidden; /* Disable horizontal scrolling */
+    overflow-x: hidden;
+}
+
+.impressum {
+    margin-left: 10px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 15px;
+    color: white;
+    width: 85%;
+    height: 100%;
+    z-index: 3;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+button {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
 .button-start {
