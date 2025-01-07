@@ -5,7 +5,8 @@
  * @extends DrawableObjects
  */
 class Finish extends DrawableObjects {
-    TYPEWRITER_SOUND = new Audio('audio/typewriter.mp3');
+    TYPEWRITER_SOUND;
+
     /**
      * Creates an instance of the Finish object and initializes properties related to the finish screen.
      * @constructor
@@ -57,7 +58,20 @@ class Finish extends DrawableObjects {
          */
         this.coinUpdateInterval = null;
 
+        this.TYPEWRITER_SOUND = this.createAndRegisterAudio('audio/typewriter.mp3');
         this.startCoinUpdate();
+    }
+
+    /**
+     * Creates an audio element and registers it for global management.
+     * @param {string} src - The source of the audio file.
+     * @returns {HTMLAudioElement} The registered audio element.
+     */
+    createAndRegisterAudio(src) {
+        const audio = new Audio(src);
+        registerSound(audio); // Add audio to the global array
+        audio.muted = !soundsEnabled; // Ensure the initial state respects soundsEnabled
+        return audio;
     }
 
     /**

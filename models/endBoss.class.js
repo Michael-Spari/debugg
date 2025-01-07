@@ -39,7 +39,7 @@ class Endboss extends MovableObjects {
      * The death sound of the Endboss.
      * @type {HTMLAudioElement}
      */
-    death_sound = new Audio('./audio/bugs_sprayed.mp4');
+    DEATH_SOUND_BIGBUG;
 
     /**
      * The offset values used for drawing the Endboss' bounding box.
@@ -130,7 +130,20 @@ class Endboss extends MovableObjects {
         this.loadImages(this.IMAGES_ATACK);
         this.x = 3200 + Math.random() * 7200;
         this.speed = 2.2 + Math.random() * 8;
+        this.DEATH_SOUND_BIGBUG = this.createAndRegisterAudio('./audio/bugs_sprayed.mp4');
         this.animate();
+    }
+
+    /**
+     * Creates an audio element and registers it for global management.
+     * @param {string} src - The source of the audio file.
+     * @returns {HTMLAudioElement} The registered audio element.
+     */
+    createAndRegisterAudio(src) {
+        const audio = new Audio(src);
+        registerSound(audio); // Add audio to the global array
+        audio.muted = !soundsEnabled; // Ensure the initial state respects soundsEnabled
+        return audio;
     }
 
     /**
@@ -161,9 +174,9 @@ class Endboss extends MovableObjects {
     animate() {
         const intervalId = setInterval(() => {
             if (this.isDeath()) {
-                if (!this.death_sound_played) {
-                    this.death_sound.play();
-                    this.death_sound_played = true;
+                if (!this.DEATH_SOUND_BIGBUG_played) {
+                    this.DEATH_SOUND_BIGBUG.play();
+                    this.DEATH_SOUND_BIGBUG_played = true;
                 }
                 this.playAnimation(this.IMAGES_DEATH);
                 this.speed = 0;
@@ -180,4 +193,5 @@ class Endboss extends MovableObjects {
         }, 1000 / 15);
     }
 }
+
 

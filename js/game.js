@@ -1,4 +1,3 @@
-
 /**
  * The canvas element used to draw the game.
  * @type {HTMLCanvasElement}
@@ -25,6 +24,9 @@ let SPRAY_SOUND = new Audio('./audio/spray.mp4');
 let BIGBUGISHIT_SOUND = new Audio('./audio/bigbughit.mp3');
 let DEATHFLY_SOUND = new Audio('./audio/death_fly.mp3');
 let WALKING_SOUND = new Audio('./audio/walk.mp4');
+let DEATH_SOUND_BUG = new Audio('./audio/splash.mp3');
+let DEATH_SOUND_BIGBUG = new Audio('./audio/bugs_sprayed.mp4');
+let TYPEWRITER_SOUND = new Audio('audio/typewriter.mp3')
 
 // Sounds registrieren
 registerSound(audio);
@@ -32,15 +34,17 @@ registerSound(SPRAY_SOUND);
 registerSound(BIGBUGISHIT_SOUND);
 registerSound(DEATHFLY_SOUND);
 registerSound(WALKING_SOUND);
-
+registerSound(DEATH_SOUND_BUG);
+registerSound(DEATH_SOUND_BIGBUG);
 /**
  * Initializes the game by setting up the canvas and world.
  */
 function initGame() {
   canvas = document.getElementById('canvas');
+  canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Reset canvas
   world = new World(canvas, keyboard);
 
-  // Hintergrundmusik starten
+  /* Start background music */
   if (soundsEnabled) {
     audio.play();
   }
@@ -61,9 +65,21 @@ window.addEventListener('resize', () => {
 document.addEventListener('DOMContentLoaded', () => {
   showMobileControls();
   bindBtnEvents();
+  const buttons = document.querySelectorAll('#leftButton, #rightButton, #jumpButton, #fireButton, #fullscreenButton, #fullscreenEndButton');
+  buttons.forEach((button) => {
+    button.addEventListener('contextmenu', (event) => {
+      event.preventDefault();
+    });
+  });
   const soundButton = document.getElementById('soundButton');
   if (soundButton) {
     soundButton.addEventListener('click', toggleSounds);
+  }
+  const fullscreenButton = document.getElementById('fullscreenButton');
+  const fullscreenEndButton = document.getElementById('fullscreenEndButton');
+  if (fullscreenButton && fullscreenEndButton) {
+    fullscreenButton.addEventListener('click', toggleFullScreen);
+    fullscreenEndButton.addEventListener('click', toggleFullScreen);
   }
 });
 
@@ -138,9 +154,20 @@ function showMobileControls() {
 /**
  * Toggles fullscreen mode for the game.
  */
-function fullScreen() {
+function toggleFullScreen() {
   const fullscreenElement = document.getElementById('fullscreen');
-  enterFullscreen(fullscreenElement);
+  const fullscreenButton = document.getElementById('fullscreenButton');
+  const fullscreenEndButton = document.getElementById('fullscreenEndButton');
+
+  if (!document.fullscreenElement) {
+    enterFullscreen(fullscreenElement);
+    fullscreenButton.style.display = 'none';
+    fullscreenEndButton.style.display = 'block';
+  } else {
+    exitFullscreen();
+    fullscreenButton.style.display = 'block';
+    fullscreenEndButton.style.display = 'none';
+  }
 }
 
 /**
@@ -217,11 +244,11 @@ function bindBtnEvents() {
   });
 
   document.getElementById('fullscreenButton').addEventListener('click', () => {
-    fullScreen();
+    toggleFullScreen();
   });
 
   document.getElementById('fullscreenEndButton').addEventListener('click', () => {
-    exitFullscreen();
+    toggleFullScreen();
   });
 }
 

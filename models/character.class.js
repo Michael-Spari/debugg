@@ -75,7 +75,7 @@ class Character extends MovableObjects {
     world;
 
     /** Audio for the walking sound effect. */
-    walking_sound = new Audio('./audio/walk.mp4');
+    WALKING_SOUND;
 
     /** Flag to enable or disable sound. */
     soundEnabled = true;
@@ -90,8 +90,21 @@ class Character extends MovableObjects {
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_HURT);
+        this.WALKING_SOUND = this.createAndRegisterAudio('./audio/walk.mp4');
         this.applyGravity();
         this.animate();
+    }
+
+    /**
+     * Creates an audio element and registers it for global management.
+     * @param {string} src - The source of the audio file.
+     * @returns {HTMLAudioElement} The registered audio element.
+     */
+    createAndRegisterAudio(src) {
+        const audio = new Audio(src);
+        registerSound(audio); // Add audio to the global array
+        audio.muted = !soundsEnabled; // Ensure the initial state respects soundsEnabled
+        return audio;
     }
 
     /**
@@ -118,16 +131,16 @@ class Character extends MovableObjects {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
-                if (this.soundEnabled) {
-                    this.walking_sound.play();
+                if (soundsEnabled) {
+                    this.WALKING_SOUND.play();
                 }
             }
 
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
                 this.otherDirection = true;
-                if (this.soundEnabled) {
-                    this.walking_sound.play();
+                if (soundsEnabled) {
+                    this.WALKING_SOUND.play();
                 }
             }
 
@@ -144,6 +157,7 @@ class Character extends MovableObjects {
             if (this.isDeath()) {
                 this.playAnimation(this.IMAGES_DEATH);
                 this.speed = 0;
+                this.jump(false);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.ifAboveGround()) {

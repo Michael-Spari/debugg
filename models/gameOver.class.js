@@ -34,6 +34,7 @@ class GameOver extends DrawableObjects {
         const button = document.createElement('button');
         button.innerText = 'Restart';
         button.style.position = 'absolute';
+        button.style.cursor = 'pointer';
         button.style.backgroundColor = 'red';
         button.style.borderRadius = '15px';
         button.style.color = 'white';

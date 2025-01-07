@@ -46,6 +46,9 @@ class World {
         this.sprayCounter = SprayCounter.getInstance();
         this.buttonVisibility = this.gameOver.buttonVisibility.bind(this.gameOver);
         this.startTypewriterEffect = this.finish.startTypewriterEffect.bind(this.finish);
+        this.SPRAY_SOUND = this.createAndRegisterAudio('./audio/spray.mp4');
+        this.BIGBUGISHIT_SOUND = this.createAndRegisterAudio('./audio/bigbughit.mp3');
+        this.DEATHFLY_SOUND = this.createAndRegisterAudio('./audio/death_fly.mp3');
         this.draw();
         this.setWorld();
         this.run();
@@ -88,10 +91,22 @@ class World {
     }
 
     /**
+     * Creates an audio element and registers it for global management.
+     * @param {string} src - The source of the audio file.
+     * @returns {HTMLAudioElement} The registered audio element.
+     */
+    createAndRegisterAudio(src) {
+        const audio = new Audio(src);
+        registerSound(audio); // Add audio to the global array
+        audio.muted = !this.soundEnabled; // Ensure the initial state respects soundEnabled
+        return audio;
+    }
+
+    /**
      * Displays the game over screen if the character's energy is zero or less.
      */
     showGameOver() {
-        if (this.character.energy <= 0) {
+        if (this.statusBar.percentage <= 0) {
             this.gameOver.x = 80;
             this.gameOver.y = 80;
             this.buttonVisibility();

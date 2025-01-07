@@ -23,7 +23,10 @@ class Bug extends MovableObjects {
     energy = 1;
   
     /** Audio for the death sound effect. */
-    death_sound = new Audio('./audio/splash.mp3');
+    death_sound;
+  
+    /** Audio for the walking sound effect. */
+    walking_sound;
   
     /**
      * Collision offset for the bug.
@@ -47,9 +50,6 @@ class Bug extends MovableObjects {
       'img/debugger/3_enemies_bug/bug_w_30_death.png',
     ];
   
-    /** Audio for the walking sound effect. */
-    walking_sound = new Audio('./audio/bugs_run1.mp3');
-  
     /** Tracks whether the death sound has already been played. */
     death_sound_played = false;
   
@@ -61,9 +61,23 @@ class Bug extends MovableObjects {
       super().loadImage('img/debugger/3_enemies_bug/bug_w_21.png');
       this.loadImages(this.IMAGES_WALK);
       this.loadImages(this.IMAGES_DEATH);
-      this.x = 200 + Math.random() * 7200; // Random horizontal position.
+      this.x = 500 + Math.random() * 7200; // Random horizontal position.
       this.speed = 2.2 + Math.random() * 8; // Random speed.
+      this.death_sound = this.createAndRegisterAudio('./audio/splash.mp3');
+      this.walking_sound = this.createAndRegisterAudio('./audio/bugs_run1.mp3');
       this.animate();
+    }
+  
+    /**
+     * Creates an audio element and registers it for global management.
+     * @param {string} src - The source of the audio file.
+     * @returns {HTMLAudioElement} The registered audio element.
+     */
+    createAndRegisterAudio(src) {
+      const audio = new Audio(src);
+      registerSound(audio); // Add audio to the global array
+      audio.muted = !soundsEnabled; // Ensure the initial state respects soundsEnabled
+      return audio;
     }
   
     /**
@@ -110,4 +124,4 @@ class Bug extends MovableObjects {
       }, 1000 / 15); // Animation frame rate.
     }
   }
-  
+
