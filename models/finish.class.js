@@ -5,6 +5,7 @@
  * @extends DrawableObjects
  */
 class Finish extends DrawableObjects {
+    TYPEWRITER_SOUND = new Audio('audio/typewriter.mp3');
     /**
      * Creates an instance of the Finish object and initializes properties related to the finish screen.
      * @constructor
@@ -67,7 +68,9 @@ class Finish extends DrawableObjects {
             if (this.typingIndex < this.text.length) {
                 this.displayText += this.text[this.typingIndex];
                 this.typingIndex++;
+                this.TYPEWRITER_SOUND.play();
             } else {
+                this.TYPEWRITER_SOUND.pause();
                 clearInterval(this.typingInterval);
                 clearInterval(this.coinUpdateInterval);
             }

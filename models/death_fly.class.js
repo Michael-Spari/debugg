@@ -64,7 +64,7 @@ class DeathFly extends MovableObjects {
      * @type {string[]}
      */
     IMAGES_ATACK = [
-        'img/debugger/8_death_fly/walking/death_fly_1.png',
+        'img/debugger/8_death_fly/attack/death_fly_attack.png',
     ];
 
     /**
@@ -72,7 +72,7 @@ class DeathFly extends MovableObjects {
      * @type {string[]}
      */
     IMAGES_DEATH = [
-        'img/debugger/8_death_fly/walking/death_fly_1.png',
+        'img/debugger/8_death_fly/death/death_fly_death.png',
     ];
 
     /**

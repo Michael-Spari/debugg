@@ -1,3 +1,4 @@
+
 /**
  * The canvas element used to draw the game.
  * @type {HTMLCanvasElement}
@@ -11,16 +12,26 @@ let canvas;
 let world;
 
 /**
- * The keyboard object used to handle player input.
+ * The keyboard object used to handle player input
  * @type {Keyboard}
  */
 let keyboard = new Keyboard();
 
-/**
- * The background music audio object.
- * @type {HTMLAudioElement}
- */
+// Sounds erstellen und registrieren
 let audio = new Audio('./audio/background2.mp3');
+audio.loop = true; // Hintergrundmusik in Schleife
+
+let SPRAY_SOUND = new Audio('./audio/spray.mp4');
+let BIGBUGISHIT_SOUND = new Audio('./audio/bigbughit.mp3');
+let DEATHFLY_SOUND = new Audio('./audio/death_fly.mp3');
+let WALKING_SOUND = new Audio('./audio/walk.mp4');
+
+// Sounds registrieren
+registerSound(audio);
+registerSound(SPRAY_SOUND);
+registerSound(BIGBUGISHIT_SOUND);
+registerSound(DEATHFLY_SOUND);
+registerSound(WALKING_SOUND);
 
 /**
  * Initializes the game by setting up the canvas and world.
@@ -28,6 +39,11 @@ let audio = new Audio('./audio/background2.mp3');
 function initGame() {
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard);
+
+  // Hintergrundmusik starten
+  if (soundsEnabled) {
+    audio.play();
+  }
 }
 
 /**
@@ -45,7 +61,59 @@ window.addEventListener('resize', () => {
 document.addEventListener('DOMContentLoaded', () => {
   showMobileControls();
   bindBtnEvents();
+  const soundButton = document.getElementById('soundButton');
+  if (soundButton) {
+    soundButton.addEventListener('click', toggleSounds);
+  }
 });
+
+/**
+ * Toggles the visibility of the "How To Play" section.
+ */
+function toggleHowToPlay() {
+  let howToPlay = document.getElementById('howToPlay');
+  let mission = document.getElementById('mission');
+  let impressum = document.getElementById('impressum');
+  if (howToPlay.style.display === 'none') {
+    howToPlay.style.display = 'flex';
+    mission.style.display = 'none';
+    impressum.style.display = 'none';
+  } else {
+    howToPlay.style.display = 'none';
+  }
+}
+
+/**
+ * Toggles the visibility of the "Mission" section.
+ */
+function toggleMission() {
+  let mission = document.getElementById('mission');
+  let howToPlay = document.getElementById('howToPlay');
+  let impressum = document.getElementById('impressum');
+  if (mission.style.display === 'none') {
+    mission.style.display = 'flex';
+    howToPlay.style.display = 'none';
+    impressum.style.display = 'none';
+  } else {
+    mission.style.display = 'none';
+  }
+}
+
+/**
+ * Toggles the visibility of the "Impressum" section.
+ */
+function toggleImpressum() {
+  let impressum = document.getElementById('impressum');
+  let howToPlay = document.getElementById('howToPlay');
+  let mission = document.getElementById('mission');
+  if (impressum.style.display === 'none') {
+    impressum.style.display = 'flex';
+    howToPlay.style.display = 'none';
+    mission.style.display = 'none';
+  } else {
+    impressum.style.display = 'none';
+  }
+}
 
 /**
  * Displays mobile controls when the user is on a mobile device or has a small screen.
@@ -109,65 +177,6 @@ function exitFullscreen() {
 }
 
 /**
- * Toggles the play/pause state of the background audio.
- */
-function togglePlayPauseAudio() {
-  if (audio.paused) {
-    audio.play();
-  } else {
-    audio.pause();
-  }
-}
-
-/**
- * Toggles the visibility of the "How To Play" section.
- */
-function toggleHowToPlay() {
-  let howToPlay = document.getElementById('howToPlay');
-  let mission = document.getElementById('mission');
-  let impressum = document.getElementById('impressum');
-  if (howToPlay.style.display === 'none') {
-    howToPlay.style.display = 'flex';
-    mission.style.display = 'none';
-    impressum.style.display = 'none';
-  } else {
-    howToPlay.style.display = 'none';
-  }
-}
-
-/**
- * Toggles the visibility of the "Mission" section.
- */
-function toggleMission() {
-  let mission = document.getElementById('mission');
-  let howToPlay = document.getElementById('howToPlay');
-  let impressum = document.getElementById('impressum');
-  if (mission.style.display === 'none') {
-    mission.style.display = 'flex';
-    howToPlay.style.display = 'none';
-    impressum.style.display = 'none';
-  } else {
-    mission.style.display = 'none';
-  }
-}
-
-/**
- * Toggles the visibility of the "Impressum" section.
- */
-function toggleImpressum() {
-  let impressum = document.getElementById('impressum');
-  let howToPlay = document.getElementById('howToPlay');
-  let mission = document.getElementById('mission');
-  if (impressum.style.display === 'none') {
-    impressum.style.display = 'flex';
-    howToPlay.style.display = 'none';
-    mission.style.display = 'none';
-  } else {
-    impressum.style.display = 'none';
-  }
-}
-
-/**
  * Binds touch and click events to buttons for controlling the game.
  */
 function bindBtnEvents() {
@@ -214,6 +223,33 @@ function bindBtnEvents() {
   document.getElementById('fullscreenEndButton').addEventListener('click', () => {
     exitFullscreen();
   });
+}
+
+/**
+ * Handles specific game actions that play sounds.
+ */
+function playSpraySound() {
+  if (soundsEnabled) {
+    SPRAY_SOUND.play();
+  }
+}
+
+function playBigBugHitSound() {
+  if (soundsEnabled) {
+    BIGBUGISHIT_SOUND.play();
+  }
+}
+
+function playDeathFlySound() {
+  if (soundsEnabled) {
+    DEATHFLY_SOUND.play();
+  }
+}
+
+function playWalkingSound() {
+  if (soundsEnabled) {
+    WALKING_SOUND.play();
+  }
 }
 
 /**
@@ -265,4 +301,5 @@ window.addEventListener('keyup', (e) => {
     keyboard.D = false;
   }
 });
+
 

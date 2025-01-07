@@ -88,7 +88,6 @@ class SprayCounter extends DrawableObjects {
     decrement() {
         if (this.sprayCount > 0) {
             this.sprayCount--;
-            console.log('SprayCounter decremented to:', this.sprayCount);
         }
     }
 
@@ -106,7 +105,6 @@ class SprayCounter extends DrawableObjects {
      */
     setCount(count) {
         this.sprayCount = count;
-        console.log('SprayCounter set to:', this.sprayCount);
     }
 
     /**

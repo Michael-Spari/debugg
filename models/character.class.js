@@ -75,7 +75,10 @@ class Character extends MovableObjects {
     world;
 
     /** Audio for the walking sound effect. */
-    walking_sound = new Audio('./audio/walk6.mp4');
+    walking_sound = new Audio('./audio/walk.mp4');
+
+    /** Flag to enable or disable sound. */
+    soundEnabled = true;
 
     /**
      * Creates a new playable character.
@@ -115,13 +118,17 @@ class Character extends MovableObjects {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
-                this.walking_sound.play();
+                if (this.soundEnabled) {
+                    this.walking_sound.play();
+                }
             }
 
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
                 this.otherDirection = true;
-                this.walking_sound.play();
+                if (this.soundEnabled) {
+                    this.walking_sound.play();
+                }
             }
 
             if (this.world.keyboard.SPACE && !this.ifAboveGround()) {

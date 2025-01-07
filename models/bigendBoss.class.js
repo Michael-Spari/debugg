@@ -36,13 +36,35 @@ class BigEndboss extends MovableObjects {
     'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png',
     'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_3.png',
     'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png',
-    // Additional image paths...
+    'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png',
+    'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_4.png',
+    'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_1.png',
+    'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_3.png',
+    'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png',
+    'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png',
+    'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_1.png',
+    'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_4.png',
+    'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_3.png',
+    'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png',
+    'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png',
+    'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_2.png',
+    'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_1.png',
+    'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_3.png',
+    'img/debugger/4_enemies_boss_bug/alert/alert_boss_bug_4.png',
+    'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png',
+    'img/debugger/4_enemies_boss_bug/walk/bossbugWalk_1.png',
   ];
 
   /** Images used for the attacking animation. */
   IMAGES_ATACK = [
     'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
-    // Repeated images for smoother animation...
+    'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
+    'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
+    'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
+    'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
+    'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
+    'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
+    'img/debugger/4_enemies_boss_bug/attack/bossbug_attack.png',
   ];
 
   /** Images used for the death animation. */

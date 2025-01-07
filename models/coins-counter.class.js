@@ -26,7 +26,7 @@ class CoinsCounter extends DrawableObjects {
         this.y = 40;
         this.width = 40;
         this.height = 40;
-        this.coinCount = 0;
+        this.coinCount = -1;
         CoinsCounter.instance = this;
     }
 
@@ -48,7 +48,6 @@ class CoinsCounter extends DrawableObjects {
      */
     increment() {
         this.coinCount++;
-        console.log('CoinsCounter incremented to:', this.coinCount);
     }
 
     /**
