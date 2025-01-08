@@ -115,18 +115,25 @@ class Character extends MovableObjects {
     }
 
     /**
-     * Reduces the character's energy when hit.
-     * Prevents further damage if the character is already in a hurt state.
+     * Checks if the big end boss is dead and prevents further damage to the character.
      */
+    isBigEndBossDead() {
+        return this.world.level.bigEndBoss && this.world.level.bigEndBoss.isDead();
+    }
+    
+    isDeathFlyDead() {
+        return this.world.level.deathFly && this.world.level.deathFly.isDead();
+    }
+
     hit() {
-        if (!this.isHurt()) {
+        if (!this.isHurt() && !this.isBigEndBossDead() || !this.isDeathFlyDead()) {
             this.energy -= 5;
             if (this.energy < 0) {
                 this.energy = 0;
             }
             this.lastHit = new Date().getTime();
         }
-    }  
+    }
 
     /**
      * Animates the character by checking for key inputs and updating its state.
@@ -183,17 +190,15 @@ class Character extends MovableObjects {
      * If idle, it triggers the idle animation.
      */
      checkIdle() {
-        let lastMoveTime = new Date().getTime();
-    
+        let lastMoveTime = new Date().getTime();   
         setInterval(() => {
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.SPACE) {
                 lastMoveTime = new Date().getTime();
-                this.isIdle = false; // Charakter bewegt sich
-            }
-    
+                this.isIdle = false;
+            }    
             const currentTime = new Date().getTime();
-            if (currentTime - lastMoveTime > 10000) { // 10 Sekunden idle
-                this.isIdle = true; // Idle-Zustand aktivieren
+            if (currentTime - lastMoveTime > 6000) {
+                this.isIdle = true;
             }
         }, 1000 / 60);
     }
