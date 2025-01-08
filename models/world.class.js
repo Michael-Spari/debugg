@@ -106,7 +106,7 @@ class World {
      * Displays the game over screen if the character's energy is zero or less.
      */
     showGameOver() {
-        if (this.statusBar.percentage <= 0) {
+        if (this.character.energy <= 0) {
             this.gameOver.x = 80;
             this.gameOver.y = 80;
             this.buttonVisibility();
@@ -168,17 +168,23 @@ class World {
     checkThrowObjects() {
         const currentTime = Date.now();
         if (this.keyboard.D && currentTime - this.lastThrowTime >= this.throwCooldown) {
-            if (this.soundEnabled) this.SPRAY_SOUND.play();
+            if (this.character.isDeath()) {
+                return;
+            }
             if (this.sprayCounter.getCount() > 0) {
                 const direction = this.character.otherDirection ? 'left' : 'right';
-                let spray = new Spray(this.character.x + 25, this.character.y + 80, direction);
+                const spray = new Spray(this.character.x + 25, this.character.y + 80, direction);  
                 this.throwableObjects.push(spray);
                 this.lastThrowTime = currentTime;
                 this.sprayCounter.decrement();
+                if (this.soundEnabled) {
+                    this.SPRAY_SOUND.currentTime = 0;
+                    this.SPRAY_SOUND.play();
+                }
             }
         }
     }
-
+    
     /**
      * Checks if a defeated bug leaves a coin and adds it.
      */

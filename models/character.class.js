@@ -119,7 +119,7 @@ class Character extends MovableObjects {
             }
             this.lastHit = new Date().getTime();
         }
-    }
+    }  
 
     /**
      * Animates the character by checking for key inputs and updating its state.
@@ -128,36 +128,37 @@ class Character extends MovableObjects {
     animate() {
         // Movement and interaction logic
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                this.otherDirection = false;
-                if (soundsEnabled) {
-                    this.WALKING_SOUND.play();
+            if (!this.isDeath()) { // Block movement if character is dead
+                if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                    this.moveRight();
+                    this.otherDirection = false;
+                    if (soundsEnabled) {
+                        this.WALKING_SOUND.play();
+                    }
                 }
-            }
-
-            if (this.world.keyboard.LEFT && this.x > 0) {
-                this.moveLeft();
-                this.otherDirection = true;
-                if (soundsEnabled) {
-                    this.WALKING_SOUND.play();
+    
+                if (this.world.keyboard.LEFT && this.x > 0) {
+                    this.moveLeft();
+                    this.otherDirection = true;
+                    if (soundsEnabled) {
+                        this.WALKING_SOUND.play();
+                    }
                 }
+    
+                if (this.world.keyboard.SPACE && !this.ifAboveGround()) {
+                    this.jump();
+                }
+    
+                // Update camera position to follow the character
+                this.world.camera_x = -this.x + 100;
             }
-
-            if (this.world.keyboard.SPACE && !this.ifAboveGround()) {
-                this.jump();
-            }
-
-            // Update camera position to follow the character
-            this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
-
+    
         // Animation logic
         setInterval(() => {
             if (this.isDeath()) {
                 this.playAnimation(this.IMAGES_DEATH);
-                this.speed = 0;
-                this.jump(false);
+                this.speed = 0; // Ensure speed remains 0
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.ifAboveGround()) {
@@ -169,5 +170,6 @@ class Character extends MovableObjects {
             }
         }, 1000 / 20);
     }
+    
 }
 

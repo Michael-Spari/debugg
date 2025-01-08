@@ -16,10 +16,9 @@ let world;
  */
 let keyboard = new Keyboard();
 
-// Sounds erstellen und registrieren
+/* Create and register sounds*/
 let audio = new Audio('./audio/background2.mp3');
-audio.loop = true; // Hintergrundmusik in Schleife
-
+audio.loop = true;
 let SPRAY_SOUND = new Audio('./audio/spray.mp4');
 let BIGBUGISHIT_SOUND = new Audio('./audio/bigbughit.mp3');
 let DEATHFLY_SOUND = new Audio('./audio/death_fly.mp3');
@@ -27,8 +26,6 @@ let WALKING_SOUND = new Audio('./audio/walk.mp4');
 let DEATH_SOUND_BUG = new Audio('./audio/splash.mp3');
 let DEATH_SOUND_BIGBUG = new Audio('./audio/bugs_sprayed.mp4');
 let TYPEWRITER_SOUND = new Audio('audio/typewriter.mp3')
-
-// Sounds registrieren
 registerSound(audio);
 registerSound(SPRAY_SOUND);
 registerSound(BIGBUGISHIT_SOUND);
@@ -36,6 +33,7 @@ registerSound(DEATHFLY_SOUND);
 registerSound(WALKING_SOUND);
 registerSound(DEATH_SOUND_BUG);
 registerSound(DEATH_SOUND_BIGBUG);
+
 /**
  * Initializes the game by setting up the canvas and world.
  */

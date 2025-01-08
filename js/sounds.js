@@ -60,8 +60,6 @@ function toggleSounds() {
         if (soundButton) {
                 soundButton.querySelector('img').src = soundsEnabled ? './img/debugger/buttons/button_audio.png' : './img/debugger/buttons/button_no_audio.png';
         }
-
-        console.log(soundsEnabled ? "Sounds enabled" : "Sounds disabled");
 }
 
 

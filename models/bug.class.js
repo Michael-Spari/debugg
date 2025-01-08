@@ -64,7 +64,6 @@ class Bug extends MovableObjects {
       this.x = 500 + Math.random() * 7200; // Random horizontal position.
       this.speed = 2.2 + Math.random() * 8; // Random speed.
       this.death_sound = this.createAndRegisterAudio('./audio/splash.mp3');
-      this.walking_sound = this.createAndRegisterAudio('./audio/bugs_run1.mp3');
       this.animate();
     }
   
