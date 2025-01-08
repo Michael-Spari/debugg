@@ -71,6 +71,11 @@ class Character extends MovableObjects {
         'img/debugger/2_character_michael/walk/w-21.png',
     ];
 
+    /** Images used when the character is idle on the ground. */
+    IMAGES_IDLE = [
+        'img/debugger/2_character_michael/hocke/hocke_20.png',
+    ];
+
     /** Reference to the game world, providing access to global game state. */
     world;
 
@@ -90,7 +95,9 @@ class Character extends MovableObjects {
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEATH);
         this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_IDLE);
         this.WALKING_SOUND = this.createAndRegisterAudio('./audio/walk.mp4');
+        this.checkIdle();
         this.applyGravity();
         this.animate();
     }
@@ -126,50 +133,69 @@ class Character extends MovableObjects {
      * Handles movement, jumping, and switching between animations based on conditions.
      */
     animate() {
-        // Movement and interaction logic
+        // Bewegung und Interaktion
         setInterval(() => {
-            if (!this.isDeath()) { // Block movement if character is dead
+            if (!this.isDeath()) {
                 if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                     this.moveRight();
                     this.otherDirection = false;
+                    this.isIdle = false; // Charakter ist nicht idle
                     if (soundsEnabled) {
                         this.WALKING_SOUND.play();
                     }
-                }
-    
+                }    
                 if (this.world.keyboard.LEFT && this.x > 0) {
                     this.moveLeft();
                     this.otherDirection = true;
+                    this.isIdle = false; // Charakter ist nicht idle
                     if (soundsEnabled) {
                         this.WALKING_SOUND.play();
                     }
-                }
-    
+                }   
                 if (this.world.keyboard.SPACE && !this.ifAboveGround()) {
                     this.jump();
+                    this.isIdle = false; // Charakter ist nicht idle
                 }
-    
-                // Update camera position to follow the character
                 this.world.camera_x = -this.x + 100;
             }
         }, 1000 / 60);
     
-        // Animation logic
+        // Animationslogik
         setInterval(() => {
             if (this.isDeath()) {
                 this.playAnimation(this.IMAGES_DEATH);
-                this.speed = 0; // Ensure speed remains 0
+                this.speed = 0;
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.ifAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.IMAGES_WALK);
+            } else if (this.isIdle) {
+                this.playAnimation(this.IMAGES_IDLE);
             } else {
                 this.playAnimation(this.IMAGES_GROUND);
             }
         }, 1000 / 20);
     }
     
+     /* Checks if the character is idle for more than 10 seconds.
+     * If idle, it triggers the idle animation.
+     */
+     checkIdle() {
+        let lastMoveTime = new Date().getTime();
+    
+        setInterval(() => {
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.SPACE) {
+                lastMoveTime = new Date().getTime();
+                this.isIdle = false; // Charakter bewegt sich
+            }
+    
+            const currentTime = new Date().getTime();
+            if (currentTime - lastMoveTime > 10000) { // 10 Sekunden idle
+                this.isIdle = true; // Idle-Zustand aktivieren
+            }
+        }, 1000 / 60);
+    }
 }
 
