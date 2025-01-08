@@ -134,7 +134,8 @@ class DeathFly extends MovableObjects {
             if (this.isDeath()) {
                 this.playAnimation(this.IMAGES_DEATH);
                 this.speed = 0;
-                // if (this.y < 500) this.y += 4;
+                if (this.y < 500) this.y += 8;
+                this.character = null;
             } else if (!this.isAttacking) {
                 this.handleWalkMode();
                 this.playAnimation(this.IMAGES_WALK);

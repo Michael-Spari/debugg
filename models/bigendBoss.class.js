@@ -129,7 +129,9 @@ class BigEndboss extends MovableObjects {
       if (this.isDeath()) {
         this.playAnimation(this.IMAGES_DEATH);
         this.speed = 0;
-        // if (this.y < 500) this.y += 4; // Simulates falling.
+        if (this.y < 500) this.y += 8; // Simulates falling.
+        this.character = null; // Prevent further interactions after death
+        this
       } else if (!this.isAttacking) {
         this.handleWalkMode();
         this.playAnimation(this.IMAGES_WALK);
