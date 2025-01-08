@@ -134,14 +134,13 @@ class DeathFly extends MovableObjects {
             if (this.isDeath()) {
                 this.playAnimation(this.IMAGES_DEATH);
                 this.speed = 0;
-                if (this.y < 500) this.y += 8;
-                this.character = null;
+                if (this.y < 500) this.y += 4;
+                this.character = null; // Prevent further interactions after death
             } else if (!this.isAttacking) {
                 this.handleWalkMode();
                 this.playAnimation(this.IMAGES_WALK);
             }
         }, 1000 / 25);
-
         setInterval(() => {
             if (this.Character) {
                 const distance = Math.abs(this.Character.x - this.x);
@@ -161,7 +160,6 @@ class DeathFly extends MovableObjects {
         } else if (this.walkDirection === 'left') {
             this.walkDirection = 'right';
         }
-
         if (this.walkDirection === 'right' && this.x < this.startingX + this.maxWalkDistance) {
             this.moveRight();
         } else if (this.walkDirection === 'right') {
@@ -178,9 +176,7 @@ class DeathFly extends MovableObjects {
             const widthIncrease = 200;
             this.x -= widthIncrease / 0.8;
             this.width += widthIncrease;
-
             this.playAnimation(this.IMAGES_ATACK);
-
             setTimeout(() => {
                 this.width = this.originalWidth;
                 this.x += widthIncrease / 0.8;
