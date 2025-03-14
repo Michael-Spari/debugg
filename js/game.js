@@ -19,12 +19,13 @@ let keyboard = new Keyboard();
 /* Create and register sounds*/
 let audio = new Audio('./audio/background2.mp3');
 audio.loop = true;
-let SPRAY_SOUND = new Audio('./audio/spray.mp4');
+// let SPRAY_SOUND = new Audio('./audio/spray.mp3');
+let SPRAY_SOUND = window.SPRAY_SOUND;
 let BIGBUGISHIT_SOUND = new Audio('./audio/bigbughit.mp3');
 let DEATHFLY_SOUND = new Audio('./audio/death_fly.mp3');
-let WALKING_SOUND = new Audio('./audio/walk.mp4');
+let WALKING_SOUND = new Audio('./audio/walk1.mp3');
 let DEATH_SOUND_BUG = new Audio('./audio/splash.mp3');
-let DEATH_SOUND_BIGBUG = new Audio('./audio/bugs_sprayed.mp4');
+let DEATH_SOUND_BIGBUG = new Audio('./audio/bugs_sprayed.mp3');
 let TYPEWRITER_SOUND = new Audio('audio/typewriter.mp3')
 registerSound(audio);
 registerSound(SPRAY_SOUND);
@@ -63,7 +64,7 @@ window.addEventListener('resize', () => {
 document.addEventListener('DOMContentLoaded', () => {
   showMobileControls();
   bindBtnEvents();
-  const buttons = document.querySelectorAll('#leftButton, #rightButton, #jumpButton, #fireButton, #fullscreenButton, #fullscreenEndButton');
+  const buttons = document.querySelectorAll('#leftButton, #rightButton, #jumpButton, #fireButton, #fullscreenButton, #fullscreenEndButton, #soundButton');
   buttons.forEach((button) => {
     button.addEventListener('contextmenu', (event) => {
       event.preventDefault();

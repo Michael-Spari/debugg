@@ -2,7 +2,7 @@
  * The current state of sound (enabled or disabled).
  * @type {boolean}
  */
-let soundsEnabled = true;
+let soundsEnabled = JSON.parse(localStorage.getItem('soundsEnabled')) ?? true;
 
 /**
  * Array to hold all audio elements used in the game.
@@ -10,17 +10,21 @@ let soundsEnabled = true;
  */
 let soundElements = [];
 
+// Füge hier die globale Instanz für SPRAY_SOUND hinzu
+if (!window.SPRAY_SOUND) {
+    window.SPRAY_SOUND = new Audio('./audio/spray.mp3');
+    registerSound(window.SPRAY_SOUND);
+}
+
 /**
  * Adds a sound to the list of managed sounds.
  * @param {HTMLAudioElement} audioElement - The audio element to manage.
  */
 function registerSound(audioElement) {
     soundElements.push(audioElement);
+    audioElement.muted = !soundsEnabled;
 }
 
-/**
- * Toggles all sounds on or off.
- */
 /**
  * Toggles the sound settings for the application.
  * 
@@ -33,33 +37,46 @@ function registerSound(audioElement) {
  * @global {HTMLAudioElement} audio - The background music audio element.
  */
 function toggleSounds() {
-        /* Toggle the soundsEnabled status*/
-        soundsEnabled = !soundsEnabled;
+    /* Toggle the soundsEnabled status*/
+    soundsEnabled = !soundsEnabled;
+    localStorage.setItem('soundsEnabled', JSON.stringify(soundsEnabled));
 
-        /* Adjust all audio elements globally */
-        soundElements.forEach((audioElement) => {
-                audioElement.muted = !soundsEnabled; /* Mute or unmute the audio*/
-                if (!soundsEnabled) {
-                        audioElement.pause(); /* Pause the audio*/
-                        audioElement.currentTime = 0; /* Reset to the beginning*/
-                }
-        });
-
-        /* Handle background music explicitly */
-        if (audio) {
-                if (soundsEnabled) {
-                        audio.play().catch((error) => console.error("Error restarting background music:", error));
-                } else {
-                        audio.pause();
-                        audio.currentTime = 0; /* Reset to the beginning */
-                }
+    /* Adjust all audio elements globally */
+    soundElements.forEach((audioElement) => {
+        audioElement.muted = !soundsEnabled; /* Mute or unmute the audio*/
+        if (!soundsEnabled) {
+            audioElement.pause(); /* Pause the audio*/
+            audioElement.currentTime = 0; /* Reset to the beginning*/
         }
+    });
 
-        /* Update the button image */
-        const soundButton = document.getElementById('soundButton');
-        if (soundButton) {
-                soundButton.querySelector('img').src = soundsEnabled ? './img/debugger/buttons/button_audio.png' : './img/debugger/buttons/button_no_audio.png';
+    /* Handle background music explicitly */
+    if (audio) {
+        if (soundsEnabled) {
+            audio.play().catch((error) => console.error("Error restarting background music:", error));
+        } else {
+            audio.pause();
+            audio.currentTime = 0; /* Reset to the beginning */
         }
+    }
+
+    /* Update the button image */
+    const soundButton = document.getElementById('soundButton');
+    if (soundButton) {
+        soundButton.querySelector('img').src = soundsEnabled ? './img/debugger/buttons/button_audio.png' : './img/debugger/buttons/button_no_audio.png';
+    }
 }
+
+// Initialize sound settings on page load
+document.addEventListener('DOMContentLoaded', () => {
+    soundElements.forEach((audioElement) => {
+        audioElement.muted = !soundsEnabled;
+    });
+
+    const soundButton = document.getElementById('soundButton');
+    if (soundButton) {
+        soundButton.querySelector('img').src = soundsEnabled ? './img/debugger/buttons/button_audio.png' : './img/debugger/buttons/button_no_audio.png';
+    }
+});
 
 

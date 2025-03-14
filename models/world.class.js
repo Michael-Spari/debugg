@@ -27,10 +27,6 @@ class World {
     throwableObjects = [];
     lastThrowTime = 0;
     throwCooldown = 800;
-    soundEnabled = true;
-    SPRAY_SOUND = new Audio('./audio/spray.mp4');
-    BIGBUGISHIT_SOUND = new Audio('./audio/bigbughit.mp3');
-    DEATHFLY_SOUND = new Audio('./audio/death_fly.mp3');
 
     /**
      * Constructor for the World class.
@@ -46,7 +42,8 @@ class World {
         this.sprayCounter = SprayCounter.getInstance();
         this.buttonVisibility = this.gameOver.buttonVisibility.bind(this.gameOver);
         this.startTypewriterEffect = this.finish.startTypewriterEffect.bind(this.finish);
-        this.SPRAY_SOUND = this.createAndRegisterAudio('./audio/spray.mp4');
+        this.soundEnabled = soundsEnabled; // Use global sound setting
+        this.SPRAY_SOUND = window.SPRAY_SOUND;
         this.BIGBUGISHIT_SOUND = this.createAndRegisterAudio('./audio/bigbughit.mp3');
         this.DEATHFLY_SOUND = this.createAndRegisterAudio('./audio/death_fly.mp3');
         this.draw();
