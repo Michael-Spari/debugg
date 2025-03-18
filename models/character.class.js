@@ -110,7 +110,11 @@ class Character extends MovableObjects {
     createAndRegisterAudio(src) {
         const audio = new Audio(src);
         registerSound(audio); // Add audio to the global array
-        audio.muted = !soundsEnabled; // Ensure the initial state respects soundsEnabled
+        const storedSoundSetting = localStorage.getItem('soundsEnabled');
+        if (storedSoundSetting !== null) {
+            soundsEnabled = JSON.parse(storedSoundSetting);
+        }
+        audio.volume = soundsEnabled ? 1 : 0; // Ensure the initial state respects soundsEnabled
         return audio;
     }
 
@@ -140,13 +144,12 @@ class Character extends MovableObjects {
      * Handles movement, jumping, and switching between animations based on conditions.
      */
     animate() {
-        // Bewegung und Interaktion
         setInterval(() => {
             if (!this.isDeath()) {
                 if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                     this.moveRight();
                     this.otherDirection = false;
-                    this.isIdle = false; // Charakter ist nicht idle
+                    this.isIdle = false;
                     if (soundsEnabled) {
                         this.WALKING_SOUND.play();
                     }
@@ -154,14 +157,14 @@ class Character extends MovableObjects {
                 if (this.world.keyboard.LEFT && this.x > 0) {
                     this.moveLeft();
                     this.otherDirection = true;
-                    this.isIdle = false; // Charakter ist nicht idle
+                    this.isIdle = false;
                     if (soundsEnabled) {
                         this.WALKING_SOUND.play();
                     }
                 }   
                 if (this.world.keyboard.SPACE && !this.ifAboveGround()) {
                     this.jump();
-                    this.isIdle = false; // Charakter ist nicht idle
+                    this.isIdle = false;
                 }
                 this.world.camera_x = -this.x + 100;
             }

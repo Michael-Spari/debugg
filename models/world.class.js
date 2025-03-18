@@ -27,6 +27,7 @@ class World {
     throwableObjects = [];
     lastThrowTime = 0;
     throwCooldown = 800;
+    soundEnabled = true;
 
     /**
      * Constructor for the World class.
@@ -42,8 +43,8 @@ class World {
         this.sprayCounter = SprayCounter.getInstance();
         this.buttonVisibility = this.gameOver.buttonVisibility.bind(this.gameOver);
         this.startTypewriterEffect = this.finish.startTypewriterEffect.bind(this.finish);
-        this.soundEnabled = soundsEnabled; // Use global sound setting
-        this.SPRAY_SOUND = window.SPRAY_SOUND;
+        this.soundEnabled = soundsEnabled;
+        this.SPRAY_SOUND = this.createAndRegisterAudio('./audio/spray.mp3');
         this.BIGBUGISHIT_SOUND = this.createAndRegisterAudio('./audio/bigbughit.mp3');
         this.DEATHFLY_SOUND = this.createAndRegisterAudio('./audio/death_fly.mp3');
         this.draw();
@@ -95,7 +96,11 @@ class World {
     createAndRegisterAudio(src) {
         const audio = new Audio(src);
         registerSound(audio); // Add audio to the global array
-        audio.muted = !this.soundEnabled; // Ensure the initial state respects soundEnabled
+        const storedSoundSetting = localStorage.getItem('soundsEnabled');
+        if (storedSoundSetting !== null) {
+            soundsEnabled = JSON.parse(storedSoundSetting);
+        }
+        audio.volume = soundsEnabled ? 1 : 0; // Ensure the initial state respects soundsEnabled
         return audio;
     }
 
@@ -174,8 +179,7 @@ class World {
                 this.throwableObjects.push(spray);
                 this.lastThrowTime = currentTime;
                 this.sprayCounter.decrement();
-                if (this.soundEnabled) {
-                    this.SPRAY_SOUND.currentTime = 0;
+                if (soundsEnabled) {
                     this.SPRAY_SOUND.play();
                 }
             }
@@ -255,7 +259,7 @@ class World {
                 this.bigEndboss.hit();
                 this.statusBarEnemy.setPercentage(this.bigEndboss.energy);
                 spray.startFalling();
-                if (this.soundEnabled) this.BIGBUGISHIT_SOUND.play();
+                if (soundsEnabled) this.BIGBUGISHIT_SOUND.play();
                 if (this.bigEndboss.energy <= 0) {
                     this.level.enemies = this.level.enemies.filter(enemy => enemy !== this.bigEndboss);
                 }
@@ -272,7 +276,7 @@ class World {
                 this.deathFly.hit();
                 this.statusBarDeathFly.setPercentage(this.deathFly.energy);
                 spray.startFalling();
-                if (this.soundEnabled) this.DEATHFLY_SOUND.play();
+                if (soundsEnabled) this.DEATHFLY_SOUND.play();
                 if (this.deathFly.energy <= 0) {
                     this.level.enemies = this.level.enemies.filter(enemy => enemy !== this.deathFly);
                 }

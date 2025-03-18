@@ -9,11 +9,15 @@ let soundsEnabled = JSON.parse(localStorage.getItem('soundsEnabled')) ?? true;
  * @type {HTMLAudioElement[]}
  */
 let soundElements = [];
-
-// Füge hier die globale Instanz für SPRAY_SOUND hinzu
-if (!window.SPRAY_SOUND) {
-    window.SPRAY_SOUND = new Audio('./audio/spray.mp3');
-    registerSound(window.SPRAY_SOUND);
+/**
+ * Loads registered sounds from localStorage.
+ */
+function loadStoredSounds() {
+    const storedSounds = JSON.parse(localStorage.getItem('soundPaths')) || [];
+    storedSounds.forEach((path) => {
+        const audio = new Audio(path);
+        registerSound(audio);
+    });
 }
 
 /**
@@ -22,61 +26,76 @@ if (!window.SPRAY_SOUND) {
  */
 function registerSound(audioElement) {
     soundElements.push(audioElement);
-    audioElement.muted = !soundsEnabled;
+    audioElement.volume = soundsEnabled ? 1 : 0;
+
+    // Falls Sound noch nicht im LocalStorage gespeichert ist
+    let storedPaths = JSON.parse(localStorage.getItem('soundPaths')) || [];
+    if (!storedPaths.includes(audioElement.src)) {
+        storedPaths.push(audioElement.src);
+        localStorage.setItem('soundPaths', JSON.stringify(storedPaths));
+    }
 }
 
 /**
  * Toggles the sound settings for the application.
- * 
- * This function switches the global `soundsEnabled` status and updates all audio elements accordingly.
- * If sounds are disabled, it pauses and resets all audio elements. If sounds are enabled, it resumes
- * the background music from the beginning.
- * 
- * @global {boolean} soundsEnabled - A global variable indicating whether sounds are enabled or not.
- * @global {Array<HTMLAudioElement>} soundElements - An array of all audio elements in the application.
- * @global {HTMLAudioElement} audio - The background music audio element.
  */
 function toggleSounds() {
-    /* Toggle the soundsEnabled status*/
     soundsEnabled = !soundsEnabled;
     localStorage.setItem('soundsEnabled', JSON.stringify(soundsEnabled));
 
-    /* Adjust all audio elements globally */
+    // Update all registered sounds
     soundElements.forEach((audioElement) => {
-        audioElement.muted = !soundsEnabled; /* Mute or unmute the audio*/
-        if (!soundsEnabled) {
-            audioElement.pause(); /* Pause the audio*/
-            audioElement.currentTime = 0; /* Reset to the beginning*/
-        }
+        audioElement.volume = soundsEnabled ? 1 : 0;
     });
 
-    /* Handle background music explicitly */
-    if (audio) {
-        if (soundsEnabled) {
-            audio.play().catch((error) => console.error("Error restarting background music:", error));
-        } else {
-            audio.pause();
-            audio.currentTime = 0; /* Reset to the beginning */
-        }
+    // Hintergrundmusik steuern
+    if (soundsEnabled) {
+        audio.play().catch(err => console.warn("Audio play blocked:", err));
+    } else {
+        audio.pause();
     }
 
-    /* Update the button image */
+    updateSoundButtonIcon();
+}
+
+/**
+ * Updates the sound button's icon based on the current sound state.
+ */
+function updateSoundButtonIcon() {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-        soundButton.querySelector('img').src = soundsEnabled ? './img/debugger/buttons/button_audio.png' : './img/debugger/buttons/button_no_audio.png';
+        const img = soundButton.querySelector('img');
+        if (img) {
+            img.src = soundsEnabled
+                ? './img/debugger/buttons/button_audio.png'
+                : './img/debugger/buttons/button_no_audio.png';
+        }
     }
 }
 
-// Initialize sound settings on page load
+/**
+ * Initializes sound settings on page load.
+ */
 document.addEventListener('DOMContentLoaded', () => {
-    soundElements.forEach((audioElement) => {
-        audioElement.muted = !soundsEnabled;
+        loadStoredSounds();  // Lädt die gespeicherten Sounds aus dem localStorage
+    
+        // Die Lautstärke jedes Sound-Elements basierend auf dem gespeicherten Wert anpassen
+        soundElements.forEach(audioElement => {
+            audioElement.volume = soundsEnabled ? 1 : 0;  // Lautstärke je nach Zustand einstellen
+        });
+    
+        // Icon des Sound-Buttons anpassen
+        updateSoundButtonIcon();
+    
+        // Sicherstellen, dass der Sound beim ersten Klick freigegeben wird, wenn er zuvor blockiert war
+        const soundButton = document.getElementById('soundButton');
+        soundButton.addEventListener('click', () => {
+            if (!audio.paused && soundsEnabled) {  // Überprüfen, ob der Sound wiedergegeben wird
+                audio.play().catch(err => console.warn("Audio play blocked:", err));  // Sound starten
+            }
+        });
     });
+    
 
-    const soundButton = document.getElementById('soundButton');
-    if (soundButton) {
-        soundButton.querySelector('img').src = soundsEnabled ? './img/debugger/buttons/button_audio.png' : './img/debugger/buttons/button_no_audio.png';
-    }
-});
 
 

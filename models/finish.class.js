@@ -6,6 +6,7 @@
  */
 class Finish extends DrawableObjects {
     TYPEWRITER_SOUND;
+    soundEnabled = true;
 
     /**
      * Creates an instance of the Finish object and initializes properties related to the finish screen.
@@ -70,7 +71,11 @@ class Finish extends DrawableObjects {
     createAndRegisterAudio(src) {
         const audio = new Audio(src);
         registerSound(audio); // Add audio to the global array
-        audio.muted = !soundsEnabled; // Ensure the initial state respects soundsEnabled
+        const storedSoundSetting = localStorage.getItem('soundsEnabled');
+        if (storedSoundSetting !== null) {
+            soundsEnabled = JSON.parse(storedSoundSetting);
+        }
+        audio.volume = soundsEnabled ? 1 : 0; // Ensure the initial state respects soundsEnabled
         return audio;
     }
 
@@ -82,9 +87,9 @@ class Finish extends DrawableObjects {
             if (this.typingIndex < this.text.length) {
                 this.displayText += this.text[this.typingIndex];
                 this.typingIndex++;
+            if(soundsEnabled)
                 this.TYPEWRITER_SOUND.play();
             } else {
-                this.TYPEWRITER_SOUND.pause();
                 clearInterval(this.typingInterval);
                 clearInterval(this.coinUpdateInterval);
             }

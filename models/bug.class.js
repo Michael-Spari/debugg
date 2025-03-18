@@ -75,9 +75,13 @@ class Bug extends MovableObjects {
     createAndRegisterAudio(src) {
       const audio = new Audio(src);
       registerSound(audio); // Add audio to the global array
-      audio.muted = !soundsEnabled; // Ensure the initial state respects soundsEnabled
+      const storedSoundSetting = localStorage.getItem('soundsEnabled');
+      if (storedSoundSetting !== null) {
+          soundsEnabled = JSON.parse(storedSoundSetting);
+      }
+      audio.volume = soundsEnabled ? 1 : 0; // Ensure the initial state respects soundsEnabled
       return audio;
-    }
+  }
   
     /**
      * Reduces the bug's energy when hit.

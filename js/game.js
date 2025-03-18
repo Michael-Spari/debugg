@@ -19,11 +19,11 @@ let keyboard = new Keyboard();
 /* Create and register sounds*/
 let audio = new Audio('./audio/background2.mp3');
 audio.loop = true;
-// let SPRAY_SOUND = new Audio('./audio/spray.mp3');
-let SPRAY_SOUND = window.SPRAY_SOUND;
+let SPRAY_SOUND = new Audio('./audio/spray.mp4');
+// let SPRAY_SOUND = window.SPRAY_SOUND;
 let BIGBUGISHIT_SOUND = new Audio('./audio/bigbughit.mp3');
 let DEATHFLY_SOUND = new Audio('./audio/death_fly.mp3');
-let WALKING_SOUND = new Audio('./audio/walk1.mp3');
+let WALKING_SOUND = new Audio('./audio/walk.mp4');
 let DEATH_SOUND_BUG = new Audio('./audio/splash.mp3');
 let DEATH_SOUND_BIGBUG = new Audio('./audio/bugs_sprayed.mp3');
 let TYPEWRITER_SOUND = new Audio('audio/typewriter.mp3')
@@ -42,10 +42,11 @@ function initGame() {
   canvas = document.getElementById('canvas');
   canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); // Reset canvas
   world = new World(canvas, keyboard);
+  document.getElementById('soundButton').style.display = 'block';
 
-  /* Start background music */
+  /* Start background music only after user interaction */
   if (soundsEnabled) {
-    audio.play();
+      audio.play().catch(err => console.warn("Audio start prevented by browser:", err));
   }
 }
 
@@ -64,16 +65,22 @@ window.addEventListener('resize', () => {
 document.addEventListener('DOMContentLoaded', () => {
   showMobileControls();
   bindBtnEvents();
+  
+  // Event für das Verhindern des Kontextmenüs
   const buttons = document.querySelectorAll('#leftButton, #rightButton, #jumpButton, #fireButton, #fullscreenButton, #fullscreenEndButton, #soundButton');
   buttons.forEach((button) => {
     button.addEventListener('contextmenu', (event) => {
       event.preventDefault();
     });
   });
+
+  // Sound-Button Event-Listener
   const soundButton = document.getElementById('soundButton');
   if (soundButton) {
-    soundButton.addEventListener('click', toggleSounds);
+    soundButton.addEventListener('click', toggleSounds);  // toggleSounds wird hier aufgerufen
   }
+
+  // Fullscreen-Button Event-Listener
   const fullscreenButton = document.getElementById('fullscreenButton');
   const fullscreenEndButton = document.getElementById('fullscreenEndButton');
   if (fullscreenButton && fullscreenEndButton) {
@@ -81,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fullscreenEndButton.addEventListener('click', toggleFullScreen);
   }
 });
+
 
 /**
  * Toggles the visibility of the "How To Play" section.
@@ -252,37 +260,10 @@ function bindBtnEvents() {
 }
 
 /**
- * Handles specific game actions that play sounds.
- */
-function playSpraySound() {
-  if (soundsEnabled) {
-    SPRAY_SOUND.play();
-  }
-}
-
-function playBigBugHitSound() {
-  if (soundsEnabled) {
-    BIGBUGISHIT_SOUND.play();
-  }
-}
-
-function playDeathFlySound() {
-  if (soundsEnabled) {
-    DEATHFLY_SOUND.play();
-  }
-}
-
-function playWalkingSound() {
-  if (soundsEnabled) {
-    WALKING_SOUND.play();
-  }
-}
-
-/**
  * Handles keyboard events to control the player's actions.
  * @param {KeyboardEvent} e - The keyboard event.
  */
-window.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', (e) => {
   if (e.keyCode == 39) {
     keyboard.RIGHT = true;
   } 
@@ -307,7 +288,7 @@ window.addEventListener('keydown', (e) => {
  * Handles keyboard events when keys are released.
  * @param {KeyboardEvent} e - The keyboard event.
  */
-window.addEventListener('keyup', (e) => {
+document.addEventListener('keyup', (e) => {
   if (e.keyCode == 39) {
     keyboard.RIGHT = false;
   } 
@@ -326,6 +307,9 @@ window.addEventListener('keyup', (e) => {
   if (e.keyCode == 68) {
     keyboard.D = false;
   }
+  
 });
+
+
 
 
