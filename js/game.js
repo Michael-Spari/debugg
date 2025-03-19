@@ -6,13 +6,13 @@ let canvas;
 
 /**
  * The world object representing the game world.
- * @type {World}
+ * @type {any}
  */
 let world;
 
 /**
  * The keyboard object used to handle player input
- * @type {Keyboard}
+ * @type {any}
  */
 let keyboard = new Keyboard();
 
@@ -74,18 +74,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+    // Fullscreen-Button Event-Listener
+    const fullscreenButton = document.getElementById('fullscreenButton');
+    const fullscreenEndButton = document.getElementById('fullscreenEndButton');
+    if (fullscreenButton && fullscreenEndButton) {
+      fullscreenButton.addEventListener('click', toggleFullScreen);
+      fullscreenEndButton.addEventListener('click', toggleFullScreen);
+    }
+
   // Sound-Button Event-Listener
   const soundButton = document.getElementById('soundButton');
   if (soundButton) {
-    soundButton.addEventListener('click', toggleSounds);  // toggleSounds wird hier aufgerufen
-  }
-
-  // Fullscreen-Button Event-Listener
-  const fullscreenButton = document.getElementById('fullscreenButton');
-  const fullscreenEndButton = document.getElementById('fullscreenEndButton');
-  if (fullscreenButton && fullscreenEndButton) {
-    fullscreenButton.addEventListener('click', toggleFullScreen);
-    fullscreenEndButton.addEventListener('click', toggleFullScreen);
+    soundButton.addEventListener('click', toggleSounds);
   }
 });
 
@@ -182,16 +182,18 @@ function toggleFullScreen() {
  * @param {HTMLElement} element - The element to display in fullscreen.
  */
 function enterFullscreen(element) {
-  if (element.requestFullscreen) {
-    element.requestFullscreen();
-  } else if (element.webkitRequestFullscreen) {
-    element.webkitRequestFullscreen();
-  } else if (element.mozRequestFullScreen) {
-    element.mozRequestFullScreen();
-  } else if (element.msRequestFullscreen) {
-    element.msRequestFullscreen();
+  if (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled) {
+    if (element.requestFullscreen) {
+      element.requestFullscreen().catch(err => console.warn("Fullscreen request failed:", err));
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen().catch(err => console.warn("Fullscreen request failed:", err));
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen().catch(err => console.warn("Fullscreen request failed:", err));
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen().catch(err => console.warn("Fullscreen request failed:", err));
+    }
   } else {
-    console.warn("Fullscreen not supported on this browser.");
+    console.warn("Fullscreen not supported or permissions denied.");
   }
 }
 
@@ -264,22 +266,22 @@ function bindBtnEvents() {
  * @param {KeyboardEvent} e - The keyboard event.
  */
 document.addEventListener('keydown', (e) => {
-  if (e.keyCode == 39) {
+  if (e.key === 'ArrowRight') {
     keyboard.RIGHT = true;
   } 
-  if (e.keyCode == 37) {
+  if (e.key === 'ArrowLeft') {
     keyboard.LEFT = true;
   }
-  if (e.keyCode == 38) {
+  if (e.key === 'ArrowUp') {
     keyboard.UP = true;
   }
-  if (e.keyCode == 40) {
+  if (e.key === 'ArrowDown') {
     keyboard.DOWN = true;
   }
-  if (e.keyCode == 32) {
+  if (e.key === ' ') {
     keyboard.SPACE = true;
   }
-  if (e.keyCode == 68) {
+  if (e.key === 'd') {
     keyboard.D = true;
   }
 });
@@ -289,22 +291,22 @@ document.addEventListener('keydown', (e) => {
  * @param {KeyboardEvent} e - The keyboard event.
  */
 document.addEventListener('keyup', (e) => {
-  if (e.keyCode == 39) {
+  if (e.key === 'ArrowRight') {
     keyboard.RIGHT = false;
   } 
-  if (e.keyCode == 37) {
+  if (e.key === 'ArrowLeft') {
     keyboard.LEFT = false;
   }
-  if (e.keyCode == 38) {
+  if (e.key === 'ArrowUp') {
     keyboard.UP = false;
   }
-  if (e.keyCode == 40) {
+  if (e.key === 'ArrowDown') {
     keyboard.DOWN = false;
   }
-  if (e.keyCode == 32) {
+  if (e.key === ' ') {
     keyboard.SPACE = false;
   }
-  if (e.keyCode == 68) {
+  if (e.key === 'd') {
     keyboard.D = false;
   }
   
