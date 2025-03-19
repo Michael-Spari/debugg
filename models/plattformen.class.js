@@ -12,7 +12,7 @@ class Plattform extends MovableObjects {
     constructor() {
         super();
         this.img = new Image();
-        this.img.src = 'img/debugger/plattforms/plattform-2.png';
+        this.img.src = 'img/debugger/plattforms/plattform-4.png';
 
         /**
          * The x-coordinate of the platform.

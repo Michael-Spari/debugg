@@ -41,7 +41,7 @@ class World {
         this.finish = new Finish();
         this.coinsCounter = CoinsCounter.getInstance();
         this.sprayCounter = SprayCounter.getInstance();
-        this.buttonVisibility = this.gameOver.buttonVisibility.bind(this.gameOver);
+        // this.buttonVisibility = this.gameOver.buttonVisibility.bind(this.gameOver);
         this.startTypewriterEffect = this.finish.startTypewriterEffect.bind(this.finish);
         this.soundEnabled = soundsEnabled;
         this.SPRAY_SOUND = this.createAndRegisterAudio('./audio/spray.mp3');
@@ -111,7 +111,7 @@ class World {
         if (this.character.energy <= 0) {
             this.gameOver.x = 80;
             this.gameOver.y = 80;
-            this.buttonVisibility();
+            this.gameOver.buttonVisibility();
         }
     }
 
@@ -121,7 +121,7 @@ class World {
     showFinish() {
         if (this.comando.isColliding(this.character)) {
             this.startTypewriterEffect();
-            this.buttonVisibility();
+            this.gameOver.buttonVisibility();
             this.character.speed = 0;
             this.finish.x = 60;
             this.finish.y = 60;
