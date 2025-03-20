@@ -107,6 +107,10 @@ class SprayCounter extends DrawableObjects {
         this.sprayCount = count;
     }
 
+    reset() {
+        this.sprayCount = 35;
+      }
+
     /**
      * Draws the spray counter on the canvas.
      * @param {CanvasRenderingContext2D} ctx The canvas context to draw on.

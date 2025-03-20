@@ -31,7 +31,13 @@ class GameOver extends DrawableObjects {
      * @returns {HTMLButtonElement} The created restart button.
      */
     createRestartButton() {
+        let existingButton = document.getElementById('restartButton');
+        if (existingButton) {
+            existingButton.remove(); // Falls bereits vorhanden, entferne ihn
+        }
+
         const button = document.createElement('button');
+        button.id = 'restartButton';
         button.innerText = 'Restart';
         button.style.position = 'absolute';
         button.style.cursor = 'pointer';
@@ -48,12 +54,16 @@ class GameOver extends DrawableObjects {
         button.style.zIndex = 1000;
         button.style.display = 'none';
         button.onclick = () => {
-            location.reload();  // Reloads the page to restart the game
-        };
-
-        const canvasContainer = document.getElementById('fullscreen');
-        canvasContainer.appendChild(button);
-
+            const canvas = document.getElementById('canvas');
+            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+            world = new World(canvas, keyboard);
+            world.level.enemies = [];
+            CoinsCounter.getInstance().reset();
+            SprayCounter.getInstance().reset();    
+            world.level.loadEnemies();
+            button.remove();
+          }; 
+        document.getElementById('fullscreen').appendChild(button); 
         return button;
     }
 

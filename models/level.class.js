@@ -69,5 +69,31 @@ class Level {
       this.plattform = plattform;
       this.comando = comando;
     }
+
+        /**
+     * Loads all enemies including bugs and endgegner.
+     */
+        loadEnemies() {
+          this.enemies = [
+            new Bug(),
+            new Bug(),
+            new Bug(),
+            new Bug(),
+            new Bug(),
+            new Bug(),
+            new Bug(),
+            new Bug(),
+            new Bug(),
+            new Bug(),
+            new Bug(),
+            new Bug(),
+            new Endboss(),
+            new Endboss(),
+            new Endboss(),
+            new Endboss(),
+            new Endboss(),
+            new Endboss(),
+          ];
+      }
   }
   

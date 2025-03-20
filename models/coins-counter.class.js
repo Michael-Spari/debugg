@@ -42,6 +42,10 @@ class CoinsCounter extends DrawableObjects {
         return CoinsCounter.instance;
     }
 
+    reset() {
+        this.coinCount = 0;
+      }
+
     /**
      * Increments the coin count by one.
      * Logs the updated coin count to the console.

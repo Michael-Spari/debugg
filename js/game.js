@@ -74,13 +74,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-    // Fullscreen-Button Event-Listener
-    const fullscreenButton = document.getElementById('fullscreenButton');
-    const fullscreenEndButton = document.getElementById('fullscreenEndButton');
-    if (fullscreenButton && fullscreenEndButton) {
-      fullscreenButton.addEventListener('click', toggleFullScreen);
-      fullscreenEndButton.addEventListener('click', toggleFullScreen);
-    }
+  // Fullscreen-Button Event-Listener
+  const fullscreenButton = document.getElementById('fullscreenButton');
+  const fullscreenEndButton = document.getElementById('fullscreenEndButton');
+  if (fullscreenButton && fullscreenEndButton) {
+    fullscreenButton.addEventListener('click', toggleFullScreen);
+    fullscreenEndButton.addEventListener('click', toggleFullScreen);
+  }
 
   // Sound-Button Event-Listener
   const soundButton = document.getElementById('soundButton');

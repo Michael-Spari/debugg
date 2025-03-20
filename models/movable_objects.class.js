@@ -147,7 +147,9 @@ class MovableObjects extends DrawableObjects {
      * Moves the object to the left by its speed.
      */
     moveLeft() {
-        this.x -= this.speed;
+        if (this.x > 100) {
+            this.x -= this.speed;
+        }
     }
 
     /**
